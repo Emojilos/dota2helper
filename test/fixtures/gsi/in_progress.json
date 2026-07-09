@@ -1,0 +1,118 @@
+{
+  "provider": {
+    "name": "Dota 2",
+    "appid": 570,
+    "version": 47,
+    "timestamp": 1710000000
+  },
+  "map": {
+    "name": "start",
+    "matchid": "7412345678",
+    "game_time": 645,
+    "clock_time": 600,
+    "game_state": "DOTA_GAMERULES_STATE_GAME_IN_PROGRESS",
+    "paused": false,
+    "daytime": true,
+    "win_team": "none",
+    "radiant_score": 12,
+    "dire_score": 8
+  },
+  "player": {
+    "steamid": "76561198000000001",
+    "name": "midlaner",
+    "activity": "playing",
+    "kills": 5,
+    "deaths": 2,
+    "assists": 3,
+    "last_hits": 82,
+    "denies": 11,
+    "gold": 1350,
+    "gpm": 612,
+    "xpm": 640
+  },
+  "hero": {
+    "id": 74,
+    "name": "npc_dota_hero_storm_spirit",
+    "level": 11,
+    "alive": true,
+    "respawn_seconds": 0,
+    "buyback_cost": 1421,
+    "buyback_cooldown": 0,
+    "health_percent": 82,
+    "mana_percent": 65
+  },
+  "abilities": {
+    "ability0": {
+      "name": "storm_spirit_static_remnant",
+      "level": 4,
+      "can_cast": true,
+      "passive": false,
+      "ability_active": true,
+      "cooldown": 0,
+      "ultimate": false
+    },
+    "ability1": {
+      "name": "storm_spirit_electric_vortex",
+      "level": 1,
+      "can_cast": true,
+      "passive": false,
+      "ability_active": true,
+      "cooldown": 0,
+      "ultimate": false
+    },
+    "ability2": {
+      "name": "storm_spirit_overload",
+      "level": 4,
+      "can_cast": false,
+      "passive": true,
+      "ability_active": true,
+      "cooldown": 0,
+      "ultimate": false
+    },
+    "ability3": {
+      "name": "storm_spirit_ball_lightning",
+      "level": 2,
+      "can_cast": true,
+      "passive": false,
+      "ability_active": true,
+      "cooldown": 0,
+      "ultimate": true
+    },
+    "ability4": {
+      "name": "generic_hidden",
+      "level": 0,
+      "can_cast": false,
+      "passive": true,
+      "ability_active": false,
+      "cooldown": 0,
+      "ultimate": false
+    }
+  },
+  "items": {
+    "slot0": {
+      "name": "item_bottle",
+      "purchaser": 0,
+      "can_cast": true,
+      "cooldown": 0,
+      "passive": false,
+      "charges": 3
+    },
+    "slot1": {
+      "name": "item_travel_boots",
+      "purchaser": 0,
+      "can_cast": true,
+      "cooldown": 0,
+      "passive": false
+    },
+    "slot2": {
+      "name": "empty"
+    },
+    "neutral0": {
+      "name": "item_grove_bow",
+      "purchaser": 0,
+      "can_cast": false,
+      "cooldown": 0,
+      "passive": true
+    }
+  }
+}

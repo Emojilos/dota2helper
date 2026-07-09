@@ -1,3 +1,21 @@
+# --- Ralph loop orchestration / journals (не версионируются) ---
 claude_ralph.sh
 progress.md
+progress.txt
 tasks.json
+
+# --- Dependencies ---
+node_modules/
+
+# --- Build output ---
+dist/
+out/
+
+# --- Env & secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Logs ---
+*.log
+npm-debug.log*
