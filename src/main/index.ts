@@ -1,7 +1,9 @@
 import { join } from 'node:path'
+import { existsSync } from 'node:fs'
 import { app, BrowserWindow } from 'electron'
 import { APP_NAME } from '@shared/index'
 import { GsiServer } from './gsi'
+import { ConfigLoader, mirrorContentDir } from './config'
 
 /**
  * Shared-токен GSI. Секреты — только через окружение (см. CLAUDE.md §5):
@@ -10,6 +12,39 @@ import { GsiServer } from './gsi'
 const GSI_AUTH_TOKEN = process.env['MIDMIND_GSI_TOKEN'] ?? 'midmind-dev-token'
 
 let gsiServer: GsiServer | null = null
+let configLoader: ConfigLoader | null = null
+
+/**
+ * Поднимает config-loader (TASK-011): в проде зеркалит встроенный content/ в
+ * записываемый userData (чтобы правки переживали обновление и работал watch), в
+ * dev читает content/ напрямую. Конкретные конфиги (timings/rules/hero-profiles/
+ * matchup-knowledge/gsi-field-catalog/benchmarks) регистрируются в своих задачах
+ * (TASK-012/034/035/042/009/038) — здесь только инфраструктура и hot-reload.
+ */
+function startConfigLoader(): void {
+  const bundledContent = app.isPackaged
+    ? join(process.resourcesPath, 'content')
+    : join(app.getAppPath(), 'content')
+  const userContent = join(app.getPath('userData'), 'content')
+
+  let dir = bundledContent
+  if (app.isPackaged && existsSync(bundledContent)) {
+    const copied = mirrorContentDir(bundledContent, userContent)
+    if (copied.length > 0) {
+      console.log(`[config] mirrored ${copied.length} config(s) to userData`)
+    }
+    dir = userContent
+  }
+
+  configLoader = new ConfigLoader({
+    dir,
+    logger: (message) => console.log(`[config] ${message}`),
+    onReloaded: (payload) => {
+      // TASK-007 заменит это на push config:reloaded в renderer.
+      console.log(`[config] reloaded '${payload.name}': ${payload.status}`)
+    }
+  })
+}
 
 /**
  * Поднимает локальный GSI-сервер приёма пакетов Dota (TASK-005). Ошибку биндинга
@@ -67,6 +102,7 @@ function createWindow(): void {
 
 app.whenReady().then(() => {
   createWindow()
+  startConfigLoader()
   void startGsiServer()
 
   app.on('activate', () => {
@@ -84,4 +120,5 @@ app.on('window-all-closed', () => {
 
 app.on('will-quit', () => {
   void gsiServer?.stop()
+  configLoader?.stop()
 })
