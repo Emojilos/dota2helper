@@ -1,6 +1,37 @@
 import { join } from 'node:path'
 import { app, BrowserWindow } from 'electron'
 import { APP_NAME } from '@shared/index'
+import { GsiServer } from './gsi'
+
+/**
+ * Shared-токен GSI. Секреты — только через окружение (см. CLAUDE.md §5):
+ * MIDMIND_GSI_TOKEN задаётся установщиком cfg (TASK-006). Для dev — фолбэк-строка.
+ */
+const GSI_AUTH_TOKEN = process.env['MIDMIND_GSI_TOKEN'] ?? 'midmind-dev-token'
+
+let gsiServer: GsiServer | null = null
+
+/**
+ * Поднимает локальный GSI-сервер приёма пакетов Dota (TASK-005). Ошибку биндинга
+ * логируем, но приложение не роняем — оверлей должен работать и без потока GSI.
+ */
+async function startGsiServer(): Promise<void> {
+  gsiServer = new GsiServer({
+    authToken: GSI_AUTH_TOKEN,
+    logger: (message) => console.log(`[gsi] ${message}`)
+  })
+  gsiServer.store.subscribe((state) => {
+    // TASK-007 заменит это на push gameState:update в renderer.
+    console.log(
+      `[gsi] update: state=${state.map?.gameState ?? 'unknown'} clock=${state.map?.clockTime ?? 0} hero=${state.hero?.name ?? 'none'}`
+    )
+  })
+  try {
+    await gsiServer.start()
+  } catch (error) {
+    console.error('[gsi] failed to start GSI server:', error)
+  }
+}
 
 /**
  * Создаёт основное окно оверлея. На этом этапе (TASK-001) — просто прозрачное
@@ -36,6 +67,7 @@ function createWindow(): void {
 
 app.whenReady().then(() => {
   createWindow()
+  void startGsiServer()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -48,4 +80,8 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+app.on('will-quit', () => {
+  void gsiServer?.stop()
 })
