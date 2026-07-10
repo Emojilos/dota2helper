@@ -12,6 +12,8 @@
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "lint:boundaries": "depcruise src test --config .dependency-cruiser.cjs",
+    "lint": "npm run lint:boundaries",
     "test": "vitest run"
   },
   "dependencies": {
@@ -25,6 +27,7 @@
     "@types/react-dom": "^19.0.2",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
+    "dependency-cruiser": "^18.0.0",
     "electron": "^33.2.1",
     "electron-vite": "^2.3.0",
     "postcss": "^8.4.49",

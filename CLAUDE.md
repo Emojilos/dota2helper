@@ -97,12 +97,16 @@ Path-алиасы (electron.vite.config.ts + tsconfig): `@main`, `@preload`, `@r
 | `npm run typecheck` | `tsc --noEmit` для node-части (tsconfig.node.json) и web-части (tsconfig.web.json). |
 | `npm run typecheck:node` / `:web` | Проверка типов отдельно по проекту. |
 | `npm test` | Юнит-тесты (`vitest run`), см. vitest.config.ts. |
+| `npm run lint:boundaries` | Механическая защита границ импорта INV1/INV2 (dependency-cruiser, `.dependency-cruiser.cjs`). |
+| `npm run lint` | Все линты (сейчас = `lint:boundaries`). |
 
 > Конфигурации типов разделены: `tsconfig.node.json` (main / preload / engine / shared /
 > test) и `tsconfig.web.json` (renderer). Оба в strict-режиме.
 
-Планируемые команды (появятся с задачами): `npm run lint:boundaries` (TASK-003,
-механическая защита INV1/INV2), `npm run lint`.
+`lint:boundaries` (TASK-003) реализован через **dependency-cruiser** (конфиг
+`.dependency-cruiser.cjs`, path-алиасы резолвятся из `tsconfig.node.json`):
+`src/engine/**` и `src/shared/**` не импортируют electron/react/better-sqlite3/fs/сеть (INV2);
+`src/renderer/**` не импортирует `src/main/**` и `src/engine/{rules,draft,facts,timings}` (INV1).
 
 Секреты (напр. `STRATZ_API_TOKEN`) — ТОЛЬКО через переменные окружения / `.env`
 (в `.gitignore`; шаблон — `.env.example`), никогда в репозиторий.
