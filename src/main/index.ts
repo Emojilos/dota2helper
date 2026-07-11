@@ -4,6 +4,8 @@ import { app, BrowserWindow } from 'electron'
 import { APP_NAME } from '@shared/index'
 import { GsiServer } from './gsi'
 import { ConfigLoader, mirrorContentDir } from './config'
+import { TimingScheduler } from './timings'
+import { TimingsConfigSchema } from '@shared/schemas/timings'
 
 /**
  * Shared-токен GSI. Секреты — только через окружение (см. CLAUDE.md §5):
@@ -13,6 +15,7 @@ const GSI_AUTH_TOKEN = process.env['MIDMIND_GSI_TOKEN'] ?? 'midmind-dev-token'
 
 let gsiServer: GsiServer | null = null
 let configLoader: ConfigLoader | null = null
+let timingScheduler: TimingScheduler | null = null
 
 /**
  * Поднимает config-loader (TASK-011): в проде зеркалит встроенный content/ в
@@ -44,6 +47,31 @@ function startConfigLoader(): void {
       console.log(`[config] reloaded '${payload.name}': ${payload.status}`)
     }
   })
+}
+
+/**
+ * Поднимает планировщик тайминговых напоминалок F3 (TASK-012): регистрирует
+ * timings.json через ConfigLoader (hot-reload) и подписывает чистый движок
+ * engine/timings на поток GSI из GameStateStore. Требует уже поднятых
+ * configLoader (startConfigLoader) и gsiServer (startGsiServer).
+ *
+ * Пока onAlert только логирует — TASK-013 подключит очередь AdviceScheduler, а
+ * TASK-007 — push advice:push в renderer. Отключение типов (getDisabledEventIds)
+ * подключит проекция настроек из TASK-018.
+ */
+function startTimingScheduler(): void {
+  if (!configLoader || !gsiServer) {
+    return
+  }
+  const timings = configLoader.register('timings', TimingsConfigSchema)
+  timingScheduler = new TimingScheduler({
+    store: gsiServer.store,
+    getEvents: () => timings.get(),
+    onAlert: (advice) => {
+      console.log(`[timings] ${advice.ruleId}: ${advice.message}`)
+    }
+  })
+  timingScheduler.start()
 }
 
 /**
@@ -104,6 +132,7 @@ app.whenReady().then(() => {
   createWindow()
   startConfigLoader()
   void startGsiServer()
+  startTimingScheduler()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -119,6 +148,7 @@ app.on('window-all-closed', () => {
 })
 
 app.on('will-quit', () => {
+  timingScheduler?.stop()
   void gsiServer?.stop()
   configLoader?.stop()
 })

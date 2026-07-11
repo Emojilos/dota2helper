@@ -28,7 +28,7 @@ import { readFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import { watch, type FSWatcher } from 'node:fs'
 import { basename, join } from 'node:path'
-import type { ZodType } from 'zod'
+import type { ZodType, ZodTypeDef } from 'zod'
 import type { ConfigReloadedPayload } from '@shared/types/ipc'
 
 /** Статус последней попытки загрузки конфига. */
@@ -97,7 +97,11 @@ export class ConfigLoader {
    * значение остаётся null (last-good ещё нет), статус — 'invalid'; приложение
    * не падает. Идемпотентно поднимает watch каталога при первой регистрации.
    */
-  register<T>(name: string, schema: ZodType<T>): ConfigHandle<T> {
+  // Input-параметр схемы намеренно `any`: у схем с `.default()`/`.transform()`
+  // тип входа расходится с выходом, и `ZodType<T>` (Input=Output) не даёт вывести
+  // T как ВЫХОДНОЙ тип. `any` в контравариантной позиции входа связывает T с
+  // выходным типом схемы (то, что get() и вернёт).
+  register<T>(name: string, schema: ZodType<T, ZodTypeDef, any>): ConfigHandle<T> {
     const fileName = `${name}.json`
     if (this.byFileName.has(fileName)) {
       throw new Error(`ConfigLoader: config '${name}' is already registered`)

@@ -1,0 +1,69 @@
+{
+  "patch": "7.39",
+  "events": [
+    {
+      "id": "water_runes",
+      "labelRu": "Руны воды",
+      "severity": "timing",
+      "priority": 3,
+      "schedule": { "kind": "fixed", "timesSec": [120, 240] },
+      "warnBeforeSec": 20
+    },
+    {
+      "id": "power_runes",
+      "labelRu": "Руны силы",
+      "severity": "timing",
+      "priority": 3,
+      "schedule": { "kind": "interval", "intervalSec": 360, "startSec": 360 },
+      "warnBeforeSec": 30
+    },
+    {
+      "id": "bounty_runes",
+      "labelRu": "Руны богатства",
+      "severity": "timing",
+      "priority": 2,
+      "schedule": { "kind": "interval", "intervalSec": 180, "startSec": 0 },
+      "warnBeforeSec": 20
+    },
+    {
+      "id": "camp_stack",
+      "labelRu": "Стак кемпа (xx:53)",
+      "severity": "opportunity",
+      "priority": 3,
+      "schedule": { "kind": "interval", "intervalSec": 60, "startSec": 53 },
+      "warnBeforeSec": 10
+    },
+    {
+      "id": "day_night",
+      "labelRu": "Смена дня и ночи",
+      "severity": "timing",
+      "priority": 2,
+      "schedule": { "kind": "interval", "intervalSec": 300, "startSec": 300 },
+      "warnBeforeSec": 15
+    },
+    {
+      "id": "outpost_xp",
+      "labelRu": "Опыт с аванпостов",
+      "severity": "opportunity",
+      "priority": 2,
+      "schedule": { "kind": "interval", "intervalSec": 420, "startSec": 420 },
+      "warnBeforeSec": 30
+    },
+    {
+      "id": "tormentor",
+      "labelRu": "Торментор",
+      "severity": "danger",
+      "priority": 4,
+      "schedule": { "kind": "fixed", "timesSec": [1200] },
+      "warnBeforeSec": 60
+    },
+    {
+      "id": "buyback_ready",
+      "labelRu": "Байбек снова доступен",
+      "severity": "opportunity",
+      "priority": 4,
+      "schedule": { "kind": "buyback" },
+      "warnBeforeSec": 0
+    }
+  ]
+}
