@@ -26,7 +26,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
-import { watch, type FSWatcher } from 'node:fs'
+import { watch, watchFile, unwatchFile, type FSWatcher, type Stats } from 'node:fs'
 import { basename, join } from 'node:path'
 import type { ZodType, ZodTypeDef } from 'zod'
 import type { ConfigReloadedPayload } from '@shared/types/ipc'
@@ -44,6 +44,12 @@ export interface ConfigLoaderOptions {
   logger?: (message: string) => void
   /** Debounce перед перезагрузкой после события файловой системы, мс. */
   debounceMs?: number
+  /**
+   * Интервал polling-фолбэка (fs.watchFile), мс. fs.watch на macOS (FSEvents)
+   * ненадёжен — особенно первое событие сразу после старта watch может
+   * потеряться; polling по mtime гарантирует, что правка конфига подхватится.
+   */
+  pollIntervalMs?: number
   /** Пробрасывает событие перезагрузки конкретного конфига (в IPC config:reloaded). */
   onReloaded?: (payload: ConfigReloadedPayload) => void
 }
@@ -66,19 +72,24 @@ export interface ConfigHandle<T> {
 interface RegisteredConfig<T> {
   readonly name: string
   readonly fileName: string
+  readonly fullPath: string
   readonly schema: ZodType<T>
   value: T | null
   status: ConfigStatus
   readonly listeners: Set<ConfigListener<T>>
   debounceTimer: ReturnType<typeof setTimeout> | null
+  /** Слушатель polling-фолбэка (fs.watchFile); null, пока не подключён. */
+  pollListener: ((curr: Stats, prev: Stats) => void) | null
 }
 
 const DEFAULT_DEBOUNCE_MS = 150
+const DEFAULT_POLL_INTERVAL_MS = 500
 
 export class ConfigLoader {
   private readonly dir: string
   private readonly logger: (message: string) => void
   private readonly debounceMs: number
+  private readonly pollIntervalMs: number
   private readonly onReloaded?: (payload: ConfigReloadedPayload) => void
   /** Реестр по имени файла — для быстрой маршрутизации событий watch'а. */
   private readonly byFileName = new Map<string, RegisteredConfig<unknown>>()
@@ -88,6 +99,7 @@ export class ConfigLoader {
     this.dir = options.dir
     this.logger = options.logger ?? (() => {})
     this.debounceMs = options.debounceMs ?? DEFAULT_DEBOUNCE_MS
+    this.pollIntervalMs = options.pollIntervalMs ?? DEFAULT_POLL_INTERVAL_MS
     this.onReloaded = options.onReloaded
   }
 
@@ -110,17 +122,20 @@ export class ConfigLoader {
     const entry: RegisteredConfig<T> = {
       name,
       fileName,
+      fullPath: join(this.dir, fileName),
       schema,
       value: null,
       status: 'invalid',
       listeners: new Set(),
-      debounceTimer: null
+      debounceTimer: null,
+      pollListener: null
     }
     this.byFileName.set(fileName, entry as RegisteredConfig<unknown>)
 
     // Первичная синхронная загрузка (без notify/emit — подписчиков ещё нет).
     this.applyLoad(entry, this.readSync(entry), { notify: false })
     this.ensureWatching()
+    this.ensureFileFallback(entry)
 
     return this.makeHandle(entry)
   }
@@ -132,6 +147,10 @@ export class ConfigLoader {
       this.watcher = null
     }
     for (const entry of this.byFileName.values()) {
+      if (entry.pollListener) {
+        unwatchFile(entry.fullPath, entry.pollListener)
+        entry.pollListener = null
+      }
       if (entry.debounceTimer) {
         clearTimeout(entry.debounceTimer)
         entry.debounceTimer = null
@@ -233,6 +252,31 @@ export class ConfigLoader {
       })
     } catch (error) {
       this.logger(`failed to watch config dir '${this.dir}': ${describeError(error)}`)
+    }
+  }
+
+  /**
+   * Polling-фолбэк к fs.watch: fs.watch (FSEvents на macOS) ненадёжен и может
+   * потерять событие — особенно первую правку сразу после старта watch. watchFile
+   * периодически сверяет mtime/size файла и гарантирует, что правка подхватится.
+   * Если fs.watch и polling сработают порознь, перезагрузка выполнится дважды с
+   * тем же результатом — это идемпотентно (тот же last-good, те же уведомления).
+   */
+  private ensureFileFallback<T>(entry: RegisteredConfig<T>): void {
+    if (entry.pollListener) {
+      return
+    }
+    const listener = (curr: Stats, prev: Stats): void => {
+      if (curr.mtimeMs !== prev.mtimeMs || curr.size !== prev.size) {
+        this.scheduleReload(entry)
+      }
+    }
+    entry.pollListener = listener
+    try {
+      watchFile(entry.fullPath, { interval: this.pollIntervalMs, persistent: false }, listener)
+    } catch (error) {
+      this.logger(`failed to poll config '${entry.name}': ${describeError(error)}`)
+      entry.pollListener = null
     }
   }
 
