@@ -1,0 +1,27 @@
+{
+  "player": {
+    "steamAccountId": 123456789,
+    "matches": [
+      {
+        "matchId": 7412345678,
+        "heroId": 1,
+        "enemyMidHeroId": 11,
+        "isVictory": true,
+        "kills": 8,
+        "deaths": 3,
+        "assists": 12,
+        "endDateTime": 1751500800
+      },
+      {
+        "matchId": 7412345679,
+        "heroId": 1,
+        "enemyMidHeroId": null,
+        "isVictory": false,
+        "kills": 2,
+        "deaths": 7,
+        "assists": 4,
+        "endDateTime": 1751587200
+      }
+    ]
+  }
+}

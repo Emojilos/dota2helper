@@ -7,6 +7,7 @@
 
 export * from './types'
 export * from './gsi/parseGameState'
+export * from './stratz/mapStratzToDto'
 
 export const APP_NAME = 'MidMind'
 export const APP_ID = 'com.midmind.app'

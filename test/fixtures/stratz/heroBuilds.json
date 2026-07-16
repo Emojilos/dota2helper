@@ -1,0 +1,22 @@
+{
+  "heroStats": {
+    "heroBuild": [
+      {
+        "heroId": 1,
+        "vsHeroId": 11,
+        "abilityIds": [5059, 5059, 5058, 5058, 5059, 5060, 5059, 5058, 5058],
+        "startingItemIds": [44, 44, 34, 42],
+        "winCount": 55,
+        "matchCount": 100
+      },
+      {
+        "heroId": 1,
+        "vsHeroId": null,
+        "abilityIds": [5059, 5058, 5059, 5058],
+        "startingItemIds": [44, 34],
+        "winCount": 0,
+        "matchCount": 0
+      }
+    ]
+  }
+}

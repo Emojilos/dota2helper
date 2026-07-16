@@ -1,0 +1,14 @@
+{
+  "heroStats": {
+    "heroVsHeroMatchup": [
+      {
+        "heroId1": 1,
+        "vs": [
+          { "heroId2": 11, "winCount": 120, "matchCount": 250 },
+          { "heroId2": 8, "winCount": 0, "matchCount": 0 }
+        ],
+        "with": [{ "heroId2": 5, "winCount": 60, "matchCount": 100 }]
+      }
+    ]
+  }
+}

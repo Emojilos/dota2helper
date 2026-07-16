@@ -1,0 +1,9 @@
+{
+  "player": {
+    "steamAccountId": 123456789,
+    "heroesPerformance": [
+      { "heroId": 1, "matchCount": 42, "winCount": 25, "updatedDateTime": "2026-07-01T12:00:00Z" },
+      { "heroId": 11, "matchCount": 8, "winCount": 3, "updatedDateTime": "2026-07-05T09:30:00Z" }
+    ]
+  }
+}
