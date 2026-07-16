@@ -6,6 +6,7 @@ import { GsiServer } from './gsi'
 import { ConfigLoader, mirrorContentDir } from './config'
 import { TimingScheduler } from './timings'
 import { TimingsConfigSchema } from '@shared/schemas/timings'
+import { createStratzClient, type StratzClient } from './data'
 
 /**
  * Shared-токен GSI. Секреты — только через окружение (см. CLAUDE.md §5):
@@ -16,6 +17,7 @@ const GSI_AUTH_TOKEN = process.env['MIDMIND_GSI_TOKEN'] ?? 'midmind-dev-token'
 let gsiServer: GsiServer | null = null
 let configLoader: ConfigLoader | null = null
 let timingScheduler: TimingScheduler | null = null
+let stratzClient: StratzClient | null = null
 
 /**
  * Поднимает config-loader (TASK-011): в проде зеркалит встроенный content/ в
@@ -72,6 +74,19 @@ function startTimingScheduler(): void {
     }
   })
   timingScheduler.start()
+}
+
+/**
+ * Создаёт STRATZ GraphQL-клиент (TASK-021), если STRATZ_API_TOKEN задан в
+ * окружении (см. .env.example). Отсутствие токена — не ошибка: приложение
+ * продолжает работать, STRATZ-фичи станут доступны через DataService-фасад
+ * (TASK-026) с деградацией на OpenDota/кэш (INV5).
+ */
+function startStratzClient(): void {
+  stratzClient = createStratzClient((message) => console.log(message))
+  if (stratzClient) {
+    console.log(`[stratz] client ready (${stratzClient.attribution})`)
+  }
 }
 
 /**
@@ -133,6 +148,7 @@ app.whenReady().then(() => {
   startConfigLoader()
   void startGsiServer()
   startTimingScheduler()
+  startStratzClient()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
