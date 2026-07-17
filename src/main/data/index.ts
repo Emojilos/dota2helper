@@ -7,3 +7,9 @@ export {
   type StratzClientOptions
 } from './StratzClient'
 export { RateLimiter, StratzRateLimitError, type RateLimiterOptions } from './RateLimiter'
+export {
+  MatchupRepository,
+  type MatchupDataSource,
+  type MatchupQueryResult,
+  type MatchupRepositoryOptions
+} from './MatchupRepository'
