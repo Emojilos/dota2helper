@@ -1,0 +1,4 @@
+[
+  { "hero_id": 1, "last_played": 1700000000, "games": 42, "win": 21 },
+  { "hero_id": 2, "last_played": 1700000500, "games": 15, "win": 10 }
+]

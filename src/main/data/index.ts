@@ -8,6 +8,13 @@ export {
 } from './StratzClient'
 export { RateLimiter, StratzRateLimitError, type RateLimiterOptions } from './RateLimiter'
 export {
+  OpenDotaClient,
+  createOpenDotaClient,
+  OPENDOTA_ENDPOINT,
+  OPENDOTA_ATTRIBUTION,
+  type OpenDotaClientOptions
+} from './OpenDotaClient'
+export {
   MatchupRepository,
   type MatchupDataSource,
   type MatchupQueryResult,
