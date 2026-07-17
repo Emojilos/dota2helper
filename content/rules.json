@@ -1,0 +1,21 @@
+{
+  "patch": "7.39",
+  "rules": [
+    {
+      "ruleId": "low_hp_consider_recall",
+      "condition": { "<": [{ "var": "hero.healthPercent" }, 30] },
+      "messageRu": "HP меньше 30% — подумай об отходе на базу",
+      "priority": 4,
+      "cooldownSec": 45,
+      "minVerbosity": "minimal"
+    },
+    {
+      "ruleId": "low_mana_save_for_combo",
+      "condition": { "<": [{ "var": "hero.manaPercent" }, 20] },
+      "messageRu": "Мало маны — сбереги на комбо/побег",
+      "priority": 2,
+      "cooldownSec": 60,
+      "minVerbosity": "experienced"
+    }
+  ]
+}

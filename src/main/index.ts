@@ -18,6 +18,7 @@ import {
   type StratzClient
 } from './data'
 import { MetaMidHeroesConfigSchema } from '@shared/schemas/metaMidHeroes'
+import { RulesConfigSchema } from '@shared/schemas/rules'
 import { openDatabase, runMigrations, UserProfileRepository, type DatabaseInstance } from './db'
 import {
   buildGsiConfigContent,
@@ -114,6 +115,25 @@ function startTimingScheduler(): void {
     }
   })
   timingScheduler.start()
+}
+
+/**
+ * Регистрирует rules.json через ConfigLoader (F4, TASK-042): формат
+ * декларативных правил (JSON Logic `condition` над плоским объектом фактов,
+ * TASK-041) с hot-reload — правка файла подхватывается без пересборки/рестарта
+ * (INV4). Реального потребителя ещё нет: вычисление condition (json-logic
+ * apply) и stateful cooldown/лимиты — TASK-043 (src/engine/rules) и TASK-044
+ * (advice-gate). Требует уже поднятого configLoader.
+ */
+function startRulesConfig(): void {
+  if (!configLoader) {
+    return
+  }
+  const rules = configLoader.register('rules', RulesConfigSchema)
+  const config = rules.get()
+  console.log(
+    `[rules] rules.json ready (${config?.rules.length ?? 0} rule(s)) — evaluator not wired yet (TASK-043)`
+  )
 }
 
 /**
@@ -328,6 +348,7 @@ app.whenReady().then(() => {
   void startGsiServer()
   startAdviceScheduler()
   startTimingScheduler()
+  startRulesConfig()
   startStratzClient()
   startDataService()
   startCacheWarmer()
