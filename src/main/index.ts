@@ -8,6 +8,12 @@ import { TimingScheduler } from './timings'
 import { TimingsConfigSchema } from '@shared/schemas/timings'
 import { createStratzClient, type StratzClient } from './data'
 import { openDatabase, runMigrations, UserProfileRepository, type DatabaseInstance } from './db'
+import {
+  buildGsiConfigContent,
+  findDotaCfgDir,
+  listCandidateDotaInstallRoots,
+  GsiConfigInstaller
+} from './gsiInstall'
 
 /**
  * Shared-токен GSI. Секреты — только через окружение (см. CLAUDE.md §5):
@@ -123,10 +129,35 @@ async function startGsiServer(): Promise<void> {
     )
   })
   try {
-    await gsiServer.start()
+    const port = await gsiServer.start()
+    logGsiInstallerPreview(port)
   } catch (error) {
     console.error('[gsi] failed to start GSI server:', error)
   }
+}
+
+/**
+ * Ищет установку Dota и логирует preview gamestate_integration-конфига
+ * (TASK-006). Штатный механизм Valve — только preview на этом этапе: реальная
+ * запись файла (install()) требует явного подтверждения пользователя в UI,
+ * которого пока нет (появится вместе с IPC-мостом TASK-007 и окном настроек).
+ * Аналогично befor — если Dota не найдена ни по одному известному пути, здесь
+ * только лог понятного сообщения; ручной выбор папки — тоже часть будущего UI.
+ */
+function logGsiInstallerPreview(port: number): void {
+  const installer = new GsiConfigInstaller()
+  const location = findDotaCfgDir(listCandidateDotaInstallRoots())
+  if (!location) {
+    console.log(
+      '[gsi-install] Dota installation not found automatically — manual folder selection required (UI: TASK-007+)'
+    )
+    return
+  }
+  const content = buildGsiConfigContent({ host: '127.0.0.1', port, token: GSI_AUTH_TOKEN })
+  const preview = installer.preview(location.cfgDir, content)
+  console.log(
+    `[gsi-install] found Dota at ${location.installRoot}; would write ${preview.filePath} (already installed: ${preview.alreadyInstalled}) — awaiting user confirmation via UI`
+  )
 }
 
 /**
