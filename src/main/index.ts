@@ -14,8 +14,10 @@ import {
   createOpenDotaClient,
   DataService,
   MatchupCacheStore,
+  CacheWarmer,
   type StratzClient
 } from './data'
+import { MetaMidHeroesConfigSchema } from '@shared/schemas/metaMidHeroes'
 import { openDatabase, runMigrations, UserProfileRepository, type DatabaseInstance } from './db'
 import {
   buildGsiConfigContent,
@@ -40,6 +42,7 @@ let userProfileRepository: UserProfileRepository | null = null
 let dataService: DataService | null = null
 let settingsController: SettingsController | null = null
 let hotkeyManager: HotkeyManager | null = null
+let cacheWarmer: CacheWarmer | null = null
 
 /**
  * Поднимает config-loader (TASK-011): в проде зеркалит встроенный content/ в
@@ -143,6 +146,34 @@ function startDataService(): void {
   if (dataService) {
     console.log('[data] DataService ready (STRATZ→OpenDota→cache degradation ladder wired)')
   }
+}
+
+/**
+ * Запускает фоновый прогрев кэша матчапов (CacheWarmer, TASK-025): греет
+ * MatchupCacheStore по списку топ-мид-героев меты (content/meta-mid-heroes.json,
+ * TASK-011 hot-reload) через уже собранный DataService (STRATZ→OpenDota→cache,
+ * TASK-026), чтобы первый скрининг драфта не ждал сети. Требует configLoader и
+ * dataService. Вызывается БЕЗ await — прогрев не блокирует запуск/показ окна;
+ * ошибки отдельных героев не прерывают его (см. CacheWarmer.run()).
+ */
+function startCacheWarmer(): void {
+  if (!configLoader || !dataService) {
+    return
+  }
+  const meta = configLoader.register('meta-mid-heroes', MetaMidHeroesConfigSchema)
+  const config = meta.get()
+  if (!config) {
+    console.log('[cache-warmer] meta-mid-heroes.json invalid or missing — warmer not started')
+    return
+  }
+  cacheWarmer = new CacheWarmer(dataService, config.heroIds, {
+    patch: config.patch,
+    rankBracket: config.rankBracket
+  }, {
+    onProgress: (progress) => broadcast('cacheWarmer:progress', progress),
+    logger: (message) => console.log(message)
+  })
+  void cacheWarmer.run()
 }
 
 /**
@@ -299,6 +330,7 @@ app.whenReady().then(() => {
   startTimingScheduler()
   startStratzClient()
   startDataService()
+  startCacheWarmer()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {

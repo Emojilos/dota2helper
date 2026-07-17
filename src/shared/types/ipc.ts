@@ -19,6 +19,14 @@ export interface ConfigReloadedPayload {
   status: 'ok' | 'invalid'
 }
 
+/** Прогресс фонового прогрева кэша матчапов (CacheWarmer, TASK-025). */
+export interface CacheWarmerProgressPayload {
+  completed: number
+  total: number
+  heroId: number
+  status: 'ok' | 'no-data' | 'error'
+}
+
 /** main -> renderer: имя канала -> тип payload. */
 export interface IpcPushChannels {
   'gameState:update': GameState
@@ -32,6 +40,8 @@ export interface IpcPushChannels {
    * не различает источник изменения, просто принимает актуальный AppSettings.
    */
   'settings:update': AppSettings
+  /** Прогресс CacheWarmer (TASK-025): один пуш на каждого обработанного героя. */
+  'cacheWarmer:progress': CacheWarmerProgressPayload
 }
 
 /** renderer -> main: имя канала -> { request, response }. */
@@ -55,7 +65,8 @@ export const IPC_CHANNELS = {
   draftUpdate: 'draft:update',
   settingsUpdate: 'settings:update',
   settingsGet: 'settings:get',
-  settingsSet: 'settings:set'
+  settingsSet: 'settings:set',
+  cacheWarmerProgress: 'cacheWarmer:progress'
 } as const
 
 /**

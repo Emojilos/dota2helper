@@ -21,3 +21,9 @@ export {
   type OpenDotaDataSource,
   type DataServiceOptions
 } from './DataService'
+export {
+  CacheWarmer,
+  type CacheWarmerDataSource,
+  type CacheWarmerProgress,
+  type CacheWarmerOptions
+} from './CacheWarmer'
