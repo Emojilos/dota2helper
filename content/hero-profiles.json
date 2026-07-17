@@ -1,0 +1,210 @@
+{
+  "patch": "7.39",
+  "profiles": [
+    {
+      "heroId": 17,
+      "notes": "Storm Spirit: Ball Lightning + Static Remnant/Overload — комбо-килл сразу после 6, окно агрессии совпадает с руной силы (раздел 5.2 PRD).",
+      "ultIsKillWindow": true,
+      "powerSpikeLevels": [
+        6,
+        7
+      ],
+      "aggressionPattern": "all_in",
+      "typicalLevel6TimeSec": 360
+    },
+    {
+      "heroId": 11,
+      "notes": "Shadow Fiend: Requiem of Souls на 6 — burst-килл при накопленных Necromastery-стаках. Ранний пик силы 2-3 — стаки душ.",
+      "ultIsKillWindow": true,
+      "powerSpikeLevels": [
+        2,
+        3,
+        6
+      ],
+      "aggressionPattern": "trade",
+      "typicalLevel6TimeSec": 360
+    },
+    {
+      "heroId": 13,
+      "notes": "Puck: Dream Coil — сетап/дисейбл, не самостоятельный burst-килл. Уровень оценивается по времени (GSI не отдаёт вражеский уровень).",
+      "ultIsKillWindow": false,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "trade",
+      "typicalLevel6TimeSec": 390
+    },
+    {
+      "heroId": 46,
+      "notes": "Templar Assassin: Psionic Trap — вижн/пуш, не даёт немедленного окна на килл (раздел 5.2 PRD, явный пример false).",
+      "ultIsKillWindow": false,
+      "powerSpikeLevels": [
+        6,
+        7
+      ],
+      "aggressionPattern": "trade",
+      "typicalLevel6TimeSec": 390
+    },
+    {
+      "heroId": 74,
+      "notes": "Invoker: набор способностей вместо классической ульты — нет единого окна на килл при левелапе (раздел 5.2 PRD, явный пример false).",
+      "ultIsKillWindow": false,
+      "powerSpikeLevels": [
+        6,
+        7
+      ],
+      "aggressionPattern": "trade",
+      "typicalLevel6TimeSec": 420
+    },
+    {
+      "heroId": 39,
+      "notes": "Queen of Pain: Sonic Wave — мгновенный burst-нюк, классическое окно агрессии на 6.",
+      "ultIsKillWindow": true,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "all_in",
+      "typicalLevel6TimeSec": 360
+    },
+    {
+      "heroId": 47,
+      "notes": "Viper: Viper Strike — DoT/слоу, не мгновенный burst; играет от пассивного харасса и фарма.",
+      "ultIsKillWindow": false,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "passive_farm",
+      "typicalLevel6TimeSec": 420
+    },
+    {
+      "heroId": 59,
+      "notes": "Huskar: Life Break наносит урон от недостающего HP самого Хускара — требует подготовки, не мгновенное окно само по себе.",
+      "ultIsKillWindow": false,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "all_in",
+      "typicalLevel6TimeSec": 390
+    },
+    {
+      "heroId": 101,
+      "notes": "Skywrath Mage: Mystic Flare — тяжёлый burst по концентрированной цели, классическое окно агрессии.",
+      "ultIsKillWindow": true,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "all_in",
+      "typicalLevel6TimeSec": 360
+    },
+    {
+      "heroId": 43,
+      "notes": "Death Prophet: Exorcism — затяжной teamfight-урон, не одномоментный burst-килл; играет от фарма духами.",
+      "ultIsKillWindow": false,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "passive_farm",
+      "typicalLevel6TimeSec": 420
+    },
+    {
+      "heroId": 25,
+      "notes": "Lina: Laguna Blade — мгновенный instant-burst нюк, классическое окно агрессии на 6.",
+      "ultIsKillWindow": true,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "all_in",
+      "typicalLevel6TimeSec": 360
+    },
+    {
+      "heroId": 22,
+      "notes": "Zeus: глобальный нюк даёт давление по карте, но сам по себе не гарантирует килл на лайне без сетапа союзников.",
+      "ultIsKillWindow": true,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "trade",
+      "typicalLevel6TimeSec": 360
+    },
+    {
+      "heroId": 36,
+      "notes": "Necrophos: Reaper's Scythe — execute от недостающего HP цели, классическое окно на добивание.",
+      "ultIsKillWindow": true,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "trade",
+      "typicalLevel6TimeSec": 390
+    },
+    {
+      "heroId": 21,
+      "notes": "Windranger: Focus Fire — устойчивый атакующий урон, не мгновенный burst сам по себе.",
+      "ultIsKillWindow": false,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "trade",
+      "typicalLevel6TimeSec": 390
+    },
+    {
+      "heroId": 76,
+      "notes": "Outworld Destroyer (Devourer): Sanity's Eclipse — тяжёлый magic+intelligence burst, классическое окно агрессии.",
+      "ultIsKillWindow": true,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "all_in",
+      "typicalLevel6TimeSec": 390
+    },
+    {
+      "heroId": 23,
+      "notes": "Kunkka: Ghostship — AoE сетап/teamfight-инструмент, не одиночное окно на килл на лайне.",
+      "ultIsKillWindow": false,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "trade",
+      "typicalLevel6TimeSec": 420
+    },
+    {
+      "heroId": 52,
+      "notes": "Leshrac: Pulse Nova — устойчивый AoE-урон вокруг героя, эффективное окно давления/агрессии на 6.",
+      "ultIsKillWindow": true,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "all_in",
+      "typicalLevel6TimeSec": 360
+    },
+    {
+      "heroId": 106,
+      "notes": "Ember Spirit: Fire Remnant — мобильность/комбо-инструмент, реальное окно агрессии даёт связка с другими способностями.",
+      "ultIsKillWindow": true,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "all_in",
+      "typicalLevel6TimeSec": 360
+    },
+    {
+      "heroId": 126,
+      "notes": "Void Spirit: Astral Step — репозишн+урон, комбо с Resonant Pulse/Aether Remnant даёт быстрое окно агрессии.",
+      "ultIsKillWindow": true,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "all_in",
+      "typicalLevel6TimeSec": 360
+    },
+    {
+      "heroId": 34,
+      "notes": "Tinker: March of the Machines — фарм-инструмент, не окно на килл; играет от пуша и фарма, а не агрессии на лайне.",
+      "ultIsKillWindow": false,
+      "powerSpikeLevels": [
+        6
+      ],
+      "aggressionPattern": "passive_farm",
+      "typicalLevel6TimeSec": 360
+    }
+  ]
+}

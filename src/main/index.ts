@@ -19,6 +19,7 @@ import {
 } from './data'
 import { MetaMidHeroesConfigSchema } from '@shared/schemas/metaMidHeroes'
 import { RulesConfigSchema } from '@shared/schemas/rules'
+import { HeroProfilesConfigSchema } from '@shared/schemas/heroProfiles'
 import { openDatabase, runMigrations, UserProfileRepository, type DatabaseInstance } from './db'
 import {
   buildGsiConfigContent,
@@ -134,6 +135,25 @@ function startRulesConfig(): void {
   console.log(
     `[rules] rules.json ready (${config?.rules.length ?? 0} rule(s)) — evaluator not wired yet (TASK-043)`
   )
+}
+
+/**
+ * Регистрирует hero-profiles.json через ConfigLoader (F2/F4, TASK-034):
+ * герой-зависимые параметры (ult_is_kill_window, power_spike_levels,
+ * aggression_pattern, typical_level6_time_sec), на которые ссылаются
+ * правила F4 (TASK-043) и fact-builder (TASK-041, estimated_enemy_level),
+ * вместо жёстко зашитых по герою условий. Правка/добавление профиля
+ * подхватывается hot-reload'ом без пересборки (INV4). Реального потребителя
+ * ещё нет — event-seam, как rules/timings до TASK-043/012. Требует уже
+ * поднятого configLoader.
+ */
+function startHeroProfilesConfig(): void {
+  if (!configLoader) {
+    return
+  }
+  const heroProfiles = configLoader.register('hero-profiles', HeroProfilesConfigSchema)
+  const config = heroProfiles.get()
+  console.log(`[hero-profiles] hero-profiles.json ready (${config?.profiles.length ?? 0} profile(s))`)
 }
 
 /**
@@ -349,6 +369,7 @@ app.whenReady().then(() => {
   startAdviceScheduler()
   startTimingScheduler()
   startRulesConfig()
+  startHeroProfilesConfig()
   startStratzClient()
   startDataService()
   startCacheWarmer()
