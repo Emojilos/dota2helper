@@ -7,6 +7,7 @@ import { ConfigLoader, mirrorContentDir } from './config'
 import { TimingScheduler } from './timings'
 import { TimingsConfigSchema } from '@shared/schemas/timings'
 import { createStratzClient, type StratzClient } from './data'
+import { openDatabase, runMigrations, UserProfileRepository, type DatabaseInstance } from './db'
 
 /**
  * Shared-токен GSI. Секреты — только через окружение (см. CLAUDE.md §5):
@@ -18,6 +19,8 @@ let gsiServer: GsiServer | null = null
 let configLoader: ConfigLoader | null = null
 let timingScheduler: TimingScheduler | null = null
 let stratzClient: StratzClient | null = null
+let database: DatabaseInstance | null = null
+let userProfileRepository: UserProfileRepository | null = null
 
 /**
  * Поднимает config-loader (TASK-011): в проде зеркалит встроенный content/ в
@@ -90,6 +93,21 @@ function startStratzClient(): void {
 }
 
 /**
+ * Открывает SQLite-БД в userData (TASK-010), применяет миграции идемпотентно и
+ * гарантирует наличие профиля пользователя (создаёт дефолтный при первом
+ * запуске: verbosity=experienced, hotkey=F9, draft_mode=meta — см. shared
+ * DEFAULT_USER_PROFILE_FIELDS).
+ */
+function startDatabase(): void {
+  const dbPath = join(app.getPath('userData'), 'midmind.db')
+  database = openDatabase(dbPath)
+  runMigrations(database)
+  userProfileRepository = new UserProfileRepository(database)
+  const profile = userProfileRepository.getOrCreate()
+  console.log(`[db] profile ready (verbosity=${profile.verbosity}, hotkey=${profile.hotkeyExpandedPanel})`)
+}
+
+/**
  * Поднимает локальный GSI-сервер приёма пакетов Dota (TASK-005). Ошибку биндинга
  * логируем, но приложение не роняем — оверлей должен работать и без потока GSI.
  */
@@ -145,6 +163,7 @@ function createWindow(): void {
 
 app.whenReady().then(() => {
   createWindow()
+  startDatabase()
   startConfigLoader()
   void startGsiServer()
   startTimingScheduler()
@@ -167,4 +186,5 @@ app.on('will-quit', () => {
   timingScheduler?.stop()
   void gsiServer?.stop()
   configLoader?.stop()
+  database?.close()
 })

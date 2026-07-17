@@ -14,19 +14,24 @@
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
     "lint:boundaries": "depcruise src test --config .dependency-cruiser.cjs",
     "lint": "npm run lint:boundaries",
-    "test": "vitest run"
+    "postinstall": "electron-rebuild -f -w better-sqlite3",
+    "test": "cross-env ELECTRON_RUN_AS_NODE=1 electron ./node_modules/vitest/vitest.mjs run"
   },
   "dependencies": {
+    "better-sqlite3": "^12.11.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@electron/rebuild": "^4.2.0",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
+    "cross-env": "^10.1.0",
     "dependency-cruiser": "^18.0.0",
     "electron": "^33.2.1",
     "electron-vite": "^2.3.0",
