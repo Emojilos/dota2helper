@@ -3,6 +3,11 @@
  * Здесь — минимальный контракт для settings:get/settings:set (TASK-004);
  * полное хранилище профиля и репозиторий появятся в TASK-010/TASK-018.
  *
+ * hotkeyExpandedPanel и hotkeySilentMode — единственные конфигурируемые
+ * globalShortcut-акселераторы на сегодня (TASK-018). Toggle click-through
+ * (TASK-008) своего конфиг-поля пока не имеет: у него нет персист-состояния и
+ * нет окна-потребителя — соответствующий хоткей заведёт TASK-008.
+ *
  * INV2: модуль чист (только zod).
  */
 import { z } from 'zod'
@@ -21,6 +26,8 @@ export const AppSettingsSchema = z.object({
   verbosity: VerbositySchema,
   /** глобальный хоткей расширенной панели, напр. "F9" */
   hotkeyExpandedPanel: z.string(),
+  /** глобальный хоткей тихого режима (скрыть весь оверлей), напр. "F10" */
+  hotkeySilentMode: z.string(),
   draftRankingMode: DraftRankingModeSchema,
   silentMode: z.boolean()
 })
@@ -31,6 +38,7 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
   steamId: null,
   verbosity: 'experienced',
   hotkeyExpandedPanel: 'F9',
+  hotkeySilentMode: 'F10',
   draftRankingMode: 'meta',
   silentMode: false
 }

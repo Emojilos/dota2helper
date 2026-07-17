@@ -26,7 +26,7 @@ describe('migrations', () => {
     const db = createDb()
     expect(() => runMigrations(db)).not.toThrow()
     const applied = db.prepare<[], { id: string }>('SELECT id FROM schema_migrations').all()
-    expect(applied).toHaveLength(2)
+    expect(applied).toHaveLength(3)
     db.close()
   })
 
@@ -128,6 +128,7 @@ describe('UserProfileRepository', () => {
 
     expect(profile.verbosity).toBe('experienced')
     expect(profile.hotkeyExpandedPanel).toBe('F9')
+    expect(profile.hotkeySilentMode).toBe('F10')
     expect(profile.draftRankingMode).toBe('meta')
     expect(profile.steamId).toBeNull()
     expect(profile.createdAt).toBe(profile.updatedAt)

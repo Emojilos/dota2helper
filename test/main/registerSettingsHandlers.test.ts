@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
-import type { UserProfile } from '@shared/schemas/userProfile'
-import type { UserProfileRepository } from '@main/db/UserProfileRepository'
+import type { AppSettings } from '@shared/schemas/settings'
+import type { SettingsController } from '@main/ipc/SettingsController'
 
 const handlers = new Map<string, (event: unknown, ...args: unknown[]) => unknown>()
 const handle = vi.fn((channel: string, listener: (event: unknown, ...args: unknown[]) => unknown) => {
@@ -11,18 +11,14 @@ vi.mock('electron', () => ({
   ipcMain: { handle }
 }))
 
-function makeProfile(overrides: Partial<UserProfile> = {}): UserProfile {
+function makeSettings(overrides: Partial<AppSettings> = {}): AppSettings {
   return {
     steamId: null,
     verbosity: 'experienced',
     hotkeyExpandedPanel: 'F9',
+    hotkeySilentMode: 'F10',
     draftRankingMode: 'meta',
     silentMode: false,
-    overlayPositions: {},
-    notificationsConfig: {},
-    widgetsConfig: {},
-    createdAt: '2026-01-01T00:00:00.000Z',
-    updatedAt: '2026-01-01T00:00:00.000Z',
     ...overrides
   }
 }
@@ -33,36 +29,31 @@ describe('registerSettingsHandlers', () => {
     handle.mockClear()
   })
 
-  it('settings:get projects UserProfile down to AppSettings', async () => {
+  it('settings:get delegates to controller.get()', async () => {
     const { registerSettingsHandlers } = await import('@main/ipc/registerSettingsHandlers')
-    const repo = {
-      getOrCreate: vi.fn(() => makeProfile({ steamId: '123', hotkeyExpandedPanel: 'F10' })),
-      update: vi.fn()
-    } as unknown as UserProfileRepository
-    registerSettingsHandlers(repo)
+    const controller = {
+      get: vi.fn(() => makeSettings({ steamId: '123', hotkeyExpandedPanel: 'F11' })),
+      apply: vi.fn()
+    } as unknown as SettingsController
+    registerSettingsHandlers(controller)
 
     const result = await handlers.get('settings:get')?.({})
 
-    expect(result).toEqual({
-      steamId: '123',
-      verbosity: 'experienced',
-      hotkeyExpandedPanel: 'F10',
-      draftRankingMode: 'meta',
-      silentMode: false
-    })
+    expect(controller.get).toHaveBeenCalled()
+    expect(result).toEqual(makeSettings({ steamId: '123', hotkeyExpandedPanel: 'F11' }))
   })
 
-  it('settings:set forwards the patch to the repository and projects the result', async () => {
+  it('settings:set delegates the patch to controller.apply()', async () => {
     const { registerSettingsHandlers } = await import('@main/ipc/registerSettingsHandlers')
-    const repo = {
-      getOrCreate: vi.fn(() => makeProfile()),
-      update: vi.fn((patch) => makeProfile(patch))
-    } as unknown as UserProfileRepository
-    registerSettingsHandlers(repo)
+    const controller = {
+      get: vi.fn(),
+      apply: vi.fn((patch) => makeSettings(patch))
+    } as unknown as SettingsController
+    registerSettingsHandlers(controller)
 
     const result = await handlers.get('settings:set')?.({}, { silentMode: true })
 
-    expect(repo.update).toHaveBeenCalledWith({ silentMode: true })
+    expect(controller.apply).toHaveBeenCalledWith({ silentMode: true })
     expect(result).toMatchObject({ silentMode: true })
   })
 })

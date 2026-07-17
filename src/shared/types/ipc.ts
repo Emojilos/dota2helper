@@ -25,6 +25,13 @@ export interface IpcPushChannels {
   'advice:push': Advice
   'config:reloaded': ConfigReloadedPayload
   'draft:update': DraftCandidate[]
+  /**
+   * Авторитетная проекция настроек (TASK-018). main — единственный источник
+   * правды: рассылается во все окна после любой мутации (invoke settings:set
+   * ИЛИ хоткей в main, напр. тихий режим), включая инициатора. Renderer-стор
+   * не различает источник изменения, просто принимает актуальный AppSettings.
+   */
+  'settings:update': AppSettings
 }
 
 /** renderer -> main: имя канала -> { request, response }. */
@@ -46,6 +53,7 @@ export const IPC_CHANNELS = {
   advicePush: 'advice:push',
   configReloaded: 'config:reloaded',
   draftUpdate: 'draft:update',
+  settingsUpdate: 'settings:update',
   settingsGet: 'settings:get',
   settingsSet: 'settings:set'
 } as const

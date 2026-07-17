@@ -6,8 +6,9 @@ import { GsiServer } from './gsi'
 import { ConfigLoader, mirrorContentDir } from './config'
 import { TimingScheduler } from './timings'
 import { TimingsConfigSchema } from '@shared/schemas/timings'
-import { broadcast, registerSettingsHandlers } from './ipc'
+import { broadcast, registerSettingsHandlers, createSettingsController, type SettingsController } from './ipc'
 import { AdviceScheduler } from './advice'
+import { HotkeyManager } from './hotkeys'
 import {
   createStratzClient,
   createOpenDotaClient,
@@ -37,6 +38,8 @@ let stratzClient: StratzClient | null = null
 let database: DatabaseInstance | null = null
 let userProfileRepository: UserProfileRepository | null = null
 let dataService: DataService | null = null
+let settingsController: SettingsController | null = null
+let hotkeyManager: HotkeyManager | null = null
 
 /**
  * Поднимает config-loader (TASK-011): в проде зеркалит встроенный content/ в
@@ -146,8 +149,7 @@ function startDataService(): void {
  * Открывает SQLite-БД в userData (TASK-010), применяет миграции идемпотентно и
  * гарантирует наличие профиля пользователя (создаёт дефолтный при первом
  * запуске: verbosity=experienced, hotkey=F9, draft_mode=meta — см. shared
- * DEFAULT_USER_PROFILE_FIELDS). Тут же регистрирует invoke-обработчики
- * settings:get/settings:set (TASK-007) поверх готового репозитория.
+ * DEFAULT_USER_PROFILE_FIELDS).
  */
 function startDatabase(): void {
   const dbPath = join(app.getPath('userData'), 'midmind.db')
@@ -156,7 +158,53 @@ function startDatabase(): void {
   userProfileRepository = new UserProfileRepository(database)
   const profile = userProfileRepository.getOrCreate()
   console.log(`[db] profile ready (verbosity=${profile.verbosity}, hotkey=${profile.hotkeyExpandedPanel})`)
-  registerSettingsHandlers(userProfileRepository)
+}
+
+/**
+ * Единственная точка мутации настроек (TASK-018): и invoke-обработчик
+ * settings:set (renderer-инициированные изменения), и хоткей тихого режима
+ * (main-инициированные) идут через SettingsController.apply(), которая сама
+ * персистит (UserProfileRepository), рассылает settings:update во все окна
+ * (main — источник правды, включая инициатора) и реконсилирует HotkeyManager,
+ * если сменился один из акселераторов.
+ */
+function startSettings(): void {
+  if (!userProfileRepository) {
+    return
+  }
+  settingsController = createSettingsController(userProfileRepository, (settings) => {
+    broadcast('settings:update', settings)
+    hotkeyManager?.reconcile(settings)
+  })
+  registerSettingsHandlers(settingsController)
+}
+
+/**
+ * Поднимает globalShortcut-регистрацию (TASK-018): F9 (расширенная панель —
+ * окна ещё нет, TASK-014/037, handler пока просто логирует срабатывание как
+ * шов для будущего подписчика) и тихий режим (реально флипает persisted
+ * silentMode через settingsController.apply). Toggle click-through не входит
+ * в этот менеджер — заведёт TASK-008 (нет персист-поля и окна-потребителя).
+ */
+function startHotkeys(): void {
+  if (!settingsController) {
+    return
+  }
+  hotkeyManager = new HotkeyManager({
+    onToggleExpandedPanel: () => {
+      console.log('[hotkeys] expanded panel toggle pressed — window not wired yet (TASK-014/037)')
+    },
+    onToggleSilentMode: () => {
+      const current = settingsController?.get()
+      if (!current) {
+        return
+      }
+      const next = settingsController?.apply({ silentMode: !current.silentMode })
+      console.log(`[hotkeys] silent mode toggled -> ${next?.silentMode}`)
+    },
+    logger: (message) => console.log(`[hotkeys] ${message}`)
+  })
+  hotkeyManager.reconcile(settingsController.get())
 }
 
 /**
@@ -243,6 +291,8 @@ function createWindow(): void {
 app.whenReady().then(() => {
   createWindow()
   startDatabase()
+  startSettings()
+  startHotkeys()
   startConfigLoader()
   void startGsiServer()
   startAdviceScheduler()
@@ -266,6 +316,7 @@ app.on('window-all-closed', () => {
 app.on('will-quit', () => {
   timingScheduler?.stop()
   adviceScheduler?.stop()
+  hotkeyManager?.stop()
   void gsiServer?.stop()
   configLoader?.stop()
   database?.close()

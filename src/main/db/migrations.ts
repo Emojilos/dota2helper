@@ -66,6 +66,12 @@ const migrations: Migration[] = [
       CREATE INDEX IF NOT EXISTS idx_hero_pool_stats_steam_id ON hero_pool_stats (steam_id);
       CREATE INDEX IF NOT EXISTS idx_match_history_played_at ON match_history (played_at);
     `
+  },
+  {
+    id: '0003_hotkey_silent_mode',
+    up: `
+      ALTER TABLE user_profile ADD COLUMN hotkey_silent_mode TEXT NOT NULL DEFAULT 'F10';
+    `
   }
 ]
 

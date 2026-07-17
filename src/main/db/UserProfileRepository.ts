@@ -12,6 +12,7 @@ interface UserProfileRow {
   steam_id: string | null
   verbosity: string
   hotkey_expanded_panel: string
+  hotkey_silent_mode: string
   draft_ranking_mode: string
   silent_mode: number
   overlay_positions: string
@@ -26,6 +27,7 @@ function rowToProfile(row: UserProfileRow): UserProfile {
     steamId: row.steam_id,
     verbosity: row.verbosity,
     hotkeyExpandedPanel: row.hotkey_expanded_panel,
+    hotkeySilentMode: row.hotkey_silent_mode,
     draftRankingMode: row.draft_ranking_mode,
     silentMode: row.silent_mode === 1,
     overlayPositions: JSON.parse(row.overlay_positions),
@@ -70,6 +72,7 @@ export class UserProfileRepository {
           steam_id = ?,
           verbosity = ?,
           hotkey_expanded_panel = ?,
+          hotkey_silent_mode = ?,
           draft_ranking_mode = ?,
           silent_mode = ?,
           overlay_positions = ?,
@@ -82,6 +85,7 @@ export class UserProfileRepository {
         next.steamId,
         next.verbosity,
         next.hotkeyExpandedPanel,
+        next.hotkeySilentMode,
         next.draftRankingMode,
         next.silentMode ? 1 : 0,
         JSON.stringify(next.overlayPositions),
@@ -100,15 +104,16 @@ export class UserProfileRepository {
     this.db
       .prepare(
         `INSERT INTO user_profile (
-          id, steam_id, verbosity, hotkey_expanded_panel, draft_ranking_mode,
-          silent_mode, overlay_positions, notifications_config, widgets_config,
-          created_at, updated_at
-        ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+          id, steam_id, verbosity, hotkey_expanded_panel, hotkey_silent_mode,
+          draft_ranking_mode, silent_mode, overlay_positions, notifications_config,
+          widgets_config, created_at, updated_at
+        ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .run(
         profile.steamId,
         profile.verbosity,
         profile.hotkeyExpandedPanel,
+        profile.hotkeySilentMode,
         profile.draftRankingMode,
         profile.silentMode ? 1 : 0,
         JSON.stringify(profile.overlayPositions),

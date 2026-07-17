@@ -121,10 +121,27 @@ Path-алиасы (electron.vite.config.ts + tsconfig): `@main`, `@preload`, `@r
 (`contextIsolation: true`, `nodeIntegration: false`, `sandbox: true` — TASK-007).
 
 - **push-каналы (main → renderer):** `gameState:update`, `advice:push`,
-  `config:reloaded`, `draft:update`.
+  `config:reloaded`, `draft:update`, `settings:update` (TASK-018 — авторитетная
+  проекция `AppSettings`; main рассылает её во все окна после ЛЮБОЙ мутации
+  настроек, из renderer (`settings:set`) или из main (хоткей тихого режима),
+  включая инициатора — renderer-стор не различает источник).
 - **invoke-каналы (renderer → main):** `settings:get`, `settings:set`.
 
 При изменении набора каналов или payload'ов — правь `IpcContract` и обновляй этот раздел.
+
+### Хоткеи (TASK-018)
+
+`HotkeyManager` (`src/main/hotkeys/`) регистрирует глобальные акселераторы через
+`electron.globalShortcut`, точечно перерегистрируя только изменившуюся роль
+(не `unregisterAll()`). Единственные конфигурируемые хоткеи сейчас —
+`hotkeyExpandedPanel` (default `F9`) и `hotkeySilentMode` (default `F10`) в
+`AppSettings`/`UserProfile`; любая их смена идёт через `SettingsController.apply()`
+(`src/main/ipc/SettingsController.ts`), который персистит, рассылает
+`settings:update` и вызывает `HotkeyManager.reconcile()`. Toggle click-through
+(TASK-008) своего конфиг-поля и регистрации пока не имеет — нет ни персист-
+состояния, ни окна-потребителя; заведёт TASK-008. Хоткей расширенной панели
+(F9) пока не открывает окно (его ещё нет — TASK-014/037): handler логирует
+срабатывание как шов для будущего подписчика.
 
 ---
 
