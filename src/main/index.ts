@@ -7,6 +7,7 @@ import { ConfigLoader, mirrorContentDir } from './config'
 import { TimingScheduler } from './timings'
 import { TimingsConfigSchema } from '@shared/schemas/timings'
 import { broadcast, registerSettingsHandlers } from './ipc'
+import { AdviceScheduler } from './advice'
 import {
   createStratzClient,
   createOpenDotaClient,
@@ -31,6 +32,7 @@ const GSI_AUTH_TOKEN = process.env['MIDMIND_GSI_TOKEN'] ?? 'midmind-dev-token'
 let gsiServer: GsiServer | null = null
 let configLoader: ConfigLoader | null = null
 let timingScheduler: TimingScheduler | null = null
+let adviceScheduler: AdviceScheduler | null = null
 let stratzClient: StratzClient | null = null
 let database: DatabaseInstance | null = null
 let userProfileRepository: UserProfileRepository | null = null
@@ -69,17 +71,31 @@ function startConfigLoader(): void {
 }
 
 /**
+ * Поднимает пайплайн уведомлений F5 (TASK-013): очередь с приоритетами, не
+ * более 2 уведомлений «на экране» одновременно, каждое гаснет через 5-8 сек,
+ * освобождая слот следующему. Источники Advice (сейчас — TimingScheduler F3,
+ * позже — advice-gate F4/TASK-044) зовут adviceScheduler.enqueue(); сама push в
+ * renderer через advice:push — единственная точка, знающая про broadcast.
+ */
+function startAdviceScheduler(): void {
+  adviceScheduler = new AdviceScheduler({
+    push: (advice) => broadcast('advice:push', advice)
+  })
+}
+
+/**
  * Поднимает планировщик тайминговых напоминалок F3 (TASK-012): регистрирует
  * timings.json через ConfigLoader (hot-reload) и подписывает чистый движок
  * engine/timings на поток GSI из GameStateStore. Требует уже поднятых
- * configLoader (startConfigLoader) и gsiServer (startGsiServer).
+ * configLoader (startConfigLoader), gsiServer (startGsiServer) и
+ * adviceScheduler (startAdviceScheduler).
  *
- * onAlert логирует и пушит advice:push в renderer (TASK-007). Очередь с
- * приоритетами/дедупликацией (AdviceScheduler) — TASK-013. Отключение типов
+ * onAlert логирует и отдаёт уведомление в очередь AdviceScheduler (TASK-013),
+ * которая сама решает, когда именно оно уйдёт в renderer. Отключение типов
  * (getDisabledEventIds) подключит проекция настроек из TASK-018.
  */
 function startTimingScheduler(): void {
-  if (!configLoader || !gsiServer) {
+  if (!configLoader || !gsiServer || !adviceScheduler) {
     return
   }
   const timings = configLoader.register('timings', TimingsConfigSchema)
@@ -88,7 +104,7 @@ function startTimingScheduler(): void {
     getEvents: () => timings.get(),
     onAlert: (advice) => {
       console.log(`[timings] ${advice.ruleId}: ${advice.message}`)
-      broadcast('advice:push', advice)
+      adviceScheduler?.enqueue(advice)
     }
   })
   timingScheduler.start()
@@ -229,6 +245,7 @@ app.whenReady().then(() => {
   startDatabase()
   startConfigLoader()
   void startGsiServer()
+  startAdviceScheduler()
   startTimingScheduler()
   startStratzClient()
   startDataService()
@@ -248,6 +265,7 @@ app.on('window-all-closed', () => {
 
 app.on('will-quit', () => {
   timingScheduler?.stop()
+  adviceScheduler?.stop()
   void gsiServer?.stop()
   configLoader?.stop()
   database?.close()
