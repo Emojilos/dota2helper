@@ -14,9 +14,10 @@ export {
   OPENDOTA_ATTRIBUTION,
   type OpenDotaClientOptions
 } from './OpenDotaClient'
+export { MatchupCacheStore, type MatchupCacheGroup } from './MatchupCacheStore'
 export {
-  MatchupRepository,
-  type MatchupDataSource,
-  type MatchupQueryResult,
-  type MatchupRepositoryOptions
-} from './MatchupRepository'
+  DataService,
+  type StratzDataSource,
+  type OpenDotaDataSource,
+  type DataServiceOptions
+} from './DataService'

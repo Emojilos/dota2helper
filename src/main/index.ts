@@ -6,7 +6,13 @@ import { GsiServer } from './gsi'
 import { ConfigLoader, mirrorContentDir } from './config'
 import { TimingScheduler } from './timings'
 import { TimingsConfigSchema } from '@shared/schemas/timings'
-import { createStratzClient, type StratzClient } from './data'
+import {
+  createStratzClient,
+  createOpenDotaClient,
+  DataService,
+  MatchupCacheStore,
+  type StratzClient
+} from './data'
 import { openDatabase, runMigrations, UserProfileRepository, type DatabaseInstance } from './db'
 import {
   buildGsiConfigContent,
@@ -27,6 +33,7 @@ let timingScheduler: TimingScheduler | null = null
 let stratzClient: StratzClient | null = null
 let database: DatabaseInstance | null = null
 let userProfileRepository: UserProfileRepository | null = null
+let dataService: DataService | null = null
 
 /**
  * Поднимает config-loader (TASK-011): в проде зеркалит встроенный content/ в
@@ -95,6 +102,25 @@ function startStratzClient(): void {
   stratzClient = createStratzClient((message) => console.log(message))
   if (stratzClient) {
     console.log(`[stratz] client ready (${stratzClient.attribution})`)
+  }
+}
+
+/**
+ * Собирает DataService-фасад (TASK-026) — единственную точку входа для будущих
+ * потребителей (DraftService/TASK-028, LanePlanBuilder/TASK-036) для матчапов/
+ * пула героев/билдов/истории матчей. Реализует лестницу деградации STRATZ →
+ * OpenDota → SQLite stale-кэш → явное "нет данных" (INV5). Требует уже открытой
+ * БД (startDatabase) и созданного (или отсутствующего) STRATZ-клиента
+ * (startStratzClient); OpenDota-клиент не требует токена и создаётся всегда.
+ */
+function startDataService(): void {
+  if (!database) {
+    return
+  }
+  const openDotaClient = createOpenDotaClient((message) => console.log(message))
+  dataService = new DataService(new MatchupCacheStore(database), stratzClient, openDotaClient)
+  if (dataService) {
+    console.log('[data] DataService ready (STRATZ→OpenDota→cache degradation ladder wired)')
   }
 }
 
@@ -199,6 +225,7 @@ app.whenReady().then(() => {
   void startGsiServer()
   startTimingScheduler()
   startStratzClient()
+  startDataService()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
