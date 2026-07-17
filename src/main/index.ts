@@ -6,6 +6,7 @@ import { GsiServer } from './gsi'
 import { ConfigLoader, mirrorContentDir } from './config'
 import { TimingScheduler } from './timings'
 import { TimingsConfigSchema } from '@shared/schemas/timings'
+import { broadcast, registerSettingsHandlers } from './ipc'
 import {
   createStratzClient,
   createOpenDotaClient,
@@ -61,8 +62,8 @@ function startConfigLoader(): void {
     dir,
     logger: (message) => console.log(`[config] ${message}`),
     onReloaded: (payload) => {
-      // TASK-007 заменит это на push config:reloaded в renderer.
       console.log(`[config] reloaded '${payload.name}': ${payload.status}`)
+      broadcast('config:reloaded', payload)
     }
   })
 }
@@ -73,9 +74,9 @@ function startConfigLoader(): void {
  * engine/timings на поток GSI из GameStateStore. Требует уже поднятых
  * configLoader (startConfigLoader) и gsiServer (startGsiServer).
  *
- * Пока onAlert только логирует — TASK-013 подключит очередь AdviceScheduler, а
- * TASK-007 — push advice:push в renderer. Отключение типов (getDisabledEventIds)
- * подключит проекция настроек из TASK-018.
+ * onAlert логирует и пушит advice:push в renderer (TASK-007). Очередь с
+ * приоритетами/дедупликацией (AdviceScheduler) — TASK-013. Отключение типов
+ * (getDisabledEventIds) подключит проекция настроек из TASK-018.
  */
 function startTimingScheduler(): void {
   if (!configLoader || !gsiServer) {
@@ -87,6 +88,7 @@ function startTimingScheduler(): void {
     getEvents: () => timings.get(),
     onAlert: (advice) => {
       console.log(`[timings] ${advice.ruleId}: ${advice.message}`)
+      broadcast('advice:push', advice)
     }
   })
   timingScheduler.start()
@@ -128,7 +130,8 @@ function startDataService(): void {
  * Открывает SQLite-БД в userData (TASK-010), применяет миграции идемпотентно и
  * гарантирует наличие профиля пользователя (создаёт дефолтный при первом
  * запуске: verbosity=experienced, hotkey=F9, draft_mode=meta — см. shared
- * DEFAULT_USER_PROFILE_FIELDS).
+ * DEFAULT_USER_PROFILE_FIELDS). Тут же регистрирует invoke-обработчики
+ * settings:get/settings:set (TASK-007) поверх готового репозитория.
  */
 function startDatabase(): void {
   const dbPath = join(app.getPath('userData'), 'midmind.db')
@@ -137,6 +140,7 @@ function startDatabase(): void {
   userProfileRepository = new UserProfileRepository(database)
   const profile = userProfileRepository.getOrCreate()
   console.log(`[db] profile ready (verbosity=${profile.verbosity}, hotkey=${profile.hotkeyExpandedPanel})`)
+  registerSettingsHandlers(userProfileRepository)
 }
 
 /**
@@ -149,10 +153,10 @@ async function startGsiServer(): Promise<void> {
     logger: (message) => console.log(`[gsi] ${message}`)
   })
   gsiServer.store.subscribe((state) => {
-    // TASK-007 заменит это на push gameState:update в renderer.
     console.log(
       `[gsi] update: state=${state.map?.gameState ?? 'unknown'} clock=${state.map?.clockTime ?? 0} hero=${state.hero?.name ?? 'none'}`
     )
+    broadcast('gameState:update', state)
   })
   try {
     const port = await gsiServer.start()
@@ -187,9 +191,10 @@ function logGsiInstallerPreview(port: number): void {
 }
 
 /**
- * Создаёт основное окно оверлея. На этом этапе (TASK-001) — просто прозрачное
- * безрамочное окно с React-рендерером. Полноценный overlay-режим (click-through,
- * always-on-top, sandbox) настраивается в TASK-007/TASK-008.
+ * Создаёт основное окно оверлея. Прозрачное безрамочное окно с React-рендерером;
+ * preload поднят с contextIsolation/nodeIntegration/sandbox по CLAUDE.md §6
+ * (TASK-007). Полноценный overlay-режим (always-on-top, click-through) —
+ * TASK-008.
  */
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -203,7 +208,8 @@ function createWindow(): void {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       contextIsolation: true,
-      nodeIntegration: false
+      nodeIntegration: false,
+      sandbox: true
     }
   })
 

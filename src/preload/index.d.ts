@@ -1,10 +1,12 @@
 /**
- * Типы экспонируемого renderer-у API. Расширяется в TASK-007 по IpcContract.
+ * Типы экспонируемого renderer-у API (TASK-007). window.midmind реализует
+ * MidMindBridge из IpcContract (@shared/types/ipc) — единственный источник
+ * правды для набора каналов и их payload'ов.
  */
-export interface MidmindApi {}
+import type { MidMindBridge } from '@shared/types/ipc'
 
 declare global {
   interface Window {
-    midmind: MidmindApi
+    midmind: MidMindBridge
   }
 }
