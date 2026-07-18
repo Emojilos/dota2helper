@@ -50,6 +50,15 @@ export interface IpcPushChannels {
    * самостоятельно, если пользователь согласится.
    */
   'steamId:detected': { steamId: string }
+  /**
+   * F6/M6 смена патча (TASK-047): main пушит один раз за сессию, когда
+   * PatchWatcher при старте обнаруживает, что текущий патч STRATZ отличается
+   * от последнего сохранённого (app_state.lastSeenPatch) — НЕ на каждом
+   * запуске, только на реальной смене. Renderer должен показать баннер
+   * "данные обновляются" (кэш матчапов/билдов может ещё содержать
+   * прошлопатчевые числа, пока CacheWarmer/DataService не перегреют его).
+   */
+  'patch:changed': { patch: string }
 }
 
 /** renderer -> main: имя канала -> { request, response }. */
@@ -75,7 +84,8 @@ export const IPC_CHANNELS = {
   settingsGet: 'settings:get',
   settingsSet: 'settings:set',
   cacheWarmerProgress: 'cacheWarmer:progress',
-  steamIdDetected: 'steamId:detected'
+  steamIdDetected: 'steamId:detected',
+  patchChanged: 'patch:changed'
 } as const
 
 /**

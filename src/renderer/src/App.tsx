@@ -4,6 +4,7 @@ import type { GameState } from '@shared/schemas/gameState'
 import { parseSteamId64Input } from '@shared/steam/parseSteamId64'
 import { useSettingsStore } from './store/settingsStore'
 import { useSteamIdDetectionStore } from './store/steamIdStore'
+import { usePatchStore } from './store/patchStore'
 
 /**
  * TASK-030 (F6): баннер подтверждения автообнаруженного Steam ID + ручной
@@ -77,6 +78,33 @@ function SteamIdSection(): JSX.Element {
 }
 
 /**
+ * TASK-047 (M6): баннер "данные обновляются" на реальную смену патча
+ * (PatchWatcher в main решает, когда пушить patch:changed — см. patchStore).
+ */
+function PatchBanner(): JSX.Element | null {
+  const changedToPatch = usePatchStore((state) => state.changedToPatch)
+  const dismiss = usePatchStore((state) => state.dismiss)
+  const init = usePatchStore((state) => state.init)
+
+  useEffect(() => {
+    init()
+  }, [init])
+
+  if (!changedToPatch) {
+    return null
+  }
+
+  return (
+    <div className="mt-2 rounded border border-sky-400/40 bg-sky-400/10 p-1 text-xs">
+      <p>Патч обновился до {changedToPatch} — данные обновляются</p>
+      <button type="button" className="mt-1 rounded border border-white/20 px-2 py-0.5 hover:bg-white/10" onClick={dismiss}>
+        Понятно
+      </button>
+    </div>
+  )
+}
+
+/**
  * TASK-007/018: минимальная проверка IPC-моста window.midmind — подписка на
  * push gameState:update и settings:update (через Zustand-стор настроек).
  * Полноценный UI оверлея (компактная панель/уведомления) — TASK-014/015.
@@ -114,6 +142,7 @@ function App(): JSX.Element {
           Toggle silent mode
         </button>
         <SteamIdSection />
+        <PatchBanner />
       </div>
     </div>
   )

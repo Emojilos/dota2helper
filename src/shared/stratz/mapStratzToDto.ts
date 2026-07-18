@@ -18,6 +18,7 @@ import {
   type MatchupData
 } from '../schemas/stratzDto'
 import type {
+  StratzGameVersionResponse,
   StratzHeroBuildsResponse,
   StratzHeroMatchupsResponse,
   StratzHeroPoolResponse,
@@ -92,6 +93,22 @@ export function mapHeroBuildsToDto(response: StratzHeroBuildsResponse, patch: st
       patch
     })
   )
+}
+
+/**
+ * Определяет "текущий" патч из списка gameVersions (TASK-047): элемент с
+ * максимальным asOfDateTime, а не последний/первый по порядку ответа (STRATZ
+ * не гарантирует сортировку — см. заголовок GAME_VERSION_QUERY). Пустой
+ * список → null (PatchWatcher трактует это как "проверить не удалось").
+ */
+export function mapCurrentPatchToDto(response: StratzGameVersionResponse): string | null {
+  const versions = response.constants.gameVersions
+  if (versions.length === 0) {
+    return null
+  }
+  return versions.reduce((latest, current) =>
+    Date.parse(current.asOfDateTime) > Date.parse(latest.asOfDateTime) ? current : latest
+  ).name
 }
 
 /** Приводит ответ player.matches к MatchHistory-совместимому списку MatchSummary. */

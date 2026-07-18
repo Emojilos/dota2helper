@@ -11,6 +11,7 @@
  * посекундный интервал), запросы сериализуются.
  */
 import {
+  mapCurrentPatchToDto,
   mapHeroBuildsToDto,
   mapHeroMatchupsToDto,
   mapHeroPoolToDto,
@@ -18,6 +19,7 @@ import {
 } from '@shared/stratz/mapStratzToDto'
 import type { BuildData, HeroPoolEntry, MatchSummary, MatchupData } from '@shared/schemas/stratzDto'
 import type {
+  StratzGameVersionResponse,
   StratzHeroBuildsResponse,
   StratzHeroMatchupsResponse,
   StratzHeroPoolResponse,
@@ -25,7 +27,13 @@ import type {
   StratzRecentMatchesResponse
 } from '@shared/types/stratz'
 import { RateLimiter } from './RateLimiter'
-import { HERO_BUILDS_QUERY, HERO_MATCHUPS_QUERY, HERO_POOL_QUERY, RECENT_MATCHES_QUERY } from './stratzQueries'
+import {
+  GAME_VERSION_QUERY,
+  HERO_BUILDS_QUERY,
+  HERO_MATCHUPS_QUERY,
+  HERO_POOL_QUERY,
+  RECENT_MATCHES_QUERY
+} from './stratzQueries'
 
 export const STRATZ_ENDPOINT = 'https://api.stratz.com/graphql'
 /** Атрибуция, обязательная в UI (условие использования STRATZ API) — DataService/UI пробрасывают эту строку. */
@@ -99,6 +107,12 @@ export class StratzClient {
       take
     })
     return mapRecentMatchesToDto(response)
+  }
+
+  /** Текущий патч (TASK-047, PatchWatcher) — null, если STRATZ не отдал ни одной версии. */
+  async getCurrentPatch(): Promise<string | null> {
+    const response = await this.request<StratzGameVersionResponse>(GAME_VERSION_QUERY, {})
+    return mapCurrentPatchToDto(response)
   }
 
   private request<TResponse>(query: string, variables: Record<string, unknown>): Promise<TResponse> {

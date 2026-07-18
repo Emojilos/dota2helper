@@ -10,10 +10,13 @@
  * НИКОГДА не бросает исключение потребителю — ошибки источников логируются и
  * обрабатываются переходом к следующей ступени лестницы.
  *
- * Кэш есть под матчапы (MatchupCacheStore) И под пул героев (HeroPoolCacheStore,
+ * Кэш есть под матчапы (MatchupCacheStore), пул героев (HeroPoolCacheStore,
  * TASK-031, опционален — если не передан в options, getHeroPool ведёт себя как
- * раньше: STRATZ → OpenDota → "нет данных" без stale-кэша). Билды/история матчей
- * по-прежнему без выделенного кэша: STRATZ → "нет данных" (OpenDota их не отдаёт).
+ * раньше: STRATZ → OpenDota → "нет данных" без stale-кэша) и билды (BuildCacheStore,
+ * TASK-047, опционален — без него getHeroBuilds ведёт себя как раньше: STRATZ →
+ * "нет данных" без stale-кэша). История матчей по-прежнему без выделенного кэша:
+ * STRATZ → "нет данных" (не пишется в match_history синхронно с чтением — эту
+ * таблицу пишет MatchCompletionDetector, TASK-033, а не DataService).
  *
  * ВАЖНО: результаты OpenDota НЕ пишутся в matchup_cache. OpenDota отдаёт только
  * relation='vs' (без синергии) — если бы мы кэшировали их в ту же группу
@@ -31,6 +34,7 @@ import type { StratzQueryScope } from '@shared/types/stratz'
 import type { DataResult } from '@shared/types/dataResult'
 import type { MatchupCacheStore } from './MatchupCacheStore'
 import type { HeroPoolCacheStore } from './HeroPoolCacheStore'
+import type { BuildCacheStore } from './BuildCacheStore'
 
 /** Узкий срез StratzClient, нужный фасаду — легко подменяется фейком в тестах. */
 export interface StratzDataSource {
@@ -54,6 +58,8 @@ export interface DataServiceOptions {
   logger?: (message: string) => void
   /** Read-through кэш пула героев (TASK-031) — опционален, без него getHeroPool не кэширует. */
   heroPoolCacheStore?: HeroPoolCacheStore
+  /** Read-through кэш билдов (TASK-047) — опционален, без него getHeroBuilds не кэширует. */
+  buildCacheStore?: BuildCacheStore
 }
 
 const DEFAULT_TTL_MS = 24 * 60 * 60 * 1000
@@ -63,6 +69,7 @@ export class DataService {
   private readonly now: () => number
   private readonly logger: (message: string) => void
   private readonly heroPoolCacheStore: HeroPoolCacheStore | null
+  private readonly buildCacheStore: BuildCacheStore | null
 
   constructor(
     private readonly cacheStore: MatchupCacheStore,
@@ -74,6 +81,7 @@ export class DataService {
     this.now = options.now ?? Date.now
     this.logger = options.logger ?? ((): void => {})
     this.heroPoolCacheStore = options.heroPoolCacheStore ?? null
+    this.buildCacheStore = options.buildCacheStore ?? null
   }
 
   /** Матчапы героя (vs/with) для (patch, rankBracket) — полная лестница INV5. */
@@ -152,22 +160,38 @@ export class DataService {
     return this.noData(`No hero pool data available for ${steamAccountId} (STRATZ/OpenDota unavailable, no cache)`)
   }
 
-  /** Билды героя — только STRATZ (OpenDota не отдаёт скиллбилды/стартовые закупки в нашем контракте). */
+  /**
+   * Билды героя — только STRATZ (OpenDota не отдаёт скиллбилды/стартовые
+   * закупки в нашем контракте), но с stale-кэш-фолбэком (TASK-047, если
+   * передан buildCacheStore): STRATZ → SQLite stale-кэш → "нет данных". Без
+   * buildCacheStore ведёт себя как раньше (STRATZ → "нет данных").
+   */
   async getHeroBuilds(
     heroId: number,
     scope: StratzQueryScope,
     vsHeroId?: number
   ): Promise<DataResult<BuildData[]>> {
+    const cached = this.buildCacheStore?.read(heroId, scope, vsHeroId) ?? null
+    if (cached && this.isFresh(cached.fetchedAt)) {
+      return this.ok(cached.rows, 'cache', cached.fetchedAt, false)
+    }
+
     if (this.stratzClient) {
       try {
         const data = await this.stratzClient.getHeroBuilds(heroId, scope, vsHeroId)
-        return this.ok(data, 'stratz', this.nowIso(), false)
+        const fetchedAt = this.nowIso()
+        this.buildCacheStore?.write(heroId, scope, vsHeroId, data, fetchedAt)
+        return this.ok(data, 'stratz', fetchedAt, false)
       } catch (error) {
         this.logger(`[data] STRATZ hero builds failed for hero ${heroId}: ${String(error)}`)
       }
     }
 
-    return this.noData(`No build data available for hero ${heroId} (STRATZ unavailable)`)
+    if (cached) {
+      return this.ok(cached.rows, 'cache', cached.fetchedAt, true)
+    }
+
+    return this.noData(`No build data available for hero ${heroId} (STRATZ unavailable, no cache)`)
   }
 
   /** История последних матчей игрока — только STRATZ. */

@@ -1,0 +1,9 @@
+{
+  "constants": {
+    "gameVersions": [
+      { "name": "7.38", "asOfDateTime": "2026-05-01T00:00:00Z" },
+      { "name": "7.39", "asOfDateTime": "2026-07-01T00:00:00Z" },
+      { "name": "7.38b", "asOfDateTime": "2026-05-20T00:00:00Z" }
+    ]
+  }
+}

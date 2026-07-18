@@ -12,8 +12,9 @@ import { describe, expect, it, vi } from 'vitest'
 import { openDatabase, runMigrations } from '@main/db'
 import { MatchupCacheStore } from '@main/data/MatchupCacheStore'
 import { HeroPoolCacheStore } from '@main/data/HeroPoolCacheStore'
+import { BuildCacheStore } from '@main/data/BuildCacheStore'
 import { DataService, type OpenDotaDataSource, type StratzDataSource } from '@main/data/DataService'
-import type { HeroPoolEntry, MatchupData } from '@shared/schemas/stratzDto'
+import type { BuildData, HeroPoolEntry, MatchupData } from '@shared/schemas/stratzDto'
 
 const SCOPE = { patch: '7.39', rankBracket: 'ARCHON_TO_ANCIENT' }
 
@@ -353,6 +354,96 @@ describe('TASK-031: DataService — getHeroPool with HeroPoolCacheStore (full de
 
     expect(heroPoolCacheStore.read('123')?.rows).toHaveLength(1)
     expect(heroPoolCacheStore.read('456')?.rows).toHaveLength(1)
+    db.close()
+  })
+})
+
+describe('TASK-047: DataService — getHeroBuilds with BuildCacheStore (stale-cache fallback)', () => {
+  function buildFixture(heroId: number): BuildData[] {
+    return [
+      {
+        heroId,
+        vsHeroId: 11,
+        skillBuild: [5059, 5059, 5058],
+        startingItems: [44, 44, 34],
+        winrate: 0.55,
+        sampleSize: 100,
+        ...SCOPE
+      }
+    ]
+  }
+
+  it('fetches fresh STRATZ data and persists it into build_cache (source=stratz)', async () => {
+    const db = createDb()
+    const cache = new MatchupCacheStore(db)
+    const buildCacheStore = new BuildCacheStore(db)
+    const stratzOk: StratzDataSource = { ...failingStratz(), getHeroBuilds: async () => buildFixture(1) }
+    const service = new DataService(cache, stratzOk, null, { buildCacheStore })
+
+    const result = await service.getHeroBuilds(1, SCOPE, 11)
+
+    expect(result.status).toBe('ok')
+    if (result.status !== 'ok') throw new Error('unreachable')
+    expect(result.source).toBe('stratz')
+    expect(result.stale).toBe(false)
+    expect(buildCacheStore.read(1, SCOPE, 11)?.rows).toHaveLength(1)
+    db.close()
+  })
+
+  it('returns the cached builds without hitting STRATZ on an immediate repeat request', async () => {
+    const db = createDb()
+    const cache = new MatchupCacheStore(db)
+    const buildCacheStore = new BuildCacheStore(db)
+    let calls = 0
+    const stratzOk: StratzDataSource = {
+      ...failingStratz(),
+      getHeroBuilds: async () => {
+        calls++
+        return buildFixture(1)
+      }
+    }
+    const service = new DataService(cache, stratzOk, null, { buildCacheStore })
+
+    await service.getHeroBuilds(1, SCOPE, 11)
+    const second = await service.getHeroBuilds(1, SCOPE, 11)
+
+    expect(second.status).toBe('ok')
+    if (second.status !== 'ok') throw new Error('unreachable')
+    expect(second.source).toBe('cache')
+    expect(second.stale).toBe(false)
+    expect(calls).toBe(1)
+    db.close()
+  })
+
+  it('serves stale cache (stale=true) when STRATZ is unavailable', async () => {
+    const db = createDb()
+    const cache = new MatchupCacheStore(db)
+    const buildCacheStore = new BuildCacheStore(db)
+    let currentTime = 0
+    const stratzOk: StratzDataSource = { ...failingStratz(), getHeroBuilds: async () => buildFixture(1) }
+    const seedService = new DataService(cache, stratzOk, null, { buildCacheStore, now: () => currentTime })
+    await seedService.getHeroBuilds(1, SCOPE, 11)
+
+    currentTime = 24 * 60 * 60 * 1000 + 1
+    const offlineService = new DataService(cache, failingStratz(), null, { buildCacheStore, now: () => currentTime })
+    const result = await offlineService.getHeroBuilds(1, SCOPE, 11)
+
+    expect(result.status).toBe('ok')
+    if (result.status !== 'ok') throw new Error('unreachable')
+    expect(result.source).toBe('cache')
+    expect(result.stale).toBe(true)
+    db.close()
+  })
+
+  it('returns an explicit "no-data" result when STRATZ is unavailable and the cache is empty', async () => {
+    const db = createDb()
+    const cache = new MatchupCacheStore(db)
+    const buildCacheStore = new BuildCacheStore(db)
+    const service = new DataService(cache, null, null, { buildCacheStore })
+
+    const result = await service.getHeroBuilds(1, SCOPE, 11)
+
+    expect(result.status).toBe('no-data')
     db.close()
   })
 })

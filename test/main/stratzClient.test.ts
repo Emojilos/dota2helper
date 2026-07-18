@@ -74,6 +74,15 @@ describe('TASK-021: StratzClient', () => {
     expect(dtos[0]).toMatchObject({ matchId: '7412345678', result: 'win' })
   })
 
+  it('getCurrentPatch maps the STRATZ gameVersions response to the latest patch name', async () => {
+    const fixture = loadFixture('gameVersion.json')
+    const client = new StratzClient({ apiToken: 'test-token', fetchFn: fakeFetch(fixture) })
+
+    const patch = await client.getCurrentPatch()
+
+    expect(patch).toBe('7.39')
+  })
+
   it('throws a descriptive error on non-OK HTTP response, without leaking the token', async () => {
     const fetchFn = vi.fn(async () => new Response('', { status: 401 })) as unknown as typeof fetch
     const client = new StratzClient({ apiToken: 'secret-token', fetchFn })

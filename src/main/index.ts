@@ -15,9 +15,11 @@ import {
   DataService,
   MatchupCacheStore,
   HeroPoolCacheStore,
+  BuildCacheStore,
   CacheWarmer,
   type StratzClient
 } from './data'
+import { PatchWatcher } from './patch'
 import { steamId64ToAccountId } from '@shared/steam/parseSteamId64'
 import { MetaMidHeroesConfigSchema } from '@shared/schemas/metaMidHeroes'
 import { RulesConfigSchema, type RulesConfig } from '@shared/schemas/rules'
@@ -25,7 +27,7 @@ import { HeroProfilesConfigSchema, type HeroProfilesConfig } from '@shared/schem
 import { MatchupKnowledgeConfigSchema, type MatchupKnowledgeConfig } from '@shared/schemas/matchupKnowledge'
 import { buildFacts } from '@engine/facts'
 import { LanePlanBuilder } from './lane'
-import { openDatabase, runMigrations, UserProfileRepository, type DatabaseInstance } from './db'
+import { openDatabase, runMigrations, UserProfileRepository, AppStateStore, type DatabaseInstance } from './db'
 import {
   buildGsiConfigContent,
   findDotaCfgDir,
@@ -62,6 +64,8 @@ let lanePlanBuilder: LanePlanBuilder | null = null
 let steamIdDetector: SteamIdDetector | null = null
 let matchHistoryStore: MatchHistoryStore | null = null
 let matchCompletionDetector: MatchCompletionDetector | null = null
+let appStateStore: AppStateStore | null = null
+let patchWatcher: PatchWatcher | null = null
 
 /**
  * Поднимает config-loader (TASK-011): в проде зеркалит встроенный content/ в
@@ -299,11 +303,37 @@ function startDataService(): void {
   }
   const openDotaClient = createOpenDotaClient((message) => console.log(message))
   dataService = new DataService(new MatchupCacheStore(database), stratzClient, openDotaClient, {
-    heroPoolCacheStore: new HeroPoolCacheStore(database)
+    heroPoolCacheStore: new HeroPoolCacheStore(database),
+    buildCacheStore: new BuildCacheStore(database)
   })
   if (dataService) {
     console.log('[data] DataService ready (STRATZ→OpenDota→cache degradation ladder wired)')
   }
+}
+
+/**
+ * PatchWatcher (TASK-047): при старте (после startDatabase/startStratzClient)
+ * сверяет текущий патч STRATZ с последним увиденным (app_state.lastSeenPatch)
+ * и, если он реально сменился с прошлого запуска, рассылает баннер
+ * 'patch:changed' во все окна ("данные обновляются" — раздел M6 PRD). Без
+ * STRATZ-клиента (нет токена/офлайн) check() тихо возвращает null — ничего не
+ * рассылается, ничего не падает (INV5-совместимая деградация). Вызывается
+ * без await — не блокирует запуск приложения, как и CacheWarmer.
+ */
+function startPatchWatcher(): void {
+  if (!database) {
+    return
+  }
+  appStateStore = new AppStateStore(database)
+  patchWatcher = new PatchWatcher(stratzClient, appStateStore, {
+    logger: (message) => console.log(message)
+  })
+  void patchWatcher.check().then((result) => {
+    if (result?.changed) {
+      broadcast('patch:changed', { patch: result.patch })
+      console.log(`[patch] broadcast patch:changed (${result.patch})`)
+    }
+  })
 }
 
 /**
@@ -594,6 +624,7 @@ app.whenReady().then(() => {
   startAdviceGate()
   startStratzClient()
   startDataService()
+  startPatchWatcher()
   startCacheWarmer()
   startLanePlanBuilder()
 

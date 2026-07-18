@@ -26,7 +26,7 @@ describe('migrations', () => {
     const db = createDb()
     expect(() => runMigrations(db)).not.toThrow()
     const applied = db.prepare<[], { id: string }>('SELECT id FROM schema_migrations').all()
-    expect(applied).toHaveLength(3)
+    expect(applied).toHaveLength(4)
     db.close()
   })
 

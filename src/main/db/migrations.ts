@@ -72,6 +72,31 @@ const migrations: Migration[] = [
     up: `
       ALTER TABLE user_profile ADD COLUMN hotkey_silent_mode TEXT NOT NULL DEFAULT 'F10';
     `
+  },
+  {
+    id: '0004_build_cache_and_app_state',
+    up: `
+      CREATE TABLE IF NOT EXISTS build_cache (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        hero_id INTEGER NOT NULL,
+        vs_hero_id INTEGER NOT NULL,
+        patch TEXT NOT NULL,
+        rank_bracket TEXT NOT NULL,
+        ability_ids TEXT NOT NULL,
+        starting_item_ids TEXT NOT NULL,
+        winrate REAL NOT NULL,
+        sample_size INTEGER NOT NULL,
+        fetched_at TEXT NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_build_cache_group
+        ON build_cache (hero_id, vs_hero_id, patch, rank_bracket);
+
+      CREATE TABLE IF NOT EXISTS app_state (
+        key TEXT PRIMARY KEY,
+        value TEXT NOT NULL
+      );
+    `
   }
 ]
 

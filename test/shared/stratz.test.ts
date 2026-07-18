@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import {
+  mapCurrentPatchToDto,
   mapHeroBuildsToDto,
   mapHeroPoolToDto,
   mapHeroMatchupsToDto,
@@ -14,6 +15,7 @@ import {
   MatchSummarySchema
 } from '@shared/schemas/stratzDto'
 import type {
+  StratzGameVersionResponse,
   StratzHeroMatchupsResponse,
   StratzHeroPoolResponse,
   StratzHeroBuildsResponse,
@@ -96,5 +98,19 @@ describe('TASK-020: STRATZ response → internal DTO mappers', () => {
     })
     // неизвестный вражеский мидер → null, результат loss
     expect(dtos[1]).toMatchObject({ enemyMidHeroId: null, result: 'loss' })
+  })
+
+  it('maps gameVersions fixture to the current patch name (max asOfDateTime, not response order)', () => {
+    const fixture = loadFixture<StratzGameVersionResponse>('gameVersion.json')
+    const patch = mapCurrentPatchToDto(fixture)
+
+    // 7.39 (2026-07-01) is the latest by asOfDateTime, even though 7.38b (2026-05-20)
+    // comes later in the fixture's array order.
+    expect(patch).toBe('7.39')
+  })
+
+  it('returns null for an empty gameVersions list', () => {
+    const patch = mapCurrentPatchToDto({ constants: { gameVersions: [] } })
+    expect(patch).toBeNull()
   })
 })

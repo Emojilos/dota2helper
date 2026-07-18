@@ -124,3 +124,18 @@ export interface StratzRecentMatchesQueryVariables {
   steamAccountId: number
   take: number
 }
+
+// ---------------------------------------------------------------------------
+// Текущий патч (TASK-047) — для PatchWatcher: сверяет с content/meta-mid-heroes.json
+// ---------------------------------------------------------------------------
+
+export interface StratzGameVersion {
+  name: string
+  asOfDateTime: string
+}
+
+export interface StratzGameVersionResponse {
+  constants: {
+    gameVersions: StratzGameVersion[]
+  }
+}

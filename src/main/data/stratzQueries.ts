@@ -71,3 +71,20 @@ export const RECENT_MATCHES_QUERY = /* GraphQL */ `
     }
   }
 `
+
+/**
+ * Текущая версия патча (TASK-047, PatchWatcher). Запрашивает весь список
+ * gameVersions, а не "последнюю" — сортировка/фильтрация на сервере не
+ * подтверждена интроспекцией (см. заголовок файла), поэтому "текущий" патч
+ * определяется на клиенте (mapCurrentPatchToDto: максимум asOfDateTime).
+ */
+export const GAME_VERSION_QUERY = /* GraphQL */ `
+  query GameVersion {
+    constants {
+      gameVersions {
+        name
+        asOfDateTime
+      }
+    }
+  }
+`
