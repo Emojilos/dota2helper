@@ -20,6 +20,7 @@ import {
 import { MetaMidHeroesConfigSchema } from '@shared/schemas/metaMidHeroes'
 import { RulesConfigSchema, type RulesConfig } from '@shared/schemas/rules'
 import { HeroProfilesConfigSchema, type HeroProfilesConfig } from '@shared/schemas/heroProfiles'
+import { MatchupKnowledgeConfigSchema, type MatchupKnowledgeConfig } from '@shared/schemas/matchupKnowledge'
 import { buildFacts } from '@engine/facts'
 import { openDatabase, runMigrations, UserProfileRepository, type DatabaseInstance } from './db'
 import {
@@ -43,6 +44,7 @@ let adviceGate: AdviceGate | null = null
 let timingsConfigHandle: ConfigHandle<TimingsConfig> | null = null
 let rulesConfigHandle: ConfigHandle<RulesConfig> | null = null
 let heroProfilesConfigHandle: ConfigHandle<HeroProfilesConfig> | null = null
+let matchupKnowledgeConfigHandle: ConfigHandle<MatchupKnowledgeConfig> | null = null
 let unsubscribeAdviceGateFacts: (() => void) | null = null
 let stratzClient: StratzClient | null = null
 let database: DatabaseInstance | null = null
@@ -168,6 +170,27 @@ function startHeroProfilesConfig(): void {
   heroProfilesConfigHandle = configLoader.register('hero-profiles', HeroProfilesConfigSchema)
   const config = heroProfilesConfigHandle.get()
   console.log(`[hero-profiles] hero-profiles.json ready (${config?.profiles.length ?? 0} profile(s))`)
+}
+
+/**
+ * Регистрирует matchup-knowledge.json через ConfigLoader (F2, TASK-035):
+ * направленные карточки пар (heroId, vsHeroId) — do_tips/avoid_tips/
+ * power_spikes/kill_windows с позиции heroId (раздел 5.2 PRD). Правка/
+ * добавление пары подхватывается hot-reload'ом без пересборки (INV4).
+ * Реального потребителя ещё нет: LanePlanBuilder (TASK-036, deps на этот
+ * таск) читает карточку по (свой герой, вражеский мидер) после финализации
+ * пиков, а engine/facts (TASK-041, buildFacts) уже принимает опциональный
+ * MatchupFactsContext.killWindowLevels аргументом — main-оркестратор сможет
+ * прокинуть его в startAdviceGate, как только появится источник
+ * enemyMidHeroId (детект драфта, TASK-027). Требует уже поднятого configLoader.
+ */
+function startMatchupKnowledgeConfig(): void {
+  if (!configLoader) {
+    return
+  }
+  matchupKnowledgeConfigHandle = configLoader.register('matchup-knowledge', MatchupKnowledgeConfigSchema)
+  const config = matchupKnowledgeConfigHandle.get()
+  console.log(`[matchup-knowledge] matchup-knowledge.json ready (${config?.entries.length ?? 0} entr(y/ies))`)
 }
 
 /**
@@ -429,6 +452,7 @@ app.whenReady().then(() => {
   startTimingScheduler()
   startRulesConfig()
   startHeroProfilesConfig()
+  startMatchupKnowledgeConfig()
   startAdviceGate()
   startStratzClient()
   startDataService()
