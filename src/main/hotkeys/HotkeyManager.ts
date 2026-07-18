@@ -1,8 +1,6 @@
 /**
  * Регистрация глобальных хоткеев (TASK-018): F9 расширенная панель, тихий
- * режим. Toggle click-through (TASK-008) сюда не входит — у него нет
- * персист-состояния и нет окна-потребителя, свой хоткей заведёт TASK-008
- * (см. shared/schemas/settings.ts).
+ * режим, F8 toggle click-through базового overlay-окна (TASK-008).
  *
  * reconcile(settings) вызывается при старте и при каждой мутации настроек
  * (SettingsController.apply → onApplied): точечно перерегистрирует только
@@ -17,17 +15,19 @@
  */
 import { globalShortcut } from 'electron'
 
-type HotkeyRole = 'expandedPanel' | 'silentMode'
+type HotkeyRole = 'expandedPanel' | 'silentMode' | 'clickThrough'
 
 export interface HotkeyManagerOptions {
   onToggleExpandedPanel: () => void
   onToggleSilentMode: () => void
+  onToggleClickThrough: () => void
   logger?: (message: string) => void
 }
 
 export interface HotkeySettings {
   hotkeyExpandedPanel: string
   hotkeySilentMode: string
+  hotkeyClickThroughToggle: string
 }
 
 export class HotkeyManager {
@@ -39,6 +39,7 @@ export class HotkeyManager {
   reconcile(settings: HotkeySettings): void {
     this.setAccelerator('expandedPanel', settings.hotkeyExpandedPanel, this.options.onToggleExpandedPanel)
     this.setAccelerator('silentMode', settings.hotkeySilentMode, this.options.onToggleSilentMode)
+    this.setAccelerator('clickThrough', settings.hotkeyClickThroughToggle, this.options.onToggleClickThrough)
   }
 
   /** Снимает все зарегистрированные этим менеджером акселераторы (app 'will-quit'). */

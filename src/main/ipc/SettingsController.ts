@@ -29,6 +29,7 @@ function toAppSettings(profile: UserProfile): AppSettings {
     verbosity: profile.verbosity,
     hotkeyExpandedPanel: profile.hotkeyExpandedPanel,
     hotkeySilentMode: profile.hotkeySilentMode,
+    hotkeyClickThroughToggle: profile.hotkeyClickThroughToggle,
     draftRankingMode: profile.draftRankingMode,
     silentMode: profile.silentMode,
     autoLaunch: profile.autoLaunch

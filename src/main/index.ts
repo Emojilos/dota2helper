@@ -9,6 +9,7 @@ import { TimingsConfigSchema, type TimingsConfig } from '@shared/schemas/timings
 import { broadcast, registerSettingsHandlers, createSettingsController, type SettingsController } from './ipc'
 import { AdviceScheduler, AdviceGate } from './advice'
 import { HotkeyManager } from './hotkeys'
+import { OverlayWindow } from './windows'
 import { AutoLaunchManager } from './autolaunch'
 import {
   createStratzClient,
@@ -60,6 +61,7 @@ let userProfileRepository: UserProfileRepository | null = null
 let dataService: DataService | null = null
 let settingsController: SettingsController | null = null
 let hotkeyManager: HotkeyManager | null = null
+let overlayWindow: OverlayWindow | null = null
 let autoLaunchManager: AutoLaunchManager | null = null
 let cacheWarmer: CacheWarmer | null = null
 let lanePlanBuilder: LanePlanBuilder | null = null
@@ -512,9 +514,10 @@ function syncHeroPool(steamId64: string): void {
 /**
  * Поднимает globalShortcut-регистрацию (TASK-018): F9 (расширенная панель —
  * окна ещё нет, TASK-014/037, handler пока просто логирует срабатывание как
- * шов для будущего подписчика) и тихий режим (реально флипает persisted
- * silentMode через settingsController.apply). Toggle click-through не входит
- * в этот менеджер — заведёт TASK-008 (нет персист-поля и окна-потребителя).
+ * шов для будущего подписчика), тихий режим (реально флипает persisted
+ * silentMode через settingsController.apply) и toggle click-through (TASK-008,
+ * F8 по умолчанию) — переключает интерактивность базового overlay-окна
+ * (startOverlayWindow). Требует уже поднятого overlayWindow.
  */
 function startHotkeys(): void {
   if (!settingsController) {
@@ -531,6 +534,10 @@ function startHotkeys(): void {
       }
       const next = settingsController?.apply({ silentMode: !current.silentMode })
       console.log(`[hotkeys] silent mode toggled -> ${next?.silentMode}`)
+    },
+    onToggleClickThrough: () => {
+      const interactive = overlayWindow?.toggleInteractive()
+      console.log(`[hotkeys] overlay click-through toggled -> interactive=${interactive}`)
     },
     logger: (message) => console.log(`[hotkeys] ${message}`)
   })
@@ -585,10 +592,28 @@ function logGsiInstallerPreview(port: number): void {
 }
 
 /**
- * Создаёт основное окно оверлея. Прозрачное безрамочное окно с React-рендерером;
- * preload поднят с contextIsolation/nodeIntegration/sandbox по CLAUDE.md §6
- * (TASK-007). Полноценный overlay-режим (always-on-top, click-through) —
- * TASK-008.
+ * Поднимает базовое overlay-окно (TASK-008): always-on-top/click-through
+ * поверх игры, без контента-потребителя (тот появится в TASK-014/015/037,
+ * как отдельные инстансы OverlayWindow). Пока рисует статичный placeholder
+ * ("MidMind overlay ready") через data:-URL — не тянуть renderer-роут ради
+ * теста механики окна. Хоткей toggle click-through — startHotkeys.
+ */
+function startOverlayWindow(): void {
+  overlayWindow = new OverlayWindow({ width: 320, height: 120, x: 24, y: 24 })
+  const html =
+    '<html><body style="margin:0;font:14px sans-serif;color:#e6e6e6;' +
+    'background:rgba(10,12,16,0.85);padding:12px;border-radius:8px;">' +
+    'MidMind overlay ready (click-through)</body></html>'
+  void overlayWindow.loadURL(`data:text/html,${encodeURIComponent(html)}`)
+  overlayWindow.show()
+}
+
+/**
+ * Создаёт основное окно приложения (настройки/статус). Прозрачное безрамочное
+ * окно с React-рендерером; preload поднят с contextIsolation/nodeIntegration/
+ * sandbox по CLAUDE.md §6 (TASK-007). Базовое overlay-окно поверх игры
+ * (always-on-top, click-through) — отдельный инстанс, см. startOverlayWindow
+ * (TASK-008).
  */
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -620,6 +645,7 @@ function createWindow(): void {
 
 app.whenReady().then(() => {
   createWindow()
+  startOverlayWindow()
   startDatabase()
   startSettings()
   startHotkeys()

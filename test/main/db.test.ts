@@ -26,7 +26,7 @@ describe('migrations', () => {
     const db = createDb()
     expect(() => runMigrations(db)).not.toThrow()
     const applied = db.prepare<[], { id: string }>('SELECT id FROM schema_migrations').all()
-    expect(applied).toHaveLength(5)
+    expect(applied).toHaveLength(6)
     db.close()
   })
 
@@ -129,6 +129,7 @@ describe('UserProfileRepository', () => {
     expect(profile.verbosity).toBe('experienced')
     expect(profile.hotkeyExpandedPanel).toBe('F9')
     expect(profile.hotkeySilentMode).toBe('F10')
+    expect(profile.hotkeyClickThroughToggle).toBe('F8')
     expect(profile.draftRankingMode).toBe('meta')
     expect(profile.steamId).toBeNull()
     expect(profile.autoLaunch).toBe(false)
@@ -146,6 +147,19 @@ describe('UserProfileRepository', () => {
 
     const reread = repo.getOrCreate()
     expect(reread.autoLaunch).toBe(true)
+    db.close()
+  })
+
+  it('update() round-trips hotkeyClickThroughToggle (TASK-008)', () => {
+    const db = createDb()
+    const repo = new UserProfileRepository(db)
+    repo.getOrCreate()
+
+    const updated = repo.update({ hotkeyClickThroughToggle: 'F7' })
+    expect(updated.hotkeyClickThroughToggle).toBe('F7')
+
+    const reread = repo.getOrCreate()
+    expect(reread.hotkeyClickThroughToggle).toBe('F7')
     db.close()
   })
 

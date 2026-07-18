@@ -9,6 +9,7 @@ function makeProfile(overrides: Partial<UserProfile> = {}): UserProfile {
     verbosity: 'experienced',
     hotkeyExpandedPanel: 'F9',
     hotkeySilentMode: 'F10',
+    hotkeyClickThroughToggle: 'F8',
     draftRankingMode: 'meta',
     silentMode: false,
     autoLaunch: false,
@@ -37,6 +38,7 @@ describe('SettingsController', () => {
       verbosity: 'experienced',
       hotkeyExpandedPanel: 'F11',
       hotkeySilentMode: 'F10',
+      hotkeyClickThroughToggle: 'F8',
       draftRankingMode: 'meta',
       silentMode: false,
       autoLaunch: false

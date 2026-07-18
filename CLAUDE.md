@@ -142,15 +142,32 @@ Path-алиасы (electron.vite.config.ts + tsconfig): `@main`, `@preload`, `@r
 
 `HotkeyManager` (`src/main/hotkeys/`) регистрирует глобальные акселераторы через
 `electron.globalShortcut`, точечно перерегистрируя только изменившуюся роль
-(не `unregisterAll()`). Единственные конфигурируемые хоткеи сейчас —
-`hotkeyExpandedPanel` (default `F9`) и `hotkeySilentMode` (default `F10`) в
-`AppSettings`/`UserProfile`; любая их смена идёт через `SettingsController.apply()`
-(`src/main/ipc/SettingsController.ts`), который персистит, рассылает
-`settings:update` и вызывает `HotkeyManager.reconcile()`. Toggle click-through
-(TASK-008) своего конфиг-поля и регистрации пока не имеет — нет ни персист-
-состояния, ни окна-потребителя; заведёт TASK-008. Хоткей расширенной панели
-(F9) пока не открывает окно (его ещё нет — TASK-014/037): handler логирует
-срабатывание как шов для будущего подписчика.
+(не `unregisterAll()`). Конфигурируемые хоткеи сейчас — `hotkeyExpandedPanel`
+(default `F9`), `hotkeySilentMode` (default `F10`) и `hotkeyClickThroughToggle`
+(default `F8`, TASK-008) в `AppSettings`/`UserProfile`; любая их смена идёт
+через `SettingsController.apply()` (`src/main/ipc/SettingsController.ts`),
+который персистит, рассылает `settings:update` и вызывает
+`HotkeyManager.reconcile()`. Хоткей расширенной панели (F9) пока не открывает
+окно (его ещё нет — TASK-014/037): handler логирует срабатывание как шов для
+будущего подписчика.
+
+### Overlay-окна (TASK-008)
+
+`OverlayWindow` (`src/main/windows/OverlayWindow.ts`) — дженерик-обёртка над
+`BrowserWindow` для окон поверх игры: `transparent:true`, `frame:false`,
+always-on-top на уровне `'screen-saver'`, `showInactive()` (не ворует фокус),
+по умолчанию click-through (`setIgnoreMouseEvents(true,{forward:true})`).
+`setInteractive`/`toggleInteractive()` переключают интерактивность; состояние
+эфемерно, не персистится. `main/index.ts` (`startOverlayWindow`) поднимает
+один базовый инстанс с placeholder-контентом; `HotkeyManager`
+(`onToggleClickThrough`) дёргает `toggleInteractive()` по `hotkeyClickThroughToggle`.
+Конкретный контент (компактная панель/уведомления/расширенная панель) и
+топология нескольких окон — задача TASK-014/015/037, каждая создаёт свой
+инстанс `OverlayWindow`. **Не проверено вживую поверх реальной Dota 2** (нет
+установленной игры в окружении, где это писалось) — механика окна
+(прозрачность/always-on-top/click-through-toggle) проверена вручную поверх
+других окон на реальном дисплее; влияние на FPS в игре не измерялось —
+см. `progress.txt`.
 
 ---
 

@@ -13,6 +13,7 @@ interface UserProfileRow {
   verbosity: string
   hotkey_expanded_panel: string
   hotkey_silent_mode: string
+  hotkey_click_through_toggle: string
   draft_ranking_mode: string
   silent_mode: number
   auto_launch: number
@@ -29,6 +30,7 @@ function rowToProfile(row: UserProfileRow): UserProfile {
     verbosity: row.verbosity,
     hotkeyExpandedPanel: row.hotkey_expanded_panel,
     hotkeySilentMode: row.hotkey_silent_mode,
+    hotkeyClickThroughToggle: row.hotkey_click_through_toggle,
     draftRankingMode: row.draft_ranking_mode,
     silentMode: row.silent_mode === 1,
     autoLaunch: row.auto_launch === 1,
@@ -75,6 +77,7 @@ export class UserProfileRepository {
           verbosity = ?,
           hotkey_expanded_panel = ?,
           hotkey_silent_mode = ?,
+          hotkey_click_through_toggle = ?,
           draft_ranking_mode = ?,
           silent_mode = ?,
           auto_launch = ?,
@@ -89,6 +92,7 @@ export class UserProfileRepository {
         next.verbosity,
         next.hotkeyExpandedPanel,
         next.hotkeySilentMode,
+        next.hotkeyClickThroughToggle,
         next.draftRankingMode,
         next.silentMode ? 1 : 0,
         next.autoLaunch ? 1 : 0,
@@ -108,16 +112,17 @@ export class UserProfileRepository {
     this.db
       .prepare(
         `INSERT INTO user_profile (
-          id, steam_id, verbosity, hotkey_expanded_panel, hotkey_silent_mode,
+          id, steam_id, verbosity, hotkey_expanded_panel, hotkey_silent_mode, hotkey_click_through_toggle,
           draft_ranking_mode, silent_mode, auto_launch, overlay_positions, notifications_config,
           widgets_config, created_at, updated_at
-        ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .run(
         profile.steamId,
         profile.verbosity,
         profile.hotkeyExpandedPanel,
         profile.hotkeySilentMode,
+        profile.hotkeyClickThroughToggle,
         profile.draftRankingMode,
         profile.silentMode ? 1 : 0,
         profile.autoLaunch ? 1 : 0,

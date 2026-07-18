@@ -103,6 +103,12 @@ const migrations: Migration[] = [
     up: `
       ALTER TABLE user_profile ADD COLUMN auto_launch INTEGER NOT NULL DEFAULT 0;
     `
+  },
+  {
+    id: '0006_hotkey_click_through_toggle',
+    up: `
+      ALTER TABLE user_profile ADD COLUMN hotkey_click_through_toggle TEXT NOT NULL DEFAULT 'F8';
+    `
   }
 ]
 

@@ -17,6 +17,7 @@ function makeSettings(overrides: Partial<AppSettings> = {}): AppSettings {
     verbosity: 'experienced',
     hotkeyExpandedPanel: 'F9',
     hotkeySilentMode: 'F10',
+    hotkeyClickThroughToggle: 'F8',
     draftRankingMode: 'meta',
     silentMode: false,
     autoLaunch: false,
