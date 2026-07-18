@@ -2,7 +2,12 @@
  * Zod-схема контентного конфига rules.json (F4, TASK-042, INV4).
  *
  * Отражает раздел 5.2 PRD: `{ rule_id, condition (JSON Logic), message_ru,
- * priority (1–5), cooldown_sec, min_verbosity }`. `condition` — JSON Logic
+ * priority (1–5), cooldown_sec, min_verbosity }`, плюс `severity`/`estimated`
+ * (добавлены в TASK-043 — нужны evaluator'у, чтобы AdviceCandidate был
+ * advice-shaped: severity красит уведомление по разделу 6 PRD, estimated
+ * помечает подсказки на основе оценки состояния врага как «вероятно»;
+ * оба — content-поля с дефолтами, обратно совместимы с рулами TASK-042).
+ * `condition` — JSON Logic
  * (см. https://jsonlogic.com/), безопасный DSL над плоским объектом фактов
  * (TASK-041), НЕ eval(). Правила герой-зависимы через сами факты (напр.
  * `hero.profile.ultIsKillWindow`, TASK-034) — схема этого не форсирует, это
@@ -16,6 +21,7 @@
  */
 import { z } from 'zod'
 import { VerbositySchema } from './settings'
+import { AdviceSeveritySchema } from './advice'
 
 /**
  * Значение JSON Logic: примитив, вложенный массив операндов или объект вида
@@ -56,7 +62,11 @@ export const RuleSchema = z.object({
   /** минимальный интервал между повторными срабатываниями ЭТОГО правила, сек. */
   cooldownSec: z.number().min(0),
   /** минимальный уровень многословности пользователя, при котором правило показывается. */
-  minVerbosity: VerbositySchema.default('minimal')
+  minVerbosity: VerbositySchema.default('minimal'),
+  /** цветовое кодирование подсказки (раздел 6 PRD) — прокидывается в Advice.severity рулевым evaluator'ом (TASK-043). */
+  severity: AdviceSeveritySchema.default('timing'),
+  /** true, если текст подсказки опирается на оценку состояния врага (напр. estimated_enemy_level, TASK-041) — evaluator/UI обязаны пометить такую подсказку 'вероятно' (раздел F4 PRD), а не как факт. */
+  estimated: z.boolean().default(false)
 })
 export type Rule = z.infer<typeof RuleSchema>
 
