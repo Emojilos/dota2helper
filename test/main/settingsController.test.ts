@@ -11,6 +11,7 @@ function makeProfile(overrides: Partial<UserProfile> = {}): UserProfile {
     hotkeySilentMode: 'F10',
     draftRankingMode: 'meta',
     silentMode: false,
+    autoLaunch: false,
     overlayPositions: {},
     notificationsConfig: {},
     widgetsConfig: {},
@@ -37,7 +38,8 @@ describe('SettingsController', () => {
       hotkeyExpandedPanel: 'F11',
       hotkeySilentMode: 'F10',
       draftRankingMode: 'meta',
-      silentMode: false
+      silentMode: false,
+      autoLaunch: false
     })
     expect(onApplied).not.toHaveBeenCalled()
   })

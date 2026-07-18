@@ -29,7 +29,9 @@ export const AppSettingsSchema = z.object({
   /** глобальный хоткей тихого режима (скрыть весь оверлей), напр. "F10" */
   hotkeySilentMode: z.string(),
   draftRankingMode: DraftRankingModeSchema,
-  silentMode: z.boolean()
+  silentMode: z.boolean(),
+  /** автозапуск приложения вместе с системой (TASK-046), выкл по умолчанию */
+  autoLaunch: z.boolean()
 })
 export type AppSettings = z.infer<typeof AppSettingsSchema>
 
@@ -40,5 +42,6 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
   hotkeyExpandedPanel: 'F9',
   hotkeySilentMode: 'F10',
   draftRankingMode: 'meta',
-  silentMode: false
+  silentMode: false,
+  autoLaunch: false
 }

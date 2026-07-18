@@ -141,6 +141,14 @@ function App(): JSX.Element {
         >
           Toggle silent mode
         </button>
+        <p className="mt-1">auto_launch={String(settings?.autoLaunch ?? false)}</p>
+        <button
+          type="button"
+          className="mt-1 rounded border border-white/20 px-2 py-1 hover:bg-white/10"
+          onClick={() => void setSettings({ autoLaunch: !settings?.autoLaunch })}
+        >
+          Toggle auto-launch
+        </button>
         <SteamIdSection />
         <PatchBanner />
       </div>

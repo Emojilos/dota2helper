@@ -15,6 +15,7 @@ interface UserProfileRow {
   hotkey_silent_mode: string
   draft_ranking_mode: string
   silent_mode: number
+  auto_launch: number
   overlay_positions: string
   notifications_config: string
   widgets_config: string
@@ -30,6 +31,7 @@ function rowToProfile(row: UserProfileRow): UserProfile {
     hotkeySilentMode: row.hotkey_silent_mode,
     draftRankingMode: row.draft_ranking_mode,
     silentMode: row.silent_mode === 1,
+    autoLaunch: row.auto_launch === 1,
     overlayPositions: JSON.parse(row.overlay_positions),
     notificationsConfig: JSON.parse(row.notifications_config),
     widgetsConfig: JSON.parse(row.widgets_config),
@@ -75,6 +77,7 @@ export class UserProfileRepository {
           hotkey_silent_mode = ?,
           draft_ranking_mode = ?,
           silent_mode = ?,
+          auto_launch = ?,
           overlay_positions = ?,
           notifications_config = ?,
           widgets_config = ?,
@@ -88,6 +91,7 @@ export class UserProfileRepository {
         next.hotkeySilentMode,
         next.draftRankingMode,
         next.silentMode ? 1 : 0,
+        next.autoLaunch ? 1 : 0,
         JSON.stringify(next.overlayPositions),
         JSON.stringify(next.notificationsConfig),
         JSON.stringify(next.widgetsConfig),
@@ -105,9 +109,9 @@ export class UserProfileRepository {
       .prepare(
         `INSERT INTO user_profile (
           id, steam_id, verbosity, hotkey_expanded_panel, hotkey_silent_mode,
-          draft_ranking_mode, silent_mode, overlay_positions, notifications_config,
+          draft_ranking_mode, silent_mode, auto_launch, overlay_positions, notifications_config,
           widgets_config, created_at, updated_at
-        ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .run(
         profile.steamId,
@@ -116,6 +120,7 @@ export class UserProfileRepository {
         profile.hotkeySilentMode,
         profile.draftRankingMode,
         profile.silentMode ? 1 : 0,
+        profile.autoLaunch ? 1 : 0,
         JSON.stringify(profile.overlayPositions),
         JSON.stringify(profile.notificationsConfig),
         JSON.stringify(profile.widgetsConfig),

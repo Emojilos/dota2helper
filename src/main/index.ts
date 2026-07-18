@@ -9,6 +9,7 @@ import { TimingsConfigSchema, type TimingsConfig } from '@shared/schemas/timings
 import { broadcast, registerSettingsHandlers, createSettingsController, type SettingsController } from './ipc'
 import { AdviceScheduler, AdviceGate } from './advice'
 import { HotkeyManager } from './hotkeys'
+import { AutoLaunchManager } from './autolaunch'
 import {
   createStratzClient,
   createOpenDotaClient,
@@ -59,6 +60,7 @@ let userProfileRepository: UserProfileRepository | null = null
 let dataService: DataService | null = null
 let settingsController: SettingsController | null = null
 let hotkeyManager: HotkeyManager | null = null
+let autoLaunchManager: AutoLaunchManager | null = null
 let cacheWarmer: CacheWarmer | null = null
 let lanePlanBuilder: LanePlanBuilder | null = null
 let steamIdDetector: SteamIdDetector | null = null
@@ -459,15 +461,24 @@ function startDatabase(): void {
  * значения от другого поля патча), запускает синхронизацию пула героев
  * (syncHeroPool). SteamIdDetector (startSteamIdDetection) сюда не достаёт —
  * он только предлагает id, реальная привязка всегда идёт через apply().
+ *
+ * M6 (TASK-046): также держит OS-регистрацию автозапуска (AutoLaunchManager)
+ * в согласии с AppSettings.autoLaunch — реконсилирует её один раз сразу
+ * после чтения текущего профиля (на случай рассинхрона с прошлого запуска)
+ * и на каждую последующую мутацию, тем же приёмом, что HotkeyManager.
  */
 function startSettings(): void {
   if (!userProfileRepository) {
     return
   }
-  let previousSteamId = userProfileRepository.getOrCreate().steamId
+  const initialProfile = userProfileRepository.getOrCreate()
+  let previousSteamId = initialProfile.steamId
+  autoLaunchManager = new AutoLaunchManager({ logger: (message) => console.log(`[autolaunch] ${message}`) })
+  autoLaunchManager.reconcile(initialProfile.autoLaunch)
   settingsController = createSettingsController(userProfileRepository, (settings) => {
     broadcast('settings:update', settings)
     hotkeyManager?.reconcile(settings)
+    autoLaunchManager?.reconcile(settings.autoLaunch)
     if (settings.steamId && settings.steamId !== previousSteamId) {
       syncHeroPool(settings.steamId)
     }

@@ -19,6 +19,7 @@ function makeSettings(overrides: Partial<AppSettings> = {}): AppSettings {
     hotkeySilentMode: 'F10',
     draftRankingMode: 'meta',
     silentMode: false,
+    autoLaunch: false,
     ...overrides
   }
 }

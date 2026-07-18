@@ -97,6 +97,12 @@ const migrations: Migration[] = [
         value TEXT NOT NULL
       );
     `
+  },
+  {
+    id: '0005_auto_launch',
+    up: `
+      ALTER TABLE user_profile ADD COLUMN auto_launch INTEGER NOT NULL DEFAULT 0;
+    `
   }
 ]
 

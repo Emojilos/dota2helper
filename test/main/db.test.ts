@@ -26,7 +26,7 @@ describe('migrations', () => {
     const db = createDb()
     expect(() => runMigrations(db)).not.toThrow()
     const applied = db.prepare<[], { id: string }>('SELECT id FROM schema_migrations').all()
-    expect(applied).toHaveLength(4)
+    expect(applied).toHaveLength(5)
     db.close()
   })
 
@@ -131,7 +131,21 @@ describe('UserProfileRepository', () => {
     expect(profile.hotkeySilentMode).toBe('F10')
     expect(profile.draftRankingMode).toBe('meta')
     expect(profile.steamId).toBeNull()
+    expect(profile.autoLaunch).toBe(false)
     expect(profile.createdAt).toBe(profile.updatedAt)
+    db.close()
+  })
+
+  it('update() round-trips autoLaunch (TASK-046)', () => {
+    const db = createDb()
+    const repo = new UserProfileRepository(db)
+    repo.getOrCreate()
+
+    const updated = repo.update({ autoLaunch: true })
+    expect(updated.autoLaunch).toBe(true)
+
+    const reread = repo.getOrCreate()
+    expect(reread.autoLaunch).toBe(true)
     db.close()
   })
 

@@ -30,7 +30,8 @@ function toAppSettings(profile: UserProfile): AppSettings {
     hotkeyExpandedPanel: profile.hotkeyExpandedPanel,
     hotkeySilentMode: profile.hotkeySilentMode,
     draftRankingMode: profile.draftRankingMode,
-    silentMode: profile.silentMode
+    silentMode: profile.silentMode,
+    autoLaunch: profile.autoLaunch
   })
 }
 
