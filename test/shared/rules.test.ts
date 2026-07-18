@@ -62,9 +62,11 @@ describe('TASK-042: rules.json schema + JSON Logic condition format', () => {
     const lowHpRule = config.rules.find((rule) => rule.ruleId === 'low_hp_consider_recall')
     expect(lowHpRule).toBeDefined()
 
-    // safe evaluator (json-logic-js), NOT eval() — condition is pure data.
-    expect(evaluate(lowHpRule!.condition, { hero: { healthPercent: 25 } })).toBe(true)
-    expect(evaluate(lowHpRule!.condition, { hero: { healthPercent: 80 } })).toBe(false)
+    // safe evaluator (json-logic-js), NOT eval() — condition is pure data. Rule condition uses
+    // flat var paths matching the real engine/facts.Facts shape (TASK-041), not a nested `hero.*`
+    // prefix — Facts is already player-scoped, there is no wrapping `hero` object.
+    expect(evaluate(lowHpRule!.condition, { healthPercent: 25, manaPercent: 10 })).toBe(true)
+    expect(evaluate(lowHpRule!.condition, { healthPercent: 80, manaPercent: 10 })).toBe(false)
   })
 
   it('evaluates a compound (and/or) JSON Logic condition over facts', () => {

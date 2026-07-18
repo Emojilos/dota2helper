@@ -3,21 +3,166 @@
   "rules": [
     {
       "ruleId": "low_hp_consider_recall",
-      "condition": { "<": [{ "var": "hero.healthPercent" }, 30] },
-      "messageRu": "HP меньше 30% — подумай об отходе на базу",
-      "priority": 4,
+      "condition": {
+        "and": [{ "<": [{ "var": "healthPercent" }, 35] }, { "<": [{ "var": "manaPercent" }, 20] }]
+      },
+      "messageRu": "HP и мана низкие — отойди на хил / используй бутылку",
+      "priority": 5,
+      "cooldownSec": 60,
+      "minVerbosity": "minimal",
+      "severity": "danger",
+      "estimated": false
+    },
+    {
+      "ruleId": "hp_critical_immediate_recall",
+      "condition": { "<": [{ "var": "healthPercent" }, 20] },
+      "messageRu": "Критически низкое HP — немедленно отступай",
+      "priority": 5,
       "cooldownSec": 45,
       "minVerbosity": "minimal",
-      "severity": "danger"
+      "severity": "danger",
+      "estimated": false
     },
     {
       "ruleId": "low_mana_save_for_combo",
-      "condition": { "<": [{ "var": "hero.manaPercent" }, 20] },
+      "condition": {
+        "and": [{ "<": [{ "var": "manaPercent" }, 20] }, { ">=": [{ "var": "healthPercent" }, 35] }]
+      },
       "messageRu": "Мало маны — сбереги на комбо/побег",
       "priority": 2,
       "cooldownSec": 60,
       "minVerbosity": "experienced",
-      "severity": "timing"
+      "severity": "timing",
+      "estimated": false
+    },
+    {
+      "ruleId": "ult_kill_window_power_rune",
+      "condition": {
+        "and": [
+          { "==": [{ "var": "myHero.ultIsKillWindow" }, true] },
+          { "==": [{ "var": "ultReady" }, true] },
+          { "==": [{ "var": "powerRuneWindow" }, true] }
+        ]
+      },
+      "messageRu": "Ульта готова + скоро руна — окно агрессии",
+      "priority": 4,
+      "cooldownSec": 90,
+      "minVerbosity": "minimal",
+      "severity": "opportunity",
+      "estimated": false
+    },
+    {
+      "ruleId": "ult_ready_no_kill_window",
+      "condition": {
+        "and": [
+          { "==": [{ "var": "myHero.ultIsKillWindow" }, false] },
+          { "==": [{ "var": "ultReady" }, true] },
+          { "==": [{ "var": "powerRuneWindow" }, true] }
+        ]
+      },
+      "messageRu": "Ульта готова, но не бурст — используй на сетап/фарм руны, не на размен",
+      "priority": 2,
+      "cooldownSec": 90,
+      "minVerbosity": "experienced",
+      "severity": "timing",
+      "estimated": false
+    },
+    {
+      "ruleId": "enemy_probably_ult_ready_danger",
+      "condition": {
+        "and": [
+          { ">=": [{ "var": "enemyHero.estimatedLevel.value" }, 6] },
+          { "==": [{ "var": "enemyHero.ultIsKillWindow" }, true] }
+        ]
+      },
+      "messageRu": "У врага, вероятно, готова ульта — не стой на убиваемом HP",
+      "priority": 5,
+      "cooldownSec": 120,
+      "minVerbosity": "minimal",
+      "severity": "danger",
+      "estimated": true
+    },
+    {
+      "ruleId": "tp_scroll_reminder",
+      "condition": {
+        "and": [{ ">": [{ "var": "gold" }, 1200] }, { "==": [{ "var": "hasTpScroll" }, false] }]
+      },
+      "messageRu": "Купи телепорт",
+      "priority": 3,
+      "cooldownSec": 90,
+      "minVerbosity": "experienced",
+      "severity": "timing",
+      "estimated": false
+    },
+    {
+      "ruleId": "deaths_change_plan",
+      "condition": {
+        "and": [{ ">=": [{ "var": "deaths" }, 3] }, { "<": [{ "var": "clockTimeSec" }, 720] }]
+      },
+      "messageRu": "Играй от опыта: не контести руны без миссинга, копи фарм",
+      "priority": 4,
+      "cooldownSec": 180,
+      "minVerbosity": "minimal",
+      "severity": "danger",
+      "estimated": false
+    },
+    {
+      "ruleId": "power_spike_kill_window",
+      "condition": {
+        "and": [
+          { "==": [{ "var": "myHero.isPowerSpikeLevel" }, true] },
+          { "==": [{ "var": "matchup.killWindowAtLevel" }, true] }
+        ]
+      },
+      "messageRu": "Твой пик силы в этом матчапе — ищи килл или мув с руной",
+      "priority": 4,
+      "cooldownSec": 120,
+      "minVerbosity": "minimal",
+      "severity": "opportunity",
+      "estimated": false
+    },
+    {
+      "ruleId": "power_spike_no_matchup_window",
+      "condition": {
+        "and": [
+          { "==": [{ "var": "myHero.isPowerSpikeLevel" }, true] },
+          { "==": [{ "var": "matchup.killWindowAtLevel" }, false] }
+        ]
+      },
+      "messageRu": "Ты на пике силы — присматривайся к агрессии на лайне",
+      "priority": 2,
+      "cooldownSec": 120,
+      "minVerbosity": "experienced",
+      "severity": "opportunity",
+      "estimated": false
+    },
+    {
+      "ruleId": "buyback_unavailable_low_hp",
+      "condition": {
+        "and": [{ "==": [{ "var": "buybackAvailable" }, false] }, { "==": [{ "var": "healthLow" }, true] }]
+      },
+      "messageRu": "Байбек недоступен, а HP низкое — не рискуй жизнью",
+      "priority": 4,
+      "cooldownSec": 90,
+      "minVerbosity": "experienced",
+      "severity": "danger",
+      "estimated": false
+    },
+    {
+      "ruleId": "enemy_probably_leveled_no_burst",
+      "condition": {
+        "and": [
+          { ">=": [{ "var": "enemyHero.estimatedLevel.value" }, 6] },
+          { "==": [{ "var": "enemyHero.ultIsKillWindow" }, false] },
+          { "==": [{ "var": "healthLow" }, true] }
+        ]
+      },
+      "messageRu": "Враг, вероятно, взял 6 — но его ульта не бурст-килл, можно разменяться осторожно",
+      "priority": 2,
+      "cooldownSec": 120,
+      "minVerbosity": "experienced",
+      "severity": "timing",
+      "estimated": true
     }
   ]
 }
