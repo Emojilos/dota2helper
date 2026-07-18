@@ -26,6 +26,8 @@ describe('TASK-004: GSI raw packet → typed GameState', () => {
     expect(map?.daytime).toBe(true)
     expect(map?.radiantScore).toBe(12)
     expect(map?.direScore).toBe(8)
+    // win_team='none' в фикстуре (матч не завершён) — нормализуется в null
+    expect(map?.winTeam).toBeNull()
   })
 
   it('normalizes player stats', () => {
@@ -35,6 +37,18 @@ describe('TASK-004: GSI raw packet → typed GameState', () => {
     expect(player?.denies).toBe(11)
     expect(player?.gold).toBe(1350)
     expect(player?.gpm).toBe(612)
+    // team_name отсутствует в фикстуре in_progress → null
+    expect(player?.team).toBeNull()
+  })
+
+  it('normalizes team/win_team for a completed match (TASK-033)', () => {
+    const postGame: unknown = JSON.parse(
+      readFileSync(resolve(__dirname, '../fixtures/gsi/post_game.json'), 'utf-8')
+    )
+    const state = parseGameState(postGame)
+    expect(state.map?.gameState).toBe('DOTA_GAMERULES_STATE_POST_GAME')
+    expect(state.map?.winTeam).toBe('radiant')
+    expect(state.player?.team).toBe('radiant')
   })
 
   it('normalizes hero fields and derives ult_status = ready', () => {

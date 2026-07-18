@@ -46,11 +46,13 @@ function gameState(overrides: Partial<GameState> = {}): GameState {
       daytime: true,
       paused: false,
       radiantScore: 0,
-      direScore: 0
+      direScore: 0,
+      winTeam: null
     },
     player: {
       steamId: '1',
       name: 'me',
+      team: null,
       kills: 1,
       deaths: 0,
       assists: 0,

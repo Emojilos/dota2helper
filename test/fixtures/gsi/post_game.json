@@ -1,0 +1,47 @@
+{
+  "provider": {
+    "name": "Dota 2",
+    "appid": 570,
+    "version": 47,
+    "timestamp": 1710000900
+  },
+  "map": {
+    "name": "start",
+    "matchid": "7412345678",
+    "game_time": 2400,
+    "clock_time": 2350,
+    "game_state": "DOTA_GAMERULES_STATE_POST_GAME",
+    "paused": false,
+    "daytime": false,
+    "win_team": "radiant",
+    "radiant_score": 32,
+    "dire_score": 20
+  },
+  "player": {
+    "steamid": "76561198000000001",
+    "name": "midlaner",
+    "activity": "playing",
+    "team_name": "radiant",
+    "kills": 12,
+    "deaths": 3,
+    "assists": 9,
+    "last_hits": 240,
+    "denies": 18,
+    "gold": 5200,
+    "gpm": 612,
+    "xpm": 700
+  },
+  "hero": {
+    "id": 74,
+    "name": "npc_dota_hero_storm_spirit",
+    "level": 25,
+    "alive": true,
+    "respawn_seconds": 0,
+    "buyback_cost": 0,
+    "buyback_cooldown": 0,
+    "health_percent": 100,
+    "mana_percent": 100
+  },
+  "abilities": {},
+  "items": {}
+}

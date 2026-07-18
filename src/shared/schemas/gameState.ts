@@ -17,6 +17,10 @@ import { z } from 'zod'
 export const UltStatusSchema = z.enum(['ready', 'cooldown', 'no_mana', 'not_learned'])
 export type UltStatus = z.infer<typeof UltStatusSchema>
 
+/** Сторона (radiant/dire) — из map.win_team и player.team_name (TASK-033). */
+export const TeamSchema = z.enum(['radiant', 'dire'])
+export type Team = z.infer<typeof TeamSchema>
+
 export const AbilitySchema = z.object({
   name: z.string(),
   level: z.number(),
@@ -44,13 +48,17 @@ export const MapStateSchema = z.object({
   daytime: z.boolean(),
   paused: z.boolean(),
   radiantScore: z.number(),
-  direScore: z.number()
+  direScore: z.number(),
+  /** null, пока матч не завершён (win_team отсутствует/'none') или значение не 'radiant'/'dire'. */
+  winTeam: TeamSchema.nullable()
 })
 export type MapState = z.infer<typeof MapStateSchema>
 
 export const PlayerStateSchema = z.object({
   steamId: z.string(),
   name: z.string(),
+  /** null, пока team_name отсутствует в пакете или несёт неожиданное значение. */
+  team: TeamSchema.nullable(),
   kills: z.number(),
   deaths: z.number(),
   assists: z.number(),

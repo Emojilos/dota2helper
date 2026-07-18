@@ -69,4 +69,46 @@ describe('HeroPoolCacheStore', () => {
     expect(store.read('222')?.rows).toHaveLength(1)
     db.close()
   })
+
+  describe('applyMatchResult (TASK-033)', () => {
+    it('creates a new row on the first recorded match for a hero', () => {
+      const db = createDb()
+      const store = new HeroPoolCacheStore(db)
+
+      store.applyMatchResult('123', 74, 'win', '2026-07-18T00:00:00.000Z')
+
+      const result = store.read('123')
+      expect(result?.rows).toEqual([
+        { heroId: 74, matchesCount: 1, winrate: 1, lastSyncedAtMs: Date.parse('2026-07-18T00:00:00.000Z') }
+      ])
+      db.close()
+    })
+
+    it('increments matches_count and recomputes winrate on an existing row', () => {
+      const db = createDb()
+      const store = new HeroPoolCacheStore(db)
+
+      store.write('123', [{ heroId: 74, matchesCount: 9, winrate: 0.5, lastSyncedAtMs: 0 }], '2026-07-17T00:00:00.000Z')
+      store.applyMatchResult('123', 74, 'loss', '2026-07-18T00:00:00.000Z')
+
+      const result = store.read('123')
+      expect(result?.rows).toHaveLength(1)
+      // было 9 матчей при winrate 0.5 → 4.5 побед; +1 поражение → 4.5/10
+      expect(result?.rows[0]).toMatchObject({ heroId: 74, matchesCount: 10, winrate: 0.45 })
+      db.close()
+    })
+
+    it('does not disturb other heroes in the same steamId pool', () => {
+      const db = createDb()
+      const store = new HeroPoolCacheStore(db)
+
+      store.write('123', heroPool(), '2026-07-17T00:00:00.000Z')
+      store.applyMatchResult('123', 1, 'win', '2026-07-18T00:00:00.000Z')
+
+      const result = store.read('123')
+      expect(result?.rows).toHaveLength(2)
+      expect(result?.rows.find((row) => row.heroId === 2)).toMatchObject({ matchesCount: 10, winrate: 0.4 })
+      db.close()
+    })
+  })
 })

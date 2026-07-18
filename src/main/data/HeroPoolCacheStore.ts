@@ -8,7 +8,7 @@
  * SteamID из UserProfile — конвертация 64→32 бит происходит на уровне вызова,
  * см. src/shared/steam/parseSteamId64.ts#steamId64ToAccountId).
  */
-import { HeroPoolEntrySchema, type HeroPoolEntry } from '@shared/schemas/stratzDto'
+import { HeroPoolEntrySchema, type HeroPoolEntry, type MatchResult } from '@shared/schemas/stratzDto'
 import type { DatabaseInstance } from '../db/openDatabase'
 
 export interface HeroPoolCacheGroup {
@@ -71,5 +71,41 @@ export class HeroPoolCacheStore {
         })
       }
     })()
+  }
+
+  /**
+   * Точечно освежает ОДНУ строку пула по итогам локально сыгранного матча
+   * (TASK-033, MatchCompletionDetector) — в отличие от write(), не трогает
+   * остальные строки группы steamId: следующий полный STRATZ/OpenDota-синк
+   * (write()) по-прежнему стирает и переписывает весь снимок целиком.
+   */
+  applyMatchResult(steamId: string, heroId: number, result: MatchResult, syncedAt: string): void {
+    const existing = this.db
+      .prepare<[string, number], HeroPoolCacheRow>(
+        `SELECT hero_id, matches_count, winrate, last_synced
+         FROM hero_pool_stats
+         WHERE steam_id = ? AND hero_id = ?`
+      )
+      .get(steamId, heroId)
+
+    const won = result === 'win' ? 1 : 0
+    if (!existing) {
+      this.db
+        .prepare(
+          `INSERT INTO hero_pool_stats (steam_id, hero_id, matches_count, winrate, last_synced)
+           VALUES (?, ?, 1, ?, ?)`
+        )
+        .run(steamId, heroId, won, syncedAt)
+      return
+    }
+
+    const matchesCount = existing.matches_count + 1
+    const winrate = (existing.winrate * existing.matches_count + won) / matchesCount
+    this.db
+      .prepare(
+        `UPDATE hero_pool_stats SET matches_count = ?, winrate = ?, last_synced = ?
+         WHERE steam_id = ? AND hero_id = ?`
+      )
+      .run(matchesCount, winrate, syncedAt, steamId, heroId)
   }
 }

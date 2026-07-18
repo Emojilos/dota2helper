@@ -33,6 +33,7 @@ import {
   GsiConfigInstaller
 } from './gsiInstall'
 import { SteamIdDetector } from './steam'
+import { MatchCompletionDetector, MatchHistoryStore } from './matchHistory'
 
 /**
  * Shared-токен GSI. Секреты — только через окружение (см. CLAUDE.md §5):
@@ -59,6 +60,8 @@ let hotkeyManager: HotkeyManager | null = null
 let cacheWarmer: CacheWarmer | null = null
 let lanePlanBuilder: LanePlanBuilder | null = null
 let steamIdDetector: SteamIdDetector | null = null
+let matchHistoryStore: MatchHistoryStore | null = null
+let matchCompletionDetector: MatchCompletionDetector | null = null
 
 /**
  * Поднимает config-loader (TASK-011): в проде зеркалит встроенный content/ в
@@ -360,6 +363,44 @@ function startLanePlanBuilder(): void {
 }
 
 /**
+ * Поднимает F6 историю матчей (TASK-033): подписывает MatchCompletionDetector
+ * на поток GameState и на каждый обнаруженный завершённый матч (переход в
+ * DOTA_GAMERULES_STATE_POST_GAME для нового matchId) пишет сводку в
+ * MatchHistoryStore (match_history) и точечно освежает HeroPoolCacheStore
+ * (matches_count/winrate текущего героя) для привязанного профиля — без
+ * привязанного Steam ID пул героев не обновляется (нет строки, которую можно
+ * было бы освежить), но история матча всё равно записывается. enemyMidHeroId
+ * пока всегда null — реальный источник появится вместе с детектом драфта
+ * (TASK-027), см. комментарий MatchCompletionDetector. Требует уже поднятых
+ * database (startDatabase) и gsiServer (startGsiServer); settingsController
+ * опционален (может быть ещё не поднят/профиль не привязан).
+ */
+function startMatchHistory(): void {
+  if (!database || !gsiServer) {
+    return
+  }
+  matchHistoryStore = new MatchHistoryStore(database)
+  const heroPoolStore = new HeroPoolCacheStore(database)
+
+  matchCompletionDetector = new MatchCompletionDetector({
+    getEnemyMidHeroId: () => null,
+    logger: (message) => console.log(message),
+    onMatchCompleted: (summary) => {
+      matchHistoryStore?.write(summary)
+      console.log(
+        `[match-history] recorded match ${summary.matchId} (hero ${summary.heroId}, result=${summary.result})`
+      )
+      const steamId64 = settingsController?.get().steamId
+      if (steamId64) {
+        const accountId = steamId64ToAccountId(steamId64)
+        heroPoolStore.applyMatchResult(String(accountId), summary.heroId, summary.result, new Date().toISOString())
+      }
+    }
+  })
+  gsiServer.store.subscribe((state) => matchCompletionDetector?.onGameState(state))
+}
+
+/**
  * Открывает SQLite-БД в userData (TASK-010), применяет миграции идемпотентно и
  * гарантирует наличие профиля пользователя (создаёт дефолтный при первом
  * запуске: verbosity=experienced, hotkey=F9, draft_mode=meta — см. shared
@@ -544,6 +585,7 @@ app.whenReady().then(() => {
   startConfigLoader()
   void startGsiServer()
   startSteamIdDetection()
+  startMatchHistory()
   startAdviceScheduler()
   startTimingScheduler()
   startRulesConfig()

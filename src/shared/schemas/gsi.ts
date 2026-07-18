@@ -37,6 +37,7 @@ export const GsiPlayerSchema = z
     steamid: z.string(),
     name: z.string().optional(),
     activity: z.string().optional(),
+    team_name: z.string().optional(),
     kills: z.number().optional(),
     deaths: z.number().optional(),
     assists: z.number().optional(),

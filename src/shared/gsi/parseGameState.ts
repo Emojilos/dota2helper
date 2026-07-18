@@ -17,6 +17,7 @@ import type {
   Item,
   MapState,
   PlayerState,
+  Team,
   UltStatus
 } from '../schemas/gameState'
 
@@ -53,6 +54,11 @@ function mapItems(raw: GsiRawPacket['items']): Item[] {
     }))
 }
 
+/** win_team/team_name приходят строкой без гарантии значения — 'radiant'/'dire' или null иначе (напр. 'none' до конца матча). */
+function toTeam(raw: string | undefined): Team | null {
+  return raw === 'radiant' || raw === 'dire' ? raw : null
+}
+
 /** В raw GSI нет ult_status — выводим из ультимативной способности. */
 function computeUltStatus(abilities: Ability[]): UltStatus {
   const ult = abilities.find((ability) => ability.ultimate)
@@ -72,7 +78,8 @@ function mapMap(raw: GsiRawPacket['map']): MapState | null {
     daytime: raw.daytime ?? true,
     paused: raw.paused ?? false,
     radiantScore: raw.radiant_score ?? 0,
-    direScore: raw.dire_score ?? 0
+    direScore: raw.dire_score ?? 0,
+    winTeam: toTeam(raw.win_team)
   }
 }
 
@@ -81,6 +88,7 @@ function mapPlayer(raw: GsiRawPacket['player']): PlayerState | null {
   return {
     steamId: raw.steamid,
     name: raw.name ?? '',
+    team: toTeam(raw.team_name),
     kills: raw.kills ?? 0,
     deaths: raw.deaths ?? 0,
     assists: raw.assists ?? 0,
