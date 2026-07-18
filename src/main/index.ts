@@ -3,11 +3,11 @@ import { existsSync } from 'node:fs'
 import { app, BrowserWindow } from 'electron'
 import { APP_NAME } from '@shared/index'
 import { GsiServer } from './gsi'
-import { ConfigLoader, mirrorContentDir } from './config'
+import { ConfigLoader, mirrorContentDir, type ConfigHandle } from './config'
 import { TimingScheduler } from './timings'
-import { TimingsConfigSchema } from '@shared/schemas/timings'
+import { TimingsConfigSchema, type TimingsConfig } from '@shared/schemas/timings'
 import { broadcast, registerSettingsHandlers, createSettingsController, type SettingsController } from './ipc'
-import { AdviceScheduler } from './advice'
+import { AdviceScheduler, AdviceGate } from './advice'
 import { HotkeyManager } from './hotkeys'
 import {
   createStratzClient,
@@ -18,8 +18,9 @@ import {
   type StratzClient
 } from './data'
 import { MetaMidHeroesConfigSchema } from '@shared/schemas/metaMidHeroes'
-import { RulesConfigSchema } from '@shared/schemas/rules'
-import { HeroProfilesConfigSchema } from '@shared/schemas/heroProfiles'
+import { RulesConfigSchema, type RulesConfig } from '@shared/schemas/rules'
+import { HeroProfilesConfigSchema, type HeroProfilesConfig } from '@shared/schemas/heroProfiles'
+import { buildFacts } from '@engine/facts'
 import { openDatabase, runMigrations, UserProfileRepository, type DatabaseInstance } from './db'
 import {
   buildGsiConfigContent,
@@ -38,6 +39,11 @@ let gsiServer: GsiServer | null = null
 let configLoader: ConfigLoader | null = null
 let timingScheduler: TimingScheduler | null = null
 let adviceScheduler: AdviceScheduler | null = null
+let adviceGate: AdviceGate | null = null
+let timingsConfigHandle: ConfigHandle<TimingsConfig> | null = null
+let rulesConfigHandle: ConfigHandle<RulesConfig> | null = null
+let heroProfilesConfigHandle: ConfigHandle<HeroProfilesConfig> | null = null
+let unsubscribeAdviceGateFacts: (() => void) | null = null
 let stratzClient: StratzClient | null = null
 let database: DatabaseInstance | null = null
 let userProfileRepository: UserProfileRepository | null = null
@@ -99,18 +105,27 @@ function startAdviceScheduler(): void {
  * adviceScheduler (startAdviceScheduler).
  *
  * onAlert логирует и отдаёт уведомление в очередь AdviceScheduler (TASK-013),
- * которая сама решает, когда именно оно уйдёт в renderer. Отключение типов
- * (getDisabledEventIds) подключит проекция настроек из TASK-018.
+ * которая сама решает, когда именно оно уйдёт в renderer. Перед этим уведомление
+ * проходит умное подавление AdviceGate.isSuppressed (TASK-044: не показывать
+ * F3-события вроде напоминания о стаке кемпа, если герой мёртв или идёт активный
+ * файт — раздел F3 PRD) — этот вызов безопасен и до старта adviceGate (см.
+ * startAdviceGate ниже), т.к. до его создания suppression не применяется.
+ * Отключение типов (getDisabledEventIds) подключит проекция настроек из TASK-018.
  */
 function startTimingScheduler(): void {
   if (!configLoader || !gsiServer || !adviceScheduler) {
     return
   }
-  const timings = configLoader.register('timings', TimingsConfigSchema)
+  timingsConfigHandle = configLoader.register('timings', TimingsConfigSchema)
+  const timings = timingsConfigHandle
   timingScheduler = new TimingScheduler({
     store: gsiServer.store,
     getEvents: () => timings.get(),
     onAlert: (advice) => {
+      if (adviceGate?.isSuppressed(advice.severity)) {
+        console.log(`[timings] ${advice.ruleId} suppressed by advice-gate (hero dead or active fight)`)
+        return
+      }
       console.log(`[timings] ${advice.ruleId}: ${advice.message}`)
       adviceScheduler?.enqueue(advice)
     }
@@ -123,18 +138,17 @@ function startTimingScheduler(): void {
  * декларативных правил (JSON Logic `condition` над плоским объектом фактов,
  * TASK-041) с hot-reload — правка файла подхватывается без пересборки/рестарта
  * (INV4). Реального потребителя ещё нет: вычисление condition (json-logic
- * apply) и stateful cooldown/лимиты — TASK-043 (src/engine/rules) и TASK-044
- * (advice-gate). Требует уже поднятого configLoader.
+ * apply) — TASK-043 (src/engine/rules). Реальный потребитель — AdviceGate
+ * (TASK-044, startAdviceGate), который читает актуальный набор правил через
+ * rulesConfigHandle.get() на каждый тик GSI. Требует уже поднятого configLoader.
  */
 function startRulesConfig(): void {
   if (!configLoader) {
     return
   }
-  const rules = configLoader.register('rules', RulesConfigSchema)
-  const config = rules.get()
-  console.log(
-    `[rules] rules.json ready (${config?.rules.length ?? 0} rule(s)) — evaluator not wired yet (TASK-043)`
-  )
+  rulesConfigHandle = configLoader.register('rules', RulesConfigSchema)
+  const config = rulesConfigHandle.get()
+  console.log(`[rules] rules.json ready (${config?.rules.length ?? 0} rule(s))`)
 }
 
 /**
@@ -143,17 +157,62 @@ function startRulesConfig(): void {
  * aggression_pattern, typical_level6_time_sec), на которые ссылаются
  * правила F4 (TASK-043) и fact-builder (TASK-041, estimated_enemy_level),
  * вместо жёстко зашитых по герою условий. Правка/добавление профиля
- * подхватывается hot-reload'ом без пересборки (INV4). Реального потребителя
- * ещё нет — event-seam, как rules/timings до TASK-043/012. Требует уже
- * поднятого configLoader.
+ * подхватывается hot-reload'ом без пересборки (INV4). Потребитель — AdviceGate
+ * (TASK-044, startAdviceGate), который ищет профиль своего героя по
+ * gameState.hero.id на каждый тик GSI. Требует уже поднятого configLoader.
  */
 function startHeroProfilesConfig(): void {
   if (!configLoader) {
     return
   }
-  const heroProfiles = configLoader.register('hero-profiles', HeroProfilesConfigSchema)
-  const config = heroProfiles.get()
+  heroProfilesConfigHandle = configLoader.register('hero-profiles', HeroProfilesConfigSchema)
+  const config = heroProfilesConfigHandle.get()
   console.log(`[hero-profiles] hero-profiles.json ready (${config?.profiles.length ?? 0} profile(s))`)
+}
+
+/**
+ * Поднимает F4 advice-gate (TASK-044): на каждый тик GameStateStore строит
+ * Facts (TASK-041, buildFacts) из текущего GameState + профиля СВОЕГО героя
+ * (hero-profiles.json по gameState.hero.id), прогоняет их через AdviceGate,
+ * которая сама вызывает evaluateRules (TASK-043) над актуальным rules.json и
+ * гейтит результат (per-rule cooldown, глобальный лимит ≤1/30с, умное
+ * подавление на смерти/файте). Прошедшие кандидаты уходят в очередь
+ * AdviceScheduler (TASK-013).
+ *
+ * Вражеский мидер (enemyMidHeroId/enemyHeroProfile) и matchup-контекст пока не
+ * подаются — их источник (детект драфта TASK-027, matchup-knowledge TASK-035)
+ * ещё не реализован; buildFacts корректно работает и без них (Facts.enemyHero
+ * будет { heroId: null, ... }). timingEvents берутся из уже поднятого
+ * timingsConfigHandle (TASK-012) — нужны для factов powerRuneWindow, без
+ * дублирования расписания руны силы (INV4).
+ *
+ * Требует уже поднятых configLoader, gsiServer, adviceScheduler.
+ */
+function startAdviceGate(): void {
+  if (!configLoader || !gsiServer || !adviceScheduler || !rulesConfigHandle || !heroProfilesConfigHandle) {
+    return
+  }
+  adviceGate = new AdviceGate({
+    emit: (advice) => {
+      console.log(`[advice-gate] ${advice.ruleId}: ${advice.message}`)
+      adviceScheduler?.enqueue(advice)
+    }
+  })
+  unsubscribeAdviceGateFacts = gsiServer.store.subscribe((state) => {
+    const rules = rulesConfigHandle?.get()?.rules ?? []
+    if (rules.length === 0) {
+      return
+    }
+    const myHeroProfile = heroProfilesConfigHandle
+      ?.get()
+      ?.profiles.find((profile) => profile.heroId === state.hero?.id)
+    const facts = buildFacts({
+      gameState: state,
+      myHeroProfile,
+      timingEvents: timingsConfigHandle?.get()?.events
+    })
+    adviceGate?.onFacts(facts, rules)
+  })
 }
 
 /**
@@ -370,6 +429,7 @@ app.whenReady().then(() => {
   startTimingScheduler()
   startRulesConfig()
   startHeroProfilesConfig()
+  startAdviceGate()
   startStratzClient()
   startDataService()
   startCacheWarmer()
@@ -389,6 +449,7 @@ app.on('window-all-closed', () => {
 
 app.on('will-quit', () => {
   timingScheduler?.stop()
+  unsubscribeAdviceGateFacts?.()
   adviceScheduler?.stop()
   hotkeyManager?.stop()
   void gsiServer?.stop()
