@@ -22,6 +22,7 @@ import { RulesConfigSchema, type RulesConfig } from '@shared/schemas/rules'
 import { HeroProfilesConfigSchema, type HeroProfilesConfig } from '@shared/schemas/heroProfiles'
 import { MatchupKnowledgeConfigSchema, type MatchupKnowledgeConfig } from '@shared/schemas/matchupKnowledge'
 import { buildFacts } from '@engine/facts'
+import { LanePlanBuilder } from './lane'
 import { openDatabase, runMigrations, UserProfileRepository, type DatabaseInstance } from './db'
 import {
   buildGsiConfigContent,
@@ -53,6 +54,7 @@ let dataService: DataService | null = null
 let settingsController: SettingsController | null = null
 let hotkeyManager: HotkeyManager | null = null
 let cacheWarmer: CacheWarmer | null = null
+let lanePlanBuilder: LanePlanBuilder | null = null
 
 /**
  * Поднимает config-loader (TASK-011): в проде зеркалит встроенный content/ в
@@ -299,6 +301,34 @@ function startCacheWarmer(): void {
 }
 
 /**
+ * Собирает LanePlanBuilder (F2, TASK-036): единственную точку сборки плана
+ * на лайн для пары (свой герой, вражеский мидер) — билд+скиллбилд из
+ * DataService.getHeroBuilds, карточка матчапа из matchup-knowledge.json
+ * (heroProfilesConfigHandle/matchupKnowledgeConfigHandle уже подняты
+ * startHeroProfilesConfig/startMatchupKnowledgeConfig), винрейт пары из
+ * DataService.getHeroMatchups. Требует уже собранного dataService
+ * (startDataService).
+ *
+ * Реального триггера (финализация пиков) пока нет — детект драфта TASK-027
+ * ещё pending, поэтому build() здесь никем не вызывается; инстанс готов для
+ * будущего потребителя (расширенная панель TASK-037, deps на этот таск),
+ * тот же паттерн отложенного wiring, что startAdviceGate для
+ * enemyMidHeroId (см. её комментарий).
+ */
+function startLanePlanBuilder(): void {
+  if (!dataService || !heroProfilesConfigHandle || !matchupKnowledgeConfigHandle) {
+    return
+  }
+  lanePlanBuilder = new LanePlanBuilder(
+    dataService,
+    () => heroProfilesConfigHandle?.get() ?? null,
+    () => matchupKnowledgeConfigHandle?.get() ?? null,
+    { logger: (message) => console.log(message) }
+  )
+  console.log(`[lane-plan] LanePlanBuilder ready: ${lanePlanBuilder !== null} (no finalize-pick trigger yet — TASK-027)`)
+}
+
+/**
  * Открывает SQLite-БД в userData (TASK-010), применяет миграции идемпотентно и
  * гарантирует наличие профиля пользователя (создаёт дефолтный при первом
  * запуске: verbosity=experienced, hotkey=F9, draft_mode=meta — см. shared
@@ -457,6 +487,7 @@ app.whenReady().then(() => {
   startStratzClient()
   startDataService()
   startCacheWarmer()
+  startLanePlanBuilder()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
