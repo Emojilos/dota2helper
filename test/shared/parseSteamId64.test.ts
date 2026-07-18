@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseSteamId64Input } from '@shared/steam/parseSteamId64'
+import { parseSteamId64Input, steamId64ToAccountId } from '@shared/steam/parseSteamId64'
 
 describe('parseSteamId64Input', () => {
   it('accepts a raw valid Steam64 ID', () => {
@@ -40,5 +40,15 @@ describe('parseSteamId64Input', () => {
 
   it('rejects an ID above the individual-account range', () => {
     expect(parseSteamId64Input('99999999999999999')).toEqual({ ok: false, error: 'out-of-range' })
+  })
+})
+
+describe('steamId64ToAccountId', () => {
+  it('subtracts the individual-account base to recover the 32-bit account id', () => {
+    expect(steamId64ToAccountId('76561198012345678')).toBe(52079950)
+  })
+
+  it('returns 0 for the base ID itself', () => {
+    expect(steamId64ToAccountId('76561197960265728')).toBe(0)
   })
 })

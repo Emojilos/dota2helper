@@ -14,9 +14,11 @@ import {
   createOpenDotaClient,
   DataService,
   MatchupCacheStore,
+  HeroPoolCacheStore,
   CacheWarmer,
   type StratzClient
 } from './data'
+import { steamId64ToAccountId } from '@shared/steam/parseSteamId64'
 import { MetaMidHeroesConfigSchema } from '@shared/schemas/metaMidHeroes'
 import { RulesConfigSchema, type RulesConfig } from '@shared/schemas/rules'
 import { HeroProfilesConfigSchema, type HeroProfilesConfig } from '@shared/schemas/heroProfiles'
@@ -293,7 +295,9 @@ function startDataService(): void {
     return
   }
   const openDotaClient = createOpenDotaClient((message) => console.log(message))
-  dataService = new DataService(new MatchupCacheStore(database), stratzClient, openDotaClient)
+  dataService = new DataService(new MatchupCacheStore(database), stratzClient, openDotaClient, {
+    heroPoolCacheStore: new HeroPoolCacheStore(database)
+  })
   if (dataService) {
     console.log('[data] DataService ready (STRATZ→OpenDota→cache degradation ladder wired)')
   }
@@ -377,16 +381,50 @@ function startDatabase(): void {
  * персистит (UserProfileRepository), рассылает settings:update во все окна
  * (main — источник правды, включая инициатора) и реконсилирует HotkeyManager,
  * если сменился один из акселераторов.
+ *
+ * F6 (TASK-031): дополнительно отслеживает предыдущее значение steamId в
+ * замыкании (previousSteamId) — как только apply() персистит НОВОЕ непустое
+ * значение (привязка или смена ID, не отвязка/не повторный apply того же
+ * значения от другого поля патча), запускает синхронизацию пула героев
+ * (syncHeroPool). SteamIdDetector (startSteamIdDetection) сюда не достаёт —
+ * он только предлагает id, реальная привязка всегда идёт через apply().
  */
 function startSettings(): void {
   if (!userProfileRepository) {
     return
   }
+  let previousSteamId = userProfileRepository.getOrCreate().steamId
   settingsController = createSettingsController(userProfileRepository, (settings) => {
     broadcast('settings:update', settings)
     hotkeyManager?.reconcile(settings)
+    if (settings.steamId && settings.steamId !== previousSteamId) {
+      syncHeroPool(settings.steamId)
+    }
+    previousSteamId = settings.steamId
   })
   registerSettingsHandlers(settingsController)
+}
+
+/**
+ * F6 (TASK-031): после привязки/смены Steam ID подтягивает пул героев через
+ * DataService.getHeroPool (STRATZ → OpenDota → SQLite-кэш, INV5), которая сама
+ * persists результат в hero_pool_stats (HeroPoolCacheStore) — здесь только
+ * триггер и лог. Вызывается без await из onApplied — не должна блокировать
+ * settings:set. steamId в AppSettings — 64-bit (см. parseSteamId64Input);
+ * STRATZ/OpenDota ждут 32-bit account id, отсюда конвертация.
+ */
+function syncHeroPool(steamId64: string): void {
+  if (!dataService) {
+    return
+  }
+  const accountId = steamId64ToAccountId(steamId64)
+  void dataService.getHeroPool(accountId).then((result) => {
+    if (result.status === 'ok') {
+      console.log(`[hero-pool] synced ${result.data.length} hero(es) for account ${accountId} (source=${result.source})`)
+    } else {
+      console.log(`[hero-pool] sync skipped for account ${accountId}: ${result.reason}`)
+    }
+  })
 }
 
 /**

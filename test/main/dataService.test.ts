@@ -1,14 +1,17 @@
 /**
  * Тесты DataService-фасада (TASK-026): полная лестница деградации INV5
- * (STRATZ → OpenDota → SQLite stale-кэш → явное "нет данных") для матчапов,
- * и укороченные лестницы (без выделенного кэша) для пула героев/билдов/истории
- * матчей. Фейковые источники вместо реальных Stratz/OpenDota-клиентов — считают
- * вызовы и позволяют детерминированно смоделировать отказ/таймаут (тот же приём,
- * что в бывшем matchupRepository.test.ts, TASK-023).
+ * (STRATZ → OpenDota → SQLite stale-кэш → явное "нет данных") для матчапов и,
+ * при переданном heroPoolCacheStore (TASK-031), для пула героев тоже; без него
+ * getHeroPool ведёт себя как раньше — укороченная лестница без кэша. Билды/
+ * история матчей по-прежнему без выделенного кэша. Фейковые источники вместо
+ * реальных Stratz/OpenDota-клиентов — считают вызовы и позволяют
+ * детерминированно смоделировать отказ/таймаут (тот же приём, что в бывшем
+ * matchupRepository.test.ts, TASK-023).
  */
 import { describe, expect, it, vi } from 'vitest'
 import { openDatabase, runMigrations } from '@main/db'
 import { MatchupCacheStore } from '@main/data/MatchupCacheStore'
+import { HeroPoolCacheStore } from '@main/data/HeroPoolCacheStore'
 import { DataService, type OpenDotaDataSource, type StratzDataSource } from '@main/data/DataService'
 import type { HeroPoolEntry, MatchupData } from '@shared/schemas/stratzDto'
 
@@ -244,6 +247,112 @@ describe('TASK-026: DataService — hero pool / builds / recent matches (no dedi
 
     const matches = await service.getRecentMatches(123, 5)
     expect(matches.status).toBe('no-data')
+    db.close()
+  })
+})
+
+describe('TASK-031: DataService — getHeroPool with HeroPoolCacheStore (full degradation ladder)', () => {
+  function heroPoolFixture(): HeroPoolEntry[] {
+    return [{ heroId: 1, matchesCount: 42, winrate: 0.55, lastSyncedAtMs: 0 }]
+  }
+
+  it('fetches fresh STRATZ data and persists it into hero_pool_stats (source=stratz)', async () => {
+    const db = createDb()
+    const cache = new MatchupCacheStore(db)
+    const heroPoolCacheStore = new HeroPoolCacheStore(db)
+    const stratzOk: StratzDataSource = { ...failingStratz(), getHeroPool: async () => heroPoolFixture() }
+    const service = new DataService(cache, stratzOk, null, { heroPoolCacheStore })
+
+    const result = await service.getHeroPool(123)
+
+    expect(result.status).toBe('ok')
+    if (result.status !== 'ok') throw new Error('unreachable')
+    expect(result.source).toBe('stratz')
+    expect(result.stale).toBe(false)
+    expect(heroPoolCacheStore.read('123')?.rows).toHaveLength(1)
+    db.close()
+  })
+
+  it('returns the cached pool without hitting STRATZ on an immediate repeat request', async () => {
+    const db = createDb()
+    const cache = new MatchupCacheStore(db)
+    const heroPoolCacheStore = new HeroPoolCacheStore(db)
+    let calls = 0
+    const stratzOk: StratzDataSource = {
+      ...failingStratz(),
+      getHeroPool: async () => {
+        calls++
+        return heroPoolFixture()
+      }
+    }
+    const service = new DataService(cache, stratzOk, null, { heroPoolCacheStore })
+
+    await service.getHeroPool(123)
+    const second = await service.getHeroPool(123)
+
+    expect(second.status).toBe('ok')
+    if (second.status !== 'ok') throw new Error('unreachable')
+    expect(second.source).toBe('cache')
+    expect(second.stale).toBe(false)
+    expect(calls).toBe(1)
+    db.close()
+  })
+
+  it('re-syncing replaces the cached pool rather than duplicating it', async () => {
+    const db = createDb()
+    const cache = new MatchupCacheStore(db)
+    const heroPoolCacheStore = new HeroPoolCacheStore(db)
+    let currentTime = 0
+    const stratzFirst: StratzDataSource = { ...failingStratz(), getHeroPool: async () => heroPoolFixture() }
+    const seedService = new DataService(cache, stratzFirst, null, { heroPoolCacheStore, now: () => currentTime })
+    await seedService.getHeroPool(123)
+
+    currentTime = 24 * 60 * 60 * 1000 + 1
+    const stratzSecond: StratzDataSource = {
+      ...failingStratz(),
+      getHeroPool: async () => [{ heroId: 1, matchesCount: 50, winrate: 0.6, lastSyncedAtMs: 0 }]
+    }
+    const resyncService = new DataService(cache, stratzSecond, null, { heroPoolCacheStore, now: () => currentTime })
+    await resyncService.getHeroPool(123)
+
+    const cached = heroPoolCacheStore.read('123')
+    expect(cached?.rows).toHaveLength(1)
+    expect(cached?.rows[0]).toMatchObject({ heroId: 1, matchesCount: 50 })
+    db.close()
+  })
+
+  it('serves stale cache (stale=true) when both STRATZ and OpenDota are unavailable', async () => {
+    const db = createDb()
+    const cache = new MatchupCacheStore(db)
+    const heroPoolCacheStore = new HeroPoolCacheStore(db)
+    let currentTime = 0
+    const stratzOk: StratzDataSource = { ...failingStratz(), getHeroPool: async () => heroPoolFixture() }
+    const seedService = new DataService(cache, stratzOk, null, { heroPoolCacheStore, now: () => currentTime })
+    await seedService.getHeroPool(123)
+
+    currentTime = 24 * 60 * 60 * 1000 + 1
+    const offlineService = new DataService(cache, failingStratz(), null, { heroPoolCacheStore, now: () => currentTime })
+    const result = await offlineService.getHeroPool(123)
+
+    expect(result.status).toBe('ok')
+    if (result.status !== 'ok') throw new Error('unreachable')
+    expect(result.source).toBe('cache')
+    expect(result.stale).toBe(true)
+    db.close()
+  })
+
+  it('keeps hero pools for different steamAccountIds isolated in the cache', async () => {
+    const db = createDb()
+    const cache = new MatchupCacheStore(db)
+    const heroPoolCacheStore = new HeroPoolCacheStore(db)
+    const stratzOk: StratzDataSource = { ...failingStratz(), getHeroPool: async () => heroPoolFixture() }
+    const service = new DataService(cache, stratzOk, null, { heroPoolCacheStore })
+
+    await service.getHeroPool(123)
+    await service.getHeroPool(456)
+
+    expect(heroPoolCacheStore.read('123')?.rows).toHaveLength(1)
+    expect(heroPoolCacheStore.read('456')?.rows).toHaveLength(1)
     db.close()
   })
 })

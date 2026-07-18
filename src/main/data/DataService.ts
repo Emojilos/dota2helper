@@ -10,10 +10,10 @@
  * НИКОГДА не бросает исключение потребителю — ошибки источников логируются и
  * обрабатываются переходом к следующей ступени лестницы.
  *
- * Кэш (matchup_cache, TASK-022) есть только под матчапы (MatchupCacheStore) —
- * пул/билды/история матчей пока без выделенного read-through кэша (см.
- * progress.txt по TASK-026: открытый вопрос для HeroPoolStats/TASK-031), поэтому
- * для них лестница короче: STRATZ → OpenDota (только пул) → "нет данных".
+ * Кэш есть под матчапы (MatchupCacheStore) И под пул героев (HeroPoolCacheStore,
+ * TASK-031, опционален — если не передан в options, getHeroPool ведёт себя как
+ * раньше: STRATZ → OpenDota → "нет данных" без stale-кэша). Билды/история матчей
+ * по-прежнему без выделенного кэша: STRATZ → "нет данных" (OpenDota их не отдаёт).
  *
  * ВАЖНО: результаты OpenDota НЕ пишутся в matchup_cache. OpenDota отдаёт только
  * relation='vs' (без синергии) — если бы мы кэшировали их в ту же группу
@@ -30,6 +30,7 @@ import type {
 import type { StratzQueryScope } from '@shared/types/stratz'
 import type { DataResult } from '@shared/types/dataResult'
 import type { MatchupCacheStore } from './MatchupCacheStore'
+import type { HeroPoolCacheStore } from './HeroPoolCacheStore'
 
 /** Узкий срез StratzClient, нужный фасаду — легко подменяется фейком в тестах. */
 export interface StratzDataSource {
@@ -51,6 +52,8 @@ export interface DataServiceOptions {
   /** Источник текущего времени — подменяется в тестах для проверки протухания. */
   now?: () => number
   logger?: (message: string) => void
+  /** Read-through кэш пула героев (TASK-031) — опционален, без него getHeroPool не кэширует. */
+  heroPoolCacheStore?: HeroPoolCacheStore
 }
 
 const DEFAULT_TTL_MS = 24 * 60 * 60 * 1000
@@ -59,6 +62,7 @@ export class DataService {
   private readonly ttlMs: number
   private readonly now: () => number
   private readonly logger: (message: string) => void
+  private readonly heroPoolCacheStore: HeroPoolCacheStore | null
 
   constructor(
     private readonly cacheStore: MatchupCacheStore,
@@ -69,6 +73,7 @@ export class DataService {
     this.ttlMs = options.ttlMs ?? DEFAULT_TTL_MS
     this.now = options.now ?? Date.now
     this.logger = options.logger ?? ((): void => {})
+    this.heroPoolCacheStore = options.heroPoolCacheStore ?? null
   }
 
   /** Матчапы героя (vs/with) для (patch, rankBracket) — полная лестница INV5. */
@@ -105,12 +110,25 @@ export class DataService {
     return this.noData(`No matchup data available for hero ${heroId} (STRATZ/OpenDota unavailable, no cache)`)
   }
 
-  /** Пул героев игрока — без выделенного кэша (см. заголовок файла): STRATZ → OpenDota → "нет данных". */
+  /**
+   * Пул героев игрока (TASK-031): полная лестница деградации, как у матчапов,
+   * если передан heroPoolCacheStore (иначе укороченная STRATZ → OpenDota →
+   * "нет данных", как раньше). Кэш-ключ — steamAccountId (тот же 32-bit id,
+   * которым зовём STRATZ/OpenDota), а не 64-bit SteamID из профиля.
+   */
   async getHeroPool(steamAccountId: number): Promise<DataResult<HeroPoolEntry[]>> {
+    const cacheKey = String(steamAccountId)
+    const cached = this.heroPoolCacheStore?.read(cacheKey) ?? null
+    if (cached && this.isFresh(cached.fetchedAt)) {
+      return this.ok(cached.rows, 'cache', cached.fetchedAt, false)
+    }
+
     if (this.stratzClient) {
       try {
         const data = await this.stratzClient.getHeroPool(steamAccountId)
-        return this.ok(data, 'stratz', this.nowIso(), false)
+        const fetchedAt = this.nowIso()
+        this.heroPoolCacheStore?.write(cacheKey, data, fetchedAt)
+        return this.ok(data, 'stratz', fetchedAt, false)
       } catch (error) {
         this.logger(`[data] STRATZ hero pool failed for ${steamAccountId}: ${String(error)}`)
       }
@@ -119,13 +137,19 @@ export class DataService {
     if (this.openDotaClient) {
       try {
         const data = await this.openDotaClient.getHeroPool(steamAccountId)
-        return this.ok(data, 'opendota', this.nowIso(), false)
+        const fetchedAt = this.nowIso()
+        this.heroPoolCacheStore?.write(cacheKey, data, fetchedAt)
+        return this.ok(data, 'opendota', fetchedAt, false)
       } catch (error) {
         this.logger(`[data] OpenDota hero pool failed for ${steamAccountId}: ${String(error)}`)
       }
     }
 
-    return this.noData(`No hero pool data available for ${steamAccountId} (STRATZ/OpenDota unavailable)`)
+    if (cached) {
+      return this.ok(cached.rows, 'cache', cached.fetchedAt, true)
+    }
+
+    return this.noData(`No hero pool data available for ${steamAccountId} (STRATZ/OpenDota unavailable, no cache)`)
   }
 
   /** Билды героя — только STRATZ (OpenDota не отдаёт скиллбилды/стартовые закупки в нашем контракте). */

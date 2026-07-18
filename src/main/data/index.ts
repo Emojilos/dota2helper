@@ -15,6 +15,7 @@ export {
   type OpenDotaClientOptions
 } from './OpenDotaClient'
 export { MatchupCacheStore, type MatchupCacheGroup } from './MatchupCacheStore'
+export { HeroPoolCacheStore, type HeroPoolCacheGroup } from './HeroPoolCacheStore'
 export {
   DataService,
   type StratzDataSource,

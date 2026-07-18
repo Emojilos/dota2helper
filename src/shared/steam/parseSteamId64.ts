@@ -49,3 +49,13 @@ export function parseSteamId64Input(input: string): ParseSteamIdResult {
 
   return { ok: true, steamId: candidate }
 }
+
+/**
+ * Переводит валидный 64-bit SteamID (см. parseSteamId64Input) в 32-bit
+ * account id, ожидаемый STRATZ/OpenDota API (F6, TASK-031: синк пула героев).
+ * Вызывающий отвечает за то, что steamId64 уже прошёл валидацию диапазона —
+ * функция не перепроверяет его сама.
+ */
+export function steamId64ToAccountId(steamId64: string): number {
+  return Number(BigInt(steamId64) - STEAM64_INDIVIDUAL_BASE)
+}
