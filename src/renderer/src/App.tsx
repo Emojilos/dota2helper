@@ -1,7 +1,80 @@
 import { useEffect, useState, type JSX } from 'react'
 import { APP_NAME } from '@shared/index'
 import type { GameState } from '@shared/schemas/gameState'
+import { parseSteamId64Input } from '@shared/steam/parseSteamId64'
 import { useSettingsStore } from './store/settingsStore'
+import { useSteamIdDetectionStore } from './store/steamIdStore'
+
+/**
+ * TASK-030 (F6): баннер подтверждения автообнаруженного Steam ID + ручной
+ * ввод (ID или ссылка на профиль). Валидация здесь — только для мгновенной
+ * обратной связи по вводу; итог всё равно перепроверяет SettingsController
+ * (main) перед персистом, так что renderer не может записать некорректный
+ * steamId, даже если эта проверка разойдётся.
+ */
+function SteamIdSection(): JSX.Element {
+  const settings = useSettingsStore((state) => state.settings)
+  const setSettings = useSettingsStore((state) => state.setSettings)
+  const detectedSteamId = useSteamIdDetectionStore((state) => state.detectedSteamId)
+  const dismissDetection = useSteamIdDetectionStore((state) => state.dismiss)
+  const initDetection = useSteamIdDetectionStore((state) => state.init)
+  const [manualInput, setManualInput] = useState('')
+  const [manualError, setManualError] = useState<string | null>(null)
+
+  useEffect(() => {
+    initDetection()
+  }, [initDetection])
+
+  const confirmDetected = (): void => {
+    if (!detectedSteamId) {
+      return
+    }
+    void setSettings({ steamId: detectedSteamId }).then(dismissDetection)
+  }
+
+  const submitManual = (): void => {
+    const parsed = parseSteamId64Input(manualInput)
+    if (!parsed.ok) {
+      setManualError(parsed.error)
+      return
+    }
+    setManualError(null)
+    void setSettings({ steamId: parsed.steamId })
+  }
+
+  return (
+    <div className="mt-2 border-t border-white/10 pt-2 text-xs">
+      <p>steam_id={settings?.steamId ?? 'не привязан'}</p>
+      <p>personal features: {settings?.steamId ? 'доступны' : 'привяжи Steam ID'}</p>
+
+      {detectedSteamId && !settings?.steamId && (
+        <div className="mt-1 rounded border border-amber-400/40 bg-amber-400/10 p-1">
+          <p>Обнаружен Steam ID {detectedSteamId} — подтвердить?</p>
+          <button type="button" className="mr-1 rounded border border-white/20 px-2 py-0.5 hover:bg-white/10" onClick={confirmDetected}>
+            Подтвердить
+          </button>
+          <button type="button" className="rounded border border-white/20 px-2 py-0.5 hover:bg-white/10" onClick={dismissDetection}>
+            Отклонить
+          </button>
+        </div>
+      )}
+
+      <div className="mt-1 flex items-center gap-1">
+        <input
+          type="text"
+          value={manualInput}
+          onChange={(event) => setManualInput(event.target.value)}
+          placeholder="Steam ID или ссылка на профиль"
+          className="rounded border border-white/20 bg-transparent px-1 py-0.5"
+        />
+        <button type="button" className="rounded border border-white/20 px-2 py-0.5 hover:bg-white/10" onClick={submitManual}>
+          Привязать
+        </button>
+      </div>
+      {manualError && <p className="text-red-400">Некорректный Steam ID: {manualError}</p>}
+    </div>
+  )
+}
 
 /**
  * TASK-007/018: минимальная проверка IPC-моста window.midmind — подписка на
@@ -40,6 +113,7 @@ function App(): JSX.Element {
         >
           Toggle silent mode
         </button>
+        <SteamIdSection />
       </div>
     </div>
   )

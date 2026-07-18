@@ -30,6 +30,7 @@ import {
   listCandidateDotaInstallRoots,
   GsiConfigInstaller
 } from './gsiInstall'
+import { SteamIdDetector } from './steam'
 
 /**
  * Shared-токен GSI. Секреты — только через окружение (см. CLAUDE.md §5):
@@ -55,6 +56,7 @@ let settingsController: SettingsController | null = null
 let hotkeyManager: HotkeyManager | null = null
 let cacheWarmer: CacheWarmer | null = null
 let lanePlanBuilder: LanePlanBuilder | null = null
+let steamIdDetector: SteamIdDetector | null = null
 
 /**
  * Поднимает config-loader (TASK-011): в проде зеркалит встроенный content/ в
@@ -237,6 +239,31 @@ function startAdviceGate(): void {
       timingEvents: timingsConfigHandle?.get()?.events
     })
     adviceGate?.onFacts(facts, rules)
+  })
+}
+
+/**
+ * Поднимает автоопределение Steam ID (F6, TASK-030): подписывает
+ * SteamIdDetector на поток GSI, и как только приходит player.steamid при
+ * непривязанном профиле (settingsController.get().steamId === null), пушит
+ * renderer'у steamId:detected один раз за сессию. Ничего не персистится
+ * автоматически — привязку подтверждает пользователь через settings:set
+ * (см. renderer/src/store/steamIdStore.ts). Требует уже поднятых gsiServer
+ * (startGsiServer) и settingsController (startSettings).
+ */
+function startSteamIdDetection(): void {
+  if (!gsiServer || !settingsController) {
+    return
+  }
+  steamIdDetector = new SteamIdDetector({
+    getBoundSteamId: () => settingsController?.get().steamId ?? null,
+    onDetected: (steamId) => {
+      console.log(`[steam-id] detected ${steamId} from GSI — awaiting user confirmation`)
+      broadcast('steamId:detected', { steamId })
+    }
+  })
+  gsiServer.store.subscribe((state) => {
+    steamIdDetector?.onGameState(state.player?.steamId)
   })
 }
 
@@ -478,6 +505,7 @@ app.whenReady().then(() => {
   startHotkeys()
   startConfigLoader()
   void startGsiServer()
+  startSteamIdDetection()
   startAdviceScheduler()
   startTimingScheduler()
   startRulesConfig()

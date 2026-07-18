@@ -42,6 +42,14 @@ export interface IpcPushChannels {
   'settings:update': AppSettings
   /** Прогресс CacheWarmer (TASK-025): один пуш на каждого обработанного героя. */
   'cacheWarmer:progress': CacheWarmerProgressPayload
+  /**
+   * F6 автоопределение Steam ID (TASK-030): main пушит один раз за сессию,
+   * когда в GSI приходит player.steamid, а профиль ещё не привязан
+   * (AppSettings.steamId === null). Ничего не персистится автоматически —
+   * renderer должен показать явное подтверждение и вызвать settings:set
+   * самостоятельно, если пользователь согласится.
+   */
+  'steamId:detected': { steamId: string }
 }
 
 /** renderer -> main: имя канала -> { request, response }. */
@@ -66,7 +74,8 @@ export const IPC_CHANNELS = {
   settingsUpdate: 'settings:update',
   settingsGet: 'settings:get',
   settingsSet: 'settings:set',
-  cacheWarmerProgress: 'cacheWarmer:progress'
+  cacheWarmerProgress: 'cacheWarmer:progress',
+  steamIdDetected: 'steamId:detected'
 } as const
 
 /**

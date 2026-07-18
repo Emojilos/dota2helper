@@ -56,4 +56,40 @@ describe('SettingsController', () => {
     expect(result).toMatchObject({ silentMode: true })
     expect(onApplied).toHaveBeenCalledWith(result)
   })
+
+  it('apply() normalizes a steamId profile URL to the bare 64-bit ID before persisting', () => {
+    const repo = {
+      getOrCreate: vi.fn(() => makeProfile()),
+      update: vi.fn((patch) => makeProfile(patch))
+    } as unknown as UserProfileRepository
+    const controller = createSettingsController(repo, vi.fn())
+
+    const result = controller.apply({ steamId: 'https://steamcommunity.com/profiles/76561198012345678/' })
+
+    expect(repo.update).toHaveBeenCalledWith({ steamId: '76561198012345678' })
+    expect(result.steamId).toBe('76561198012345678')
+  })
+
+  it('apply() passes steamId: null through untouched (unbinding)', () => {
+    const repo = {
+      getOrCreate: vi.fn(() => makeProfile({ steamId: '76561198012345678' })),
+      update: vi.fn((patch) => makeProfile(patch))
+    } as unknown as UserProfileRepository
+    const controller = createSettingsController(repo, vi.fn())
+
+    controller.apply({ steamId: null })
+
+    expect(repo.update).toHaveBeenCalledWith({ steamId: null })
+  })
+
+  it('apply() rejects an invalid steamId without touching the repository', () => {
+    const repo = {
+      getOrCreate: vi.fn(() => makeProfile()),
+      update: vi.fn()
+    } as unknown as UserProfileRepository
+    const controller = createSettingsController(repo, vi.fn())
+
+    expect(() => controller.apply({ steamId: 'not-a-steam-id' })).toThrow(/invalid steamId/)
+    expect(repo.update).not.toHaveBeenCalled()
+  })
 })

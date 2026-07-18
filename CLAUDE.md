@@ -124,8 +124,17 @@ Path-алиасы (electron.vite.config.ts + tsconfig): `@main`, `@preload`, `@r
   `config:reloaded`, `draft:update`, `settings:update` (TASK-018 — авторитетная
   проекция `AppSettings`; main рассылает её во все окна после ЛЮБОЙ мутации
   настроек, из renderer (`settings:set`) или из main (хоткей тихого режима),
-  включая инициатора — renderer-стор не различает источник).
-- **invoke-каналы (renderer → main):** `settings:get`, `settings:set`.
+  включая инициатора — renderer-стор не различает источник), `cacheWarmer:progress`
+  (TASK-025 — прогресс фонового прогрева кэша матчапов), `steamId:detected`
+  (TASK-030 — F6: main пушит один раз за сессию, когда в GSI приходит
+  `player.steamid` при непривязанном профиле; ничего не персистится
+  автоматически, renderer должен показать подтверждение и вызвать `settings:set`
+  сам).
+- **invoke-каналы (renderer → main):** `settings:get`, `settings:set` (`steamId`
+  в патче принимает и «голый» 64-bit ID, и ссылку на профиль
+  `.../profiles/<id>` — `SettingsController` нормализует и валидирует через
+  `parseSteamId64Input`, TASK-030; невалидный ввод бросает ошибку вместо
+  молчаливого сохранения).
 
 При изменении набора каналов или payload'ов — правь `IpcContract` и обновляй этот раздел.
 
