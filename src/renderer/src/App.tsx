@@ -5,6 +5,7 @@ import { parseSteamId64Input } from '@shared/steam/parseSteamId64'
 import { useSettingsStore } from './store/settingsStore'
 import { useSteamIdDetectionStore } from './store/steamIdStore'
 import { usePatchStore } from './store/patchStore'
+import { useConfigHealthStore } from './store/configHealthStore'
 
 /**
  * TASK-030 (F6): баннер подтверждения автообнаруженного Steam ID + ручной
@@ -105,6 +106,62 @@ function PatchBanner(): JSX.Element | null {
 }
 
 /**
+ * TASK-048 (M6): визуальное подтверждение hot-reload контентных конфигов
+ * (timings/rules/hero-profiles/matchup-knowledge/...) и явный индикатор,
+ * когда конфиг работает на last-good из-за невалидной правки (ConfigLoader,
+ * TASK-011, понятные сообщения об ошибках — см. describeJsonError/
+ * describeZodError).
+ */
+function ConfigHealthBanner(): JSX.Element | null {
+  const toast = useConfigHealthStore((state) => state.toast)
+  const invalidConfigs = useConfigHealthStore((state) => state.invalidConfigs)
+  const dismissToast = useConfigHealthStore((state) => state.dismissToast)
+  const init = useConfigHealthStore((state) => state.init)
+
+  useEffect(() => {
+    init()
+  }, [init])
+
+  const invalidNames = Object.keys(invalidConfigs)
+
+  if (!toast && invalidNames.length === 0) {
+    return null
+  }
+
+  return (
+    <div className="mt-2 space-y-1 text-xs">
+      {toast && (
+        <div
+          className={`rounded border p-1 ${
+            toast.status === 'ok'
+              ? 'border-emerald-400/40 bg-emerald-400/10'
+              : 'border-red-400/40 bg-red-400/10'
+          }`}
+        >
+          <p>
+            {toast.status === 'ok'
+              ? `Конфиг '${toast.name}' обновлён`
+              : `Конфиг '${toast.name}' невалиден — используется предыдущая версия${
+                  toast.reason ? `: ${toast.reason}` : ''
+                }`}
+          </p>
+          <button
+            type="button"
+            className="mt-1 rounded border border-white/20 px-2 py-0.5 hover:bg-white/10"
+            onClick={dismissToast}
+          >
+            Понятно
+          </button>
+        </div>
+      )}
+      {invalidNames.length > 0 && (
+        <p className="text-amber-400">На last-good: {invalidNames.join(', ')}</p>
+      )}
+    </div>
+  )
+}
+
+/**
  * TASK-007/018: минимальная проверка IPC-моста window.midmind — подписка на
  * push gameState:update и settings:update (через Zustand-стор настроек).
  * Полноценный UI оверлея (компактная панель/уведомления) — TASK-014/015.
@@ -151,6 +208,7 @@ function App(): JSX.Element {
         </button>
         <SteamIdSection />
         <PatchBanner />
+        <ConfigHealthBanner />
       </div>
     </div>
   )

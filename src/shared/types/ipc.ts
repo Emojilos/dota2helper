@@ -17,6 +17,13 @@ import type { AppSettings } from '../schemas/settings'
 export interface ConfigReloadedPayload {
   name: string
   status: 'ok' | 'invalid'
+  /**
+   * Понятная причина невалидности (JSON.parse line/column или Zod field: message,
+   * см. ConfigLoader.describeJsonError/describeZodError, TASK-048). Присутствует
+   * ТОЛЬКО при status='invalid'; renderer показывает её в баннере "используется
+   * last-good".
+   */
+  reason?: string
 }
 
 /** Прогресс фонового прогрева кэша матчапов (CacheWarmer, TASK-025). */

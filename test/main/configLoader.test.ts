@@ -110,7 +110,7 @@ describe('TASK-011: ConfigLoader', () => {
     expect(received.at(-1)).toEqual(edited)
   })
 
-  it('keeps last-good on broken JSON and reports invalid (no crash)', async () => {
+  it('keeps last-good on broken JSON and reports invalid with a line/column reason (no crash)', async () => {
     dir = makeDir()
     write('timings', validConfig)
 
@@ -118,17 +118,19 @@ describe('TASK-011: ConfigLoader', () => {
     loader = new ConfigLoader({ dir, debounceMs: 20, onReloaded: (p) => reloaded.push(p) })
     const handle = loader.register('timings', timingsSchema)
 
-    // Портим файл — не валидный JSON.
-    write('timings', '{ "events": [ this is not json ')
+    // Портим файл — не валидный JSON (висячая запятая перед закрывающей скобкой).
+    write('timings', '{ "events": [], }')
 
     const event = await waitForReload(reloaded, 'timings')
     expect(event.status).toBe('invalid')
+    // TASK-048: понятная причина — где именно в файле ошибка, а не сырой JSON.stringify.
+    expect(event.reason).toMatch(/invalid JSON.*line \d+.*column \d+/)
     // last-good сохранён, приложение живо.
     expect(handle.status()).toBe('invalid')
     expect(handle.get()).toEqual(validConfig)
   })
 
-  it('keeps last-good on schema violation (valid JSON, wrong shape)', async () => {
+  it('keeps last-good on schema violation (valid JSON, wrong shape) and names the offending field', async () => {
     dir = makeDir()
     write('timings', validConfig)
 
@@ -141,7 +143,24 @@ describe('TASK-011: ConfigLoader', () => {
 
     const event = await waitForReload(reloaded, 'timings')
     expect(event.status).toBe('invalid')
+    // TASK-048: сообщение называет конкретное поле, которое нужно поправить.
+    expect(event.reason).toContain('events.0.at_sec')
     expect(handle.get()).toEqual(validConfig)
+  })
+
+  it('does not attach a reason to config:reloaded on a successful reload', async () => {
+    dir = makeDir()
+    write('timings', validConfig)
+
+    const reloaded: ConfigReloadedPayload[] = []
+    loader = new ConfigLoader({ dir, debounceMs: 20, onReloaded: (p) => reloaded.push(p) })
+    loader.register('timings', timingsSchema)
+
+    write('timings', { events: [{ id: 'power_rune', at_sec: 360, warn_before_sec: 15 }] })
+
+    const event = await waitForReload(reloaded, 'timings')
+    expect(event.status).toBe('ok')
+    expect(event.reason).toBeUndefined()
   })
 
   it('does not crash when the initial file is invalid (value stays null)', () => {

@@ -28,7 +28,7 @@ import { readFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import { watch, watchFile, unwatchFile, type FSWatcher, type Stats } from 'node:fs'
 import { basename, join } from 'node:path'
-import type { ZodType, ZodTypeDef } from 'zod'
+import type { ZodError, ZodType, ZodTypeDef } from 'zod'
 import type { ConfigReloadedPayload } from '@shared/types/ipc'
 
 /** Статус последней попытки загрузки конфига. */
@@ -197,11 +197,11 @@ export class ConfigLoader {
     try {
       json = JSON.parse(raw)
     } catch (error) {
-      return { ok: false, reason: `invalid JSON: ${describeError(error)}` }
+      return { ok: false, reason: describeJsonError(raw, error) }
     }
     const parsed = entry.schema.safeParse(json)
     if (!parsed.success) {
-      return { ok: false, reason: `schema validation failed: ${parsed.error.message}` }
+      return { ok: false, reason: `schema validation failed: ${describeZodError(parsed.error)}` }
     }
     return { ok: true, value: parsed.data }
   }
@@ -232,7 +232,11 @@ export class ConfigLoader {
           listener(entry.value as T, entry.status)
         }
       }
-      this.onReloaded?.({ name: entry.name, status: entry.status })
+      this.onReloaded?.({
+        name: entry.name,
+        status: entry.status,
+        ...(result.ok ? {} : { reason: result.reason })
+      })
     }
   }
 
@@ -300,4 +304,47 @@ type LoadResult<T> = { ok: true; value: T } | { ok: false; reason: string }
 
 function describeError(error: unknown): string {
   return error instanceof Error ? error.message : String(error)
+}
+
+/**
+ * Человекочитаемая ошибка JSON.parse (TASK-048). V8-сообщения непоследовательны
+ * между версиями движка: часть уже содержит "(line X column Y)" в самом
+ * сообщении (проходит как есть), часть — только числовую "position N" (переводим
+ * в line/column вручную, 1-based, как в обычном текстовом редакторе), а часть
+ * ("Unexpected token '…', ...короткий контекст..." или "Unexpected end of JSON
+ * input") не даёт вообще никакой позиции — в этом случае координаты не
+ * придумываем, просто отдаём исходное сообщение движка с понятным префиксом.
+ */
+function describeJsonError(raw: string, error: unknown): string {
+  const message = describeError(error)
+  if (/\bline \d+ column \d+\b/.test(message)) {
+    return `invalid JSON: ${message}`
+  }
+  const position = Number(message.match(/position (\d+)/)?.[1])
+  if (!Number.isFinite(position)) {
+    return `invalid JSON: ${message}`
+  }
+  let line = 1
+  let column = 1
+  for (let i = 0; i < position && i < raw.length; i++) {
+    if (raw[i] === '\n') {
+      line++
+      column = 1
+    } else {
+      column++
+    }
+  }
+  return `invalid JSON at line ${line}, column ${column}: ${message}`
+}
+
+/**
+ * Человекочитаемая ошибка Zod (TASK-048): по умолчанию `ZodError.message`
+ * возвращает JSON.stringify(issues) — валидный, но нечитаемый вывод. Формат
+ * `<путь до поля>: <сообщение>` называет конкретное поле, которое нужно
+ * поправить в конфиге, вместо того чтобы заставлять читать сырой JSON ошибок.
+ */
+function describeZodError(error: ZodError): string {
+  return error.issues
+    .map((issue) => `${issue.path.length > 0 ? issue.path.join('.') : '(root)'}: ${issue.message}`)
+    .join('; ')
 }
