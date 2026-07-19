@@ -1,0 +1,85 @@
+{
+	"provider": {
+		"name": "Dota 2",
+		"appid": 570,
+		"version": 48,
+		"timestamp": 1784484175
+	},
+	"player": {
+
+	},
+	"draft": {
+
+	},
+	"events": [
+
+	]
+	,
+	"league": {
+
+	},
+	"couriers": {
+
+	},
+	"neutralitems": {
+
+	},
+	"roshan": {
+
+	},
+	"previously": {
+		"map": true,
+		"player": {
+			"steamid": "76561199276562538",
+			"accountid": "1316296810",
+			"name": "пожуйлиста",
+			"activity": "playing",
+			"kills": 0,
+			"deaths": 1,
+			"assists": 0,
+			"last_hits": 4,
+			"denies": 0,
+			"kill_streak": 0,
+			"commands_issued": 1121,
+			"kill_list": {
+
+			},
+			"team_name": "radiant",
+			"player_slot": 0,
+			"team_slot": 0,
+			"gold": 223,
+			"gold_reliable": 223,
+			"gold_unreliable": 0,
+			"gold_from_hero_kills": 0,
+			"gold_from_creep_kills": 155,
+			"gold_from_summon_kills": 0,
+			"gold_from_income": 181,
+			"gold_from_shared": 0,
+			"gpm": 255,
+			"xpm": 176
+		},
+		"hero": true,
+		"abilities": true,
+		"items": true,
+		"buildings": true,
+		"events": {
+			"event": {
+				"game_time": 237,
+				"event_type": "generic_event",
+				"data": "{\"type\":\"CHAT_MESSAGE_BUYBACK\",\"value\":0,\"playerid1\":0,\"playerid2\":-1,\"time\":114.266663}",
+				"game_time": 235,
+				"event_type": "generic_event",
+				"data": "{\"type\":\"CHAT_MESSAGE_HERO_KILL\",\"value\":141,\"playerid1\":0,\"playerid2\":5,\"playerid3\":6,\"playerid4\":-1,\"playerid5\":-1,\"playerid6\":-1,\"value2\":122,\"value3\":2,\"time\":112.766663}"
+			}
+		},
+		"wearables": true,
+		"league": {
+			"league_id": 0,
+			"match_id": "0"
+		},
+		"minimap": true
+	},
+	"auth": {
+		"token": "midmind-capture"
+	}
+}

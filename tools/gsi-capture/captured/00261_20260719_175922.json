@@ -1,0 +1,327 @@
+{
+	"provider": {
+		"name": "Dota 2",
+		"appid": 570,
+		"version": 48,
+		"timestamp": 1784483962
+	},
+	"map": {
+		"name": "start",
+		"matchid": "0",
+		"game_time": 32,
+		"clock_time": -28,
+		"daytime": false,
+		"nightstalker_night": false,
+		"radiant_score": 0,
+		"dire_score": 0,
+		"game_state": "DOTA_GAMERULES_STATE_STRATEGY_TIME",
+		"paused": false,
+		"win_team": "none",
+		"customgamename": "",
+		"ward_purchase_cooldown": 0
+	},
+	"player": {
+		"steamid": "76561199276562538",
+		"accountid": "1316296810",
+		"name": "пожуйлиста",
+		"activity": "playing",
+		"kills": 0,
+		"deaths": 0,
+		"assists": 0,
+		"last_hits": 0,
+		"denies": 0,
+		"kill_streak": 0,
+		"commands_issued": 0,
+		"kill_list": {
+
+		},
+		"team_name": "radiant",
+		"player_slot": 0,
+		"team_slot": 0,
+		"gold": 600,
+		"gold_reliable": 0,
+		"gold_unreliable": 600,
+		"gold_from_hero_kills": 0,
+		"gold_from_creep_kills": 0,
+		"gold_from_summon_kills": 0,
+		"gold_from_income": 0,
+		"gold_from_shared": 0,
+		"gpm": 0,
+		"xpm": 0
+	},
+	"hero": {
+		"facet": 0,
+		"id": 73,
+		"name": "npc_dota_hero_alchemist"
+	},
+	"abilities": {
+
+	},
+	"items": {
+
+	},
+	"draft": {
+
+	},
+	"buildings": {
+		"radiant": {
+
+		}
+	},
+	"events": [
+
+	]
+	,
+	"wearables": {
+		"wearable0": 118,
+		"wearable1": 125,
+		"wearable2": 124,
+		"wearable3": 117,
+		"wearable4": 120,
+		"wearable5": 121,
+		"wearable6": 119,
+		"wearable7": 122,
+		"wearable8": 123,
+		"wearable9": 8632,
+		"wearable10": 738,
+		"wearable14": 816
+	},
+	"league": {
+		"league_id": 0,
+		"match_id": "0"
+	},
+	"couriers": {
+
+	},
+	"neutralitems": {
+
+	},
+	"roshan": {
+
+	},
+	"minimap": {
+		"o0": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o1": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o2": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o3": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o4": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o5": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o6": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o7": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o8": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o9": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o10": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o11": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o12": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o13": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o14": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o15": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o16": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o17": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_hero_alchemist",
+			"visionrange": 0
+		},
+		"o18": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_hero_alchemist",
+			"visionrange": 0
+		},
+		"o19": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": -3,
+			"unitname": "npc_dota_hero_alchemist",
+			"visionrange": 0
+		},
+		"o20": {
+			"xpos": 1088,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 25,
+			"unitname": "npc_dota_hero_alchemist",
+			"visionrange": 0
+		},
+		"o21": {
+			"xpos": 752,
+			"ypos": 144,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 9,
+			"unitname": "npc_dota_hero_vengefulspirit",
+			"visionrange": 0
+		},
+		"o22": {
+			"xpos": 176,
+			"ypos": 370,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 19,
+			"unitname": "npc_dota_hero_sven",
+			"visionrange": 0
+		}
+	},
+	"previously": {
+		"minimap": {
+			"o19": {
+				"yaw": 0
+			}
+		}
+	},
+	"added": {
+		"minimap": {
+			"o21": true,
+			"o22": true
+		}
+	},
+	"auth": {
+		"token": "midmind-capture"
+	}
+}

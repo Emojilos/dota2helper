@@ -1,0 +1,9018 @@
+{
+	"provider": {
+		"name": "Dota 2",
+		"appid": 570,
+		"version": 48,
+		"timestamp": 1784483879
+	},
+	"map": {
+		"name": "start",
+		"matchid": "8904406010",
+		"game_time": 1794,
+		"clock_time": 1548,
+		"daytime": false,
+		"nightstalker_night": false,
+		"radiant_score": 12,
+		"dire_score": 25,
+		"game_state": "DOTA_GAMERULES_STATE_GAME_IN_PROGRESS",
+		"paused": false,
+		"win_team": "none",
+		"customgamename": "",
+		"radiant_ward_purchase_cooldown": 0,
+		"dire_ward_purchase_cooldown": 0,
+		"roshan_state": "alive",
+		"roshan_state_end_seconds": 0,
+		"tormentor_state": "alive",
+		"tormentor_state_end_seconds": 0,
+		"tormentor_state_location": "top",
+		"radiant_glyph_cooldown": 0,
+		"dire_glyph_cooldown": 174.78466796875,
+		"radiant_scan_cooldown": 0,
+		"radiant_scan_charges": 2,
+		"dire_scan_cooldown": 0,
+		"dire_scan_charges": 2,
+		"radiant_wisdom_shrine": false,
+		"dire_wisdom_shrine": false,
+		"radiant_lotus_pool_count": 1,
+		"dire_lotus_pool_count": 1,
+		"watchers": {
+			"watcher0": {
+				"location_x": 7917,
+				"location_y": -1524,
+				"capture_state": "dire"
+			},
+			"watcher1": {
+				"location_x": -6464,
+				"location_y": 6656,
+				"capture_state": "not_captured"
+			},
+			"watcher2": {
+				"location_x": 2717,
+				"location_y": -658,
+				"capture_state": "dire"
+			},
+			"watcher3": {
+				"location_x": -3484,
+				"location_y": 34,
+				"capture_state": "not_captured"
+			},
+			"watcher4": {
+				"location_x": 1032,
+				"location_y": -4261,
+				"capture_state": "not_captured"
+			},
+			"watcher5": {
+				"location_x": 6528,
+				"location_y": -6592,
+				"capture_state": "not_captured"
+			},
+			"watcher6": {
+				"location_x": 768,
+				"location_y": -7648,
+				"capture_state": "radiant"
+			},
+			"watcher7": {
+				"location_x": -671,
+				"location_y": 7129,
+				"capture_state": "not_captured"
+			},
+			"watcher8": {
+				"location_x": -1528,
+				"location_y": 3925,
+				"capture_state": "dire"
+			},
+			"watcher9": {
+				"location_x": -7808,
+				"location_y": 1056,
+				"capture_state": "not_captured"
+			}
+		}
+	},
+	"player": {
+		"team2": {
+			"player0": {
+				"steamid": "76561199784574517",
+				"accountid": "1824308789",
+				"name": "Winllen",
+				"activity": "playing",
+				"kills": 2,
+				"deaths": 4,
+				"assists": 6,
+				"last_hits": 56,
+				"denies": 10,
+				"kill_streak": 0,
+				"commands_issued": 4268,
+				"kill_list": {
+					"victimid_5": 1,
+					"victimid_7": 1
+				},
+				"team_name": "radiant",
+				"player_slot": 2,
+				"team_slot": 0,
+				"gold": 1293,
+				"gold_reliable": 545,
+				"gold_unreliable": 748,
+				"gold_from_hero_kills": 1006,
+				"gold_from_creep_kills": 2252,
+				"gold_from_summon_kills": 148,
+				"gold_from_income": 2388,
+				"gold_from_shared": 636,
+				"gpm": 260,
+				"xpm": 378,
+				"net_worth": 6083,
+				"hero_damage": 10830,
+				"hero_healing": 0,
+				"tower_damage": 107,
+				"wards_purchased": 22,
+				"wards_placed": 12,
+				"wards_destroyed": 2,
+				"runes_activated": 1,
+				"water_runes_activated": 0,
+				"bounty_runes_activated": 2,
+				"camps_stacked": 1,
+				"support_gold_spent": 450,
+				"consumable_gold_spent": 990,
+				"item_gold_spent": 4530,
+				"gold_lost_to_death": 507,
+				"gold_spent_on_buybacks": 0,
+				"damage_received_pre_reduction_physical": 6652,
+				"damage_received_pre_reduction_magical": 10039,
+				"damage_received_pre_reduction_pure": 0,
+				"damage_received_post_reduction_physical": 4241,
+				"damage_received_post_reduction_magical": 6804,
+				"damage_received_post_reduction_pure": 0,
+				"damage_outgoing_pre_reduction_physical": 1941,
+				"damage_outgoing_pre_reduction_magical": 13109,
+				"damage_outgoing_pre_reduction_pure": 500,
+				"damage_outgoing_post_reduction_physical": 1324,
+				"damage_outgoing_post_reduction_magical": 9006,
+				"damage_outgoing_post_reduction_pure": 500
+			},
+			"player1": {
+				"steamid": "76561198252703200",
+				"accountid": "292437472",
+				"name": "。。。",
+				"activity": "playing",
+				"kills": 1,
+				"deaths": 3,
+				"assists": 3,
+				"last_hits": 162,
+				"denies": 18,
+				"kill_streak": 0,
+				"commands_issued": 4517,
+				"kill_list": {
+					"victimid_5": 1
+				},
+				"team_name": "radiant",
+				"player_slot": 8,
+				"team_slot": 1,
+				"gold": 252,
+				"gold_reliable": 214,
+				"gold_unreliable": 38,
+				"gold_from_hero_kills": 445,
+				"gold_from_creep_kills": 4585,
+				"gold_from_summon_kills": 35,
+				"gold_from_income": 2388,
+				"gold_from_shared": 288,
+				"gpm": 381,
+				"xpm": 495,
+				"net_worth": 9537,
+				"hero_damage": 5305,
+				"hero_healing": 0,
+				"tower_damage": 353,
+				"wards_purchased": 2,
+				"wards_placed": 2,
+				"wards_destroyed": 1,
+				"runes_activated": 4,
+				"water_runes_activated": 0,
+				"bounty_runes_activated": 2,
+				"camps_stacked": 0,
+				"support_gold_spent": 0,
+				"consumable_gold_spent": 680,
+				"item_gold_spent": 9690,
+				"gold_lost_to_death": 414,
+				"gold_spent_on_buybacks": 0,
+				"damage_received_pre_reduction_physical": 3455,
+				"damage_received_pre_reduction_magical": 8858,
+				"damage_received_pre_reduction_pure": 0,
+				"damage_received_post_reduction_physical": 1802,
+				"damage_received_post_reduction_magical": 5268,
+				"damage_received_post_reduction_pure": 0,
+				"damage_outgoing_pre_reduction_physical": 1484,
+				"damage_outgoing_pre_reduction_magical": 5107,
+				"damage_outgoing_pre_reduction_pure": 838,
+				"damage_outgoing_post_reduction_physical": 1052,
+				"damage_outgoing_post_reduction_magical": 3410,
+				"damage_outgoing_post_reduction_pure": 843
+			},
+			"player2": {
+				"steamid": "76561198066566287",
+				"accountid": "106300559",
+				"name": "INnoVation",
+				"activity": "playing",
+				"kills": 4,
+				"deaths": 10,
+				"assists": 4,
+				"last_hits": 18,
+				"denies": 1,
+				"kill_streak": 0,
+				"commands_issued": 4321,
+				"kill_list": {
+					"victimid_5": 1,
+					"victimid_7": 1,
+					"victimid_8": 1,
+					"victimid_9": 1
+				},
+				"team_name": "radiant",
+				"player_slot": 6,
+				"team_slot": 2,
+				"gold": 1224,
+				"gold_reliable": 877,
+				"gold_unreliable": 347,
+				"gold_from_hero_kills": 1846,
+				"gold_from_creep_kills": 974,
+				"gold_from_summon_kills": 58,
+				"gold_from_income": 2858,
+				"gold_from_shared": 940,
+				"gpm": 246,
+				"xpm": 317,
+				"net_worth": 4599,
+				"hero_damage": 8602,
+				"hero_healing": 0,
+				"tower_damage": 0,
+				"wards_purchased": 26,
+				"wards_placed": 15,
+				"wards_destroyed": 3,
+				"runes_activated": 0,
+				"water_runes_activated": 0,
+				"bounty_runes_activated": 0,
+				"camps_stacked": 1,
+				"support_gold_spent": 700,
+				"consumable_gold_spent": 1465,
+				"item_gold_spent": 3275,
+				"gold_lost_to_death": 683,
+				"gold_spent_on_buybacks": 447,
+				"damage_received_pre_reduction_physical": 5793,
+				"damage_received_pre_reduction_magical": 11898,
+				"damage_received_pre_reduction_pure": 0,
+				"damage_received_post_reduction_physical": 4096,
+				"damage_received_post_reduction_magical": 8570,
+				"damage_received_post_reduction_pure": 0,
+				"damage_outgoing_pre_reduction_physical": 4111,
+				"damage_outgoing_pre_reduction_magical": 10928,
+				"damage_outgoing_pre_reduction_pure": 0,
+				"damage_outgoing_post_reduction_physical": 2579,
+				"damage_outgoing_post_reduction_magical": 6023,
+				"damage_outgoing_post_reduction_pure": 0
+			},
+			"player3": {
+				"steamid": "76561198374753620",
+				"accountid": "414487892",
+				"name": "S@CR€D",
+				"activity": "playing",
+				"kills": 1,
+				"deaths": 3,
+				"assists": 5,
+				"last_hits": 259,
+				"denies": 9,
+				"kill_streak": 0,
+				"commands_issued": 9374,
+				"kill_list": {
+					"victimid_6": 1
+				},
+				"team_name": "radiant",
+				"player_slot": 4,
+				"team_slot": 3,
+				"gold": 326,
+				"gold_reliable": 227,
+				"gold_unreliable": 99,
+				"gold_from_hero_kills": 856,
+				"gold_from_creep_kills": 5989,
+				"gold_from_summon_kills": 55,
+				"gold_from_income": 2388,
+				"gold_from_shared": 409,
+				"gpm": 524,
+				"xpm": 666,
+				"net_worth": 12836,
+				"hero_damage": 4708,
+				"hero_healing": 0,
+				"tower_damage": 0,
+				"wards_purchased": 0,
+				"wards_placed": 0,
+				"wards_destroyed": 1,
+				"runes_activated": 0,
+				"water_runes_activated": 0,
+				"bounty_runes_activated": 1,
+				"camps_stacked": 1,
+				"support_gold_spent": 0,
+				"consumable_gold_spent": 755,
+				"item_gold_spent": 12825,
+				"gold_lost_to_death": 630,
+				"gold_spent_on_buybacks": 0,
+				"damage_received_pre_reduction_physical": 6900,
+				"damage_received_pre_reduction_magical": 9011,
+				"damage_received_pre_reduction_pure": 0,
+				"damage_received_post_reduction_physical": 3234,
+				"damage_received_post_reduction_magical": 6231,
+				"damage_received_post_reduction_pure": 0,
+				"damage_outgoing_pre_reduction_physical": 6207,
+				"damage_outgoing_pre_reduction_magical": 0,
+				"damage_outgoing_pre_reduction_pure": 0,
+				"damage_outgoing_post_reduction_physical": 4708,
+				"damage_outgoing_post_reduction_magical": 0,
+				"damage_outgoing_post_reduction_pure": 0
+			},
+			"player4": {
+				"steamid": "76561198066467932",
+				"accountid": "106202204",
+				"name": "JaZe",
+				"activity": "playing",
+				"kills": 4,
+				"deaths": 5,
+				"assists": 4,
+				"last_hits": 202,
+				"denies": 6,
+				"kill_streak": 0,
+				"commands_issued": 9982,
+				"kill_list": {
+					"victimid_5": 1,
+					"victimid_8": 2,
+					"victimid_9": 1
+				},
+				"team_name": "radiant",
+				"player_slot": 3,
+				"team_slot": 4,
+				"gold": 322,
+				"gold_reliable": 322,
+				"gold_unreliable": 0,
+				"gold_from_hero_kills": 1719,
+				"gold_from_creep_kills": 5899,
+				"gold_from_summon_kills": 231,
+				"gold_from_income": 2388,
+				"gold_from_shared": 860,
+				"gpm": 465,
+				"xpm": 478,
+				"net_worth": 11787,
+				"hero_damage": 14160,
+				"hero_healing": 1959,
+				"tower_damage": 60,
+				"wards_purchased": 0,
+				"wards_placed": 0,
+				"wards_destroyed": 0,
+				"runes_activated": 1,
+				"water_runes_activated": 0,
+				"bounty_runes_activated": 2,
+				"camps_stacked": 1,
+				"support_gold_spent": 0,
+				"consumable_gold_spent": 300,
+				"item_gold_spent": 11355,
+				"gold_lost_to_death": 628,
+				"gold_spent_on_buybacks": 0,
+				"damage_received_pre_reduction_physical": 9881,
+				"damage_received_pre_reduction_magical": 14440,
+				"damage_received_pre_reduction_pure": 700,
+				"damage_received_post_reduction_physical": 7054,
+				"damage_received_post_reduction_magical": 11230,
+				"damage_received_post_reduction_pure": 700,
+				"damage_outgoing_pre_reduction_physical": 3422,
+				"damage_outgoing_pre_reduction_magical": 17110,
+				"damage_outgoing_pre_reduction_pure": 0,
+				"damage_outgoing_post_reduction_physical": 2243,
+				"damage_outgoing_post_reduction_magical": 11199,
+				"damage_outgoing_post_reduction_pure": 0
+			}
+		},
+		"team3": {
+			"player5": {
+				"steamid": "76561198379619748",
+				"accountid": "419354020",
+				"name": "lf na hee do",
+				"activity": "playing",
+				"kills": 2,
+				"deaths": 4,
+				"assists": 11,
+				"last_hits": 164,
+				"denies": 8,
+				"kill_streak": 1,
+				"commands_issued": 4945,
+				"kill_list": {
+					"victimid_2": 1,
+					"victimid_4": 1
+				},
+				"team_name": "dire",
+				"player_slot": 9,
+				"team_slot": 0,
+				"gold": 1502,
+				"gold_reliable": 170,
+				"gold_unreliable": 1332,
+				"gold_from_hero_kills": 1543,
+				"gold_from_creep_kills": 4050,
+				"gold_from_summon_kills": 0,
+				"gold_from_income": 2388,
+				"gold_from_shared": 1117,
+				"gpm": 471,
+				"xpm": 569,
+				"net_worth": 12147,
+				"hero_damage": 11780,
+				"hero_healing": 0,
+				"tower_damage": 1461,
+				"wards_purchased": 0,
+				"wards_placed": 0,
+				"wards_destroyed": 1,
+				"runes_activated": 0,
+				"water_runes_activated": 0,
+				"bounty_runes_activated": 3,
+				"camps_stacked": 1,
+				"support_gold_spent": 0,
+				"consumable_gold_spent": 590,
+				"item_gold_spent": 10425,
+				"gold_lost_to_death": 250,
+				"gold_spent_on_buybacks": 0,
+				"damage_received_pre_reduction_physical": 3600,
+				"damage_received_pre_reduction_magical": 10694,
+				"damage_received_pre_reduction_pure": 0,
+				"damage_received_post_reduction_physical": 2719,
+				"damage_received_post_reduction_magical": 6998,
+				"damage_received_post_reduction_pure": 0,
+				"damage_outgoing_pre_reduction_physical": 9552,
+				"damage_outgoing_pre_reduction_magical": 7034,
+				"damage_outgoing_pre_reduction_pure": 700,
+				"damage_outgoing_post_reduction_physical": 5648,
+				"damage_outgoing_post_reduction_magical": 5432,
+				"damage_outgoing_post_reduction_pure": 700
+			},
+			"player6": {
+				"steamid": "76561198202324452",
+				"accountid": "242058724",
+				"name": "214",
+				"activity": "playing",
+				"kills": 8,
+				"deaths": 1,
+				"assists": 12,
+				"last_hits": 187,
+				"denies": 2,
+				"kill_streak": 2,
+				"commands_issued": 10116,
+				"kill_list": {
+					"victimid_0": 1,
+					"victimid_1": 2,
+					"victimid_2": 3,
+					"victimid_4": 2
+				},
+				"team_name": "dire",
+				"player_slot": 7,
+				"team_slot": 1,
+				"gold": 924,
+				"gold_reliable": 238,
+				"gold_unreliable": 686,
+				"gold_from_hero_kills": 3412,
+				"gold_from_creep_kills": 5314,
+				"gold_from_summon_kills": 18,
+				"gold_from_income": 2388,
+				"gold_from_shared": 1796,
+				"gpm": 535,
+				"xpm": 765,
+				"net_worth": 13704,
+				"hero_damage": 14806,
+				"hero_healing": 15439,
+				"tower_damage": 253,
+				"wards_purchased": 1,
+				"wards_placed": 2,
+				"wards_destroyed": 1,
+				"runes_activated": 3,
+				"water_runes_activated": 3,
+				"bounty_runes_activated": 1,
+				"camps_stacked": 0,
+				"support_gold_spent": 80,
+				"consumable_gold_spent": 635,
+				"item_gold_spent": 12780,
+				"gold_lost_to_death": 253,
+				"gold_spent_on_buybacks": 0,
+				"damage_received_pre_reduction_physical": 1387,
+				"damage_received_pre_reduction_magical": 5347,
+				"damage_received_pre_reduction_pure": 589,
+				"damage_received_post_reduction_physical": 939,
+				"damage_received_post_reduction_magical": 3718,
+				"damage_received_post_reduction_pure": 593,
+				"damage_outgoing_pre_reduction_physical": 2287,
+				"damage_outgoing_pre_reduction_magical": 18815,
+				"damage_outgoing_pre_reduction_pure": 0,
+				"damage_outgoing_post_reduction_physical": 1207,
+				"damage_outgoing_post_reduction_magical": 13599,
+				"damage_outgoing_post_reduction_pure": 0
+			},
+			"player7": {
+				"steamid": "76561198049697057",
+				"accountid": "89431329",
+				"name": "WdD",
+				"activity": "playing",
+				"kills": 7,
+				"deaths": 2,
+				"assists": 10,
+				"last_hits": 48,
+				"denies": 5,
+				"kill_streak": 2,
+				"commands_issued": 3674,
+				"kill_list": {
+					"victimid_0": 2,
+					"victimid_2": 3,
+					"victimid_3": 2
+				},
+				"team_name": "dire",
+				"player_slot": 5,
+				"team_slot": 2,
+				"gold": 1746,
+				"gold_reliable": 353,
+				"gold_unreliable": 1393,
+				"gold_from_hero_kills": 2851,
+				"gold_from_creep_kills": 1895,
+				"gold_from_summon_kills": 0,
+				"gold_from_income": 2388,
+				"gold_from_shared": 1464,
+				"gpm": 325,
+				"xpm": 513,
+				"net_worth": 7711,
+				"hero_damage": 10159,
+				"hero_healing": 0,
+				"tower_damage": 841,
+				"wards_purchased": 20,
+				"wards_placed": 11,
+				"wards_destroyed": 3,
+				"runes_activated": 0,
+				"water_runes_activated": 0,
+				"bounty_runes_activated": 1,
+				"camps_stacked": 1,
+				"support_gold_spent": 690,
+				"consumable_gold_spent": 1475,
+				"item_gold_spent": 5625,
+				"gold_lost_to_death": 148,
+				"gold_spent_on_buybacks": 0,
+				"damage_received_pre_reduction_physical": 3830,
+				"damage_received_pre_reduction_magical": 7542,
+				"damage_received_pre_reduction_pure": 681,
+				"damage_received_post_reduction_physical": 2874,
+				"damage_received_post_reduction_magical": 4880,
+				"damage_received_post_reduction_pure": 681,
+				"damage_outgoing_pre_reduction_physical": 6638,
+				"damage_outgoing_pre_reduction_magical": 9289,
+				"damage_outgoing_pre_reduction_pure": 0,
+				"damage_outgoing_post_reduction_physical": 3827,
+				"damage_outgoing_post_reduction_magical": 6332,
+				"damage_outgoing_post_reduction_pure": 0
+			},
+			"player8": {
+				"steamid": "76561198321578070",
+				"accountid": "361312342",
+				"name": "Ame小迷弟（恩师tbk）",
+				"activity": "playing",
+				"kills": 4,
+				"deaths": 3,
+				"assists": 7,
+				"last_hits": 241,
+				"denies": 10,
+				"kill_streak": 2,
+				"commands_issued": 5144,
+				"kill_list": {
+					"victimid_0": 1,
+					"victimid_2": 2,
+					"victimid_4": 1
+				},
+				"team_name": "dire",
+				"player_slot": 1,
+				"team_slot": 3,
+				"gold": 441,
+				"gold_reliable": 441,
+				"gold_unreliable": 0,
+				"gold_from_hero_kills": 1651,
+				"gold_from_creep_kills": 6806,
+				"gold_from_summon_kills": 0,
+				"gold_from_income": 2388,
+				"gold_from_shared": 871,
+				"gpm": 575,
+				"xpm": 633,
+				"net_worth": 14451,
+				"hero_damage": 7627,
+				"hero_healing": 0,
+				"tower_damage": 3259,
+				"wards_purchased": 0,
+				"wards_placed": 0,
+				"wards_destroyed": 0,
+				"runes_activated": 0,
+				"water_runes_activated": 0,
+				"bounty_runes_activated": 1,
+				"camps_stacked": 0,
+				"support_gold_spent": 0,
+				"consumable_gold_spent": 645,
+				"item_gold_spent": 14025,
+				"gold_lost_to_death": 344,
+				"gold_spent_on_buybacks": 0,
+				"damage_received_pre_reduction_physical": 4101,
+				"damage_received_pre_reduction_magical": 14847,
+				"damage_received_pre_reduction_pure": 69,
+				"damage_received_post_reduction_physical": 2504,
+				"damage_received_post_reduction_magical": 9018,
+				"damage_received_post_reduction_pure": 69,
+				"damage_outgoing_pre_reduction_physical": 8039,
+				"damage_outgoing_pre_reduction_magical": 3839,
+				"damage_outgoing_pre_reduction_pure": 0,
+				"damage_outgoing_post_reduction_physical": 5308,
+				"damage_outgoing_post_reduction_magical": 2319,
+				"damage_outgoing_post_reduction_pure": 0
+			},
+			"player9": {
+				"steamid": "76561198143906540",
+				"accountid": "183640812",
+				"name": "fekfek",
+				"activity": "playing",
+				"kills": 4,
+				"deaths": 2,
+				"assists": 17,
+				"last_hits": 57,
+				"denies": 6,
+				"kill_streak": 3,
+				"commands_issued": 6933,
+				"kill_list": {
+					"victimid_1": 1,
+					"victimid_2": 1,
+					"victimid_3": 1,
+					"victimid_4": 1
+				},
+				"team_name": "dire",
+				"player_slot": 10,
+				"team_slot": 4,
+				"gold": 1213,
+				"gold_reliable": 424,
+				"gold_unreliable": 789,
+				"gold_from_hero_kills": 2513,
+				"gold_from_creep_kills": 1937,
+				"gold_from_summon_kills": 18,
+				"gold_from_income": 2948,
+				"gold_from_shared": 1581,
+				"gpm": 362,
+				"xpm": 520,
+				"net_worth": 7718,
+				"hero_damage": 14858,
+				"hero_healing": 0,
+				"tower_damage": 195,
+				"wards_purchased": 36,
+				"wards_placed": 20,
+				"wards_destroyed": 5,
+				"runes_activated": 1,
+				"water_runes_activated": 0,
+				"bounty_runes_activated": 2,
+				"camps_stacked": 2,
+				"support_gold_spent": 950,
+				"consumable_gold_spent": 2190,
+				"item_gold_spent": 7380,
+				"gold_lost_to_death": 20,
+				"gold_spent_on_buybacks": 0,
+				"damage_received_pre_reduction_physical": 4248,
+				"damage_received_pre_reduction_magical": 7824,
+				"damage_received_pre_reduction_pure": 0,
+				"damage_received_post_reduction_physical": 2870,
+				"damage_received_post_reduction_magical": 5024,
+				"damage_received_post_reduction_pure": 0,
+				"damage_outgoing_pre_reduction_physical": 6163,
+				"damage_outgoing_pre_reduction_magical": 15270,
+				"damage_outgoing_pre_reduction_pure": 0,
+				"damage_outgoing_post_reduction_physical": 4437,
+				"damage_outgoing_post_reduction_magical": 10421,
+				"damage_outgoing_post_reduction_pure": 0
+			}
+		}
+	},
+	"hero": {
+		"team2": {
+			"player0": {
+				"facet": 0,
+				"xpos": -2375,
+				"ypos": -7389,
+				"id": 74,
+				"name": "npc_dota_hero_invoker",
+				"level": 13,
+				"xp": 9776,
+				"alive": false,
+				"respawn_seconds": 22,
+				"buyback_cost": 667,
+				"buyback_cooldown": 0,
+				"health": 0,
+				"max_health": 1462,
+				"health_percent": 0,
+				"mana": 929,
+				"max_mana": 1294,
+				"mana_percent": 71,
+				"silenced": false,
+				"stunned": false,
+				"disarmed": false,
+				"magicimmune": false,
+				"hexed": false,
+				"muted": false,
+				"break": false,
+				"aghanims_scepter": false,
+				"aghanims_shard": true,
+				"smoked": false,
+				"permanent_buffs": {
+					"modifier_item_aghanims_shard": {
+						"stack_count": 0
+					}
+				},
+				"has_debuff": false,
+				"selected_unit": true,
+				"talent_1": true,
+				"talent_2": false,
+				"talent_3": false,
+				"talent_4": false,
+				"talent_5": false,
+				"talent_6": false,
+				"talent_7": false,
+				"talent_8": false,
+				"attributes_level": 0
+			},
+			"player1": {
+				"facet": 0,
+				"xpos": -1948,
+				"ypos": -7775,
+				"id": 76,
+				"name": "npc_dota_hero_obsidian_destroyer",
+				"level": 15,
+				"xp": 12794,
+				"alive": false,
+				"respawn_seconds": 20,
+				"buyback_cost": 933,
+				"buyback_cooldown": 0,
+				"health": 0,
+				"max_health": 1594,
+				"health_percent": 0,
+				"mana": 1775,
+				"max_mana": 1775,
+				"mana_percent": 100,
+				"silenced": false,
+				"stunned": false,
+				"disarmed": false,
+				"magicimmune": false,
+				"hexed": false,
+				"muted": false,
+				"break": false,
+				"aghanims_scepter": false,
+				"aghanims_shard": false,
+				"smoked": false,
+				"permanent_buffs": {
+
+				},
+				"has_debuff": false,
+				"selected_unit": false,
+				"talent_1": false,
+				"talent_2": true,
+				"talent_3": false,
+				"talent_4": true,
+				"talent_5": false,
+				"talent_6": false,
+				"talent_7": false,
+				"talent_8": false,
+				"attributes_level": 1
+			},
+			"player2": {
+				"facet": 0,
+				"xpos": -4107,
+				"ypos": -3514,
+				"id": 26,
+				"name": "npc_dota_hero_lion",
+				"level": 11,
+				"xp": 8197,
+				"alive": true,
+				"respawn_seconds": 0,
+				"buyback_cost": 553,
+				"buyback_cooldown": 1856,
+				"health": 1044,
+				"max_health": 1044,
+				"health_percent": 100,
+				"mana": 873,
+				"max_mana": 873,
+				"mana_percent": 100,
+				"silenced": false,
+				"stunned": false,
+				"disarmed": false,
+				"magicimmune": false,
+				"hexed": false,
+				"muted": false,
+				"break": false,
+				"aghanims_scepter": false,
+				"aghanims_shard": false,
+				"smoked": false,
+				"permanent_buffs": {
+					"modifier_lion_finger_of_death_kill_counter": {
+						"stack_count": 3
+					}
+				},
+				"has_debuff": false,
+				"selected_unit": false,
+				"talent_1": false,
+				"talent_2": true,
+				"talent_3": false,
+				"talent_4": false,
+				"talent_5": false,
+				"talent_6": false,
+				"talent_7": false,
+				"talent_8": false,
+				"attributes_level": 0
+			},
+			"player3": {
+				"facet": 0,
+				"xpos": -4494,
+				"ypos": -5408,
+				"id": 44,
+				"name": "npc_dota_hero_phantom_assassin",
+				"level": 17,
+				"xp": 17195,
+				"alive": false,
+				"respawn_seconds": 46,
+				"buyback_cost": 1187,
+				"buyback_cooldown": 0,
+				"health": 0,
+				"max_health": 2008,
+				"health_percent": 0,
+				"mana": 386,
+				"max_mana": 386,
+				"mana_percent": 100,
+				"silenced": false,
+				"stunned": false,
+				"disarmed": false,
+				"magicimmune": false,
+				"hexed": false,
+				"muted": false,
+				"break": false,
+				"aghanims_scepter": false,
+				"aghanims_shard": false,
+				"smoked": false,
+				"permanent_buffs": {
+
+				},
+				"has_debuff": false,
+				"selected_unit": false,
+				"talent_1": true,
+				"talent_2": false,
+				"talent_3": true,
+				"talent_4": false,
+				"talent_5": false,
+				"talent_6": false,
+				"talent_7": false,
+				"talent_8": false,
+				"attributes_level": 3
+			},
+			"player4": {
+				"facet": 0,
+				"xpos": -5216,
+				"ypos": -4903,
+				"id": 36,
+				"name": "npc_dota_hero_necrolyte",
+				"level": 14,
+				"xp": 12338,
+				"alive": true,
+				"respawn_seconds": 0,
+				"buyback_cost": 1106,
+				"buyback_cooldown": 0,
+				"health": 1380,
+				"max_health": 1380,
+				"health_percent": 100,
+				"mana": 1051,
+				"max_mana": 1051,
+				"mana_percent": 100,
+				"silenced": false,
+				"stunned": false,
+				"disarmed": false,
+				"magicimmune": false,
+				"hexed": false,
+				"muted": false,
+				"break": false,
+				"aghanims_scepter": false,
+				"aghanims_shard": true,
+				"smoked": false,
+				"permanent_buffs": {
+					"modifier_necrolyte_reapers_scythe_respawn_time": {
+						"stack_count": 3
+					},
+					"modifier_item_aghanims_shard": {
+						"stack_count": 0
+					}
+				},
+				"has_debuff": false,
+				"selected_unit": false,
+				"talent_1": false,
+				"talent_2": true,
+				"talent_3": false,
+				"talent_4": false,
+				"talent_5": false,
+				"talent_6": false,
+				"talent_7": false,
+				"talent_8": false,
+				"attributes_level": 0
+			}
+		},
+		"team3": {
+			"player5": {
+				"facet": 0,
+				"xpos": -1339,
+				"ypos": -6427,
+				"id": 33,
+				"name": "npc_dota_hero_enigma",
+				"level": 16,
+				"xp": 14684,
+				"alive": true,
+				"respawn_seconds": 0,
+				"buyback_cost": 1134,
+				"buyback_cooldown": 0,
+				"health": 2020,
+				"max_health": 2020,
+				"health_percent": 100,
+				"mana": 674,
+				"max_mana": 1159,
+				"mana_percent": 58,
+				"silenced": false,
+				"stunned": false,
+				"disarmed": false,
+				"magicimmune": false,
+				"hexed": false,
+				"muted": false,
+				"break": false,
+				"aghanims_scepter": false,
+				"aghanims_shard": true,
+				"smoked": false,
+				"permanent_buffs": {
+					"modifier_item_aghanims_shard": {
+						"stack_count": 0
+					}
+				},
+				"has_debuff": false,
+				"selected_unit": false,
+				"talent_1": true,
+				"talent_2": false,
+				"talent_3": true,
+				"talent_4": false,
+				"talent_5": false,
+				"talent_6": false,
+				"talent_7": false,
+				"talent_8": false,
+				"attributes_level": 2
+			},
+			"player6": {
+				"facet": 0,
+				"xpos": -1113,
+				"ypos": -6391,
+				"id": 90,
+				"name": "npc_dota_hero_keeper_of_the_light",
+				"level": 19,
+				"xp": 19764,
+				"alive": true,
+				"respawn_seconds": 0,
+				"buyback_cost": 1254,
+				"buyback_cooldown": 0,
+				"health": 2169,
+				"max_health": 2374,
+				"health_percent": 91,
+				"mana": 1295,
+				"max_mana": 1991,
+				"mana_percent": 65,
+				"silenced": false,
+				"stunned": false,
+				"disarmed": false,
+				"magicimmune": false,
+				"hexed": false,
+				"muted": false,
+				"break": false,
+				"aghanims_scepter": false,
+				"aghanims_shard": true,
+				"smoked": false,
+				"permanent_buffs": {
+					"modifier_item_aghanims_shard": {
+						"stack_count": 0
+					}
+				},
+				"has_debuff": false,
+				"selected_unit": false,
+				"talent_1": false,
+				"talent_2": true,
+				"talent_3": true,
+				"talent_4": false,
+				"talent_5": false,
+				"talent_6": false,
+				"talent_7": false,
+				"talent_8": false,
+				"attributes_level": 4
+			},
+			"player7": {
+				"facet": 0,
+				"xpos": -465,
+				"ypos": -6875,
+				"id": 21,
+				"name": "npc_dota_hero_windrunner",
+				"level": 15,
+				"xp": 13240,
+				"alive": true,
+				"respawn_seconds": 0,
+				"buyback_cost": 793,
+				"buyback_cooldown": 0,
+				"health": 872,
+				"max_health": 1462,
+				"health_percent": 59,
+				"mana": 830,
+				"max_mana": 1028,
+				"mana_percent": 80,
+				"silenced": false,
+				"stunned": false,
+				"disarmed": false,
+				"magicimmune": false,
+				"hexed": false,
+				"muted": false,
+				"break": false,
+				"aghanims_scepter": false,
+				"aghanims_shard": false,
+				"smoked": false,
+				"permanent_buffs": {
+
+				},
+				"has_debuff": false,
+				"selected_unit": false,
+				"talent_1": false,
+				"talent_2": true,
+				"talent_3": true,
+				"talent_4": false,
+				"talent_5": false,
+				"talent_6": false,
+				"talent_7": false,
+				"talent_8": false,
+				"attributes_level": 1
+			},
+			"player8": {
+				"facet": 0,
+				"xpos": -829,
+				"ypos": -5834,
+				"id": 12,
+				"name": "npc_dota_hero_phantom_lancer",
+				"level": 17,
+				"xp": 16336,
+				"alive": true,
+				"respawn_seconds": 0,
+				"buyback_cost": 1311,
+				"buyback_cooldown": 0,
+				"health": 2165,
+				"max_health": 2165,
+				"health_percent": 100,
+				"mana": 576,
+				"max_mana": 1186,
+				"mana_percent": 48,
+				"silenced": false,
+				"stunned": false,
+				"disarmed": false,
+				"magicimmune": false,
+				"hexed": false,
+				"muted": false,
+				"break": false,
+				"aghanims_scepter": true,
+				"aghanims_shard": false,
+				"smoked": false,
+				"permanent_buffs": {
+
+				},
+				"has_debuff": false,
+				"selected_unit": false,
+				"talent_1": false,
+				"talent_2": true,
+				"talent_3": true,
+				"talent_4": false,
+				"talent_5": false,
+				"talent_6": false,
+				"talent_7": false,
+				"talent_8": false,
+				"attributes_level": 3
+			},
+			"player9": {
+				"facet": 0,
+				"xpos": -873,
+				"ypos": -6910,
+				"id": 86,
+				"name": "npc_dota_hero_rubick",
+				"level": 15,
+				"xp": 13440,
+				"alive": true,
+				"respawn_seconds": 0,
+				"buyback_cost": 793,
+				"buyback_cooldown": 0,
+				"health": 1077,
+				"max_health": 1661,
+				"health_percent": 64,
+				"mana": 889,
+				"max_mana": 2323,
+				"mana_percent": 38,
+				"silenced": false,
+				"stunned": false,
+				"disarmed": false,
+				"magicimmune": false,
+				"hexed": false,
+				"muted": false,
+				"break": false,
+				"aghanims_scepter": false,
+				"aghanims_shard": false,
+				"smoked": false,
+				"permanent_buffs": {
+					"modifier_rubick_curiosity_from_heroes_tracker": {
+						"stack_count": 11
+					}
+				},
+				"has_debuff": false,
+				"selected_unit": false,
+				"talent_1": false,
+				"talent_2": true,
+				"talent_3": false,
+				"talent_4": true,
+				"talent_5": false,
+				"talent_6": false,
+				"talent_7": false,
+				"talent_8": false,
+				"attributes_level": 1
+			}
+		}
+	},
+	"abilities": {
+		"team2": {
+			"player0": {
+				"ability0": {
+					"name": "invoker_quas",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"ultimate": false
+				},
+				"ability1": {
+					"name": "invoker_wex",
+					"level": 6,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"ultimate": false
+				},
+				"ability2": {
+					"name": "invoker_exort",
+					"level": 5,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"ultimate": false
+				},
+				"ability3": {
+					"name": "invoker_emp",
+					"level": 1,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 28,
+					"ultimate": false
+				},
+				"ability4": {
+					"name": "invoker_tornado",
+					"level": 1,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 28,
+					"ultimate": false
+				},
+				"ability5": {
+					"name": "invoker_invoke",
+					"level": 1,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 3,
+					"ultimate": true
+				}
+			},
+			"player1": {
+				"ability0": {
+					"name": "obsidian_destroyer_arcane_orb",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"ultimate": false
+				},
+				"ability1": {
+					"name": "obsidian_destroyer_astral_imprisonment",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 13,
+					"ultimate": false
+				},
+				"ability2": {
+					"name": "obsidian_destroyer_objurgation",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 31,
+					"ultimate": false
+				},
+				"ability3": {
+					"name": "obsidian_destroyer_sanity_eclipse",
+					"level": 2,
+					"can_cast": false,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 72,
+					"max_cooldown": 131,
+					"ultimate": true
+				}
+			},
+			"player2": {
+				"ability0": {
+					"name": "lion_impale",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 12,
+					"ultimate": false
+				},
+				"ability1": {
+					"name": "lion_voodoo",
+					"level": 3,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 17,
+					"ultimate": false
+				},
+				"ability2": {
+					"name": "lion_mana_drain",
+					"level": 3,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 10,
+					"ultimate": false
+				},
+				"ability3": {
+					"name": "lion_to_hell_and_back",
+					"level": 1,
+					"can_cast": false,
+					"passive": true,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"ultimate": false
+				},
+				"ability4": {
+					"name": "lion_finger_of_death",
+					"level": 1,
+					"can_cast": false,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 53,
+					"max_cooldown": 111,
+					"ultimate": true
+				}
+			},
+			"player3": {
+				"ability0": {
+					"name": "phantom_assassin_stifling_dagger",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 7,
+					"ultimate": false
+				},
+				"ability1": {
+					"name": "phantom_assassin_phantom_strike",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 1,
+					"ultimate": false,
+					"charges": 1,
+					"max_charges": 2,
+					"charge_cooldown": 7
+				},
+				"ability2": {
+					"name": "phantom_assassin_blur",
+					"level": 1,
+					"can_cast": false,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 11,
+					"max_cooldown": 46,
+					"ultimate": false
+				},
+				"ability3": {
+					"name": "phantom_assassin_immaterial",
+					"level": 4,
+					"can_cast": false,
+					"passive": true,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"ultimate": false
+				},
+				"ability4": {
+					"name": "phantom_assassin_coup_de_grace",
+					"level": 2,
+					"can_cast": false,
+					"passive": true,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"ultimate": true
+				}
+			},
+			"player4": {
+				"ability0": {
+					"name": "necrolyte_death_pulse",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 6,
+					"ultimate": false
+				},
+				"ability1": {
+					"name": "necrolyte_ghost_shroud",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 17,
+					"ultimate": false
+				},
+				"ability2": {
+					"name": "necrolyte_heartstopper_aura",
+					"level": 4,
+					"can_cast": false,
+					"passive": true,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"ultimate": false
+				},
+				"ability3": {
+					"name": "necrolyte_death_seeker",
+					"level": 1,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 20,
+					"ultimate": false
+				},
+				"ability4": {
+					"name": "necrolyte_reapers_scythe",
+					"level": 2,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 101,
+					"ultimate": true
+				}
+			}
+		},
+		"team3": {
+			"player5": {
+				"ability0": {
+					"name": "enigma_malefice",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 15,
+					"ultimate": false
+				},
+				"ability1": {
+					"name": "enigma_demonic_conversion",
+					"level": 4,
+					"can_cast": false,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 16,
+					"max_cooldown": 31,
+					"ultimate": false
+				},
+				"ability2": {
+					"name": "enigma_midnight_pulse",
+					"level": 4,
+					"can_cast": false,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 7,
+					"max_cooldown": 26,
+					"ultimate": false
+				},
+				"ability3": {
+					"name": "enigma_black_hole",
+					"level": 2,
+					"can_cast": false,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 114,
+					"max_cooldown": 171,
+					"ultimate": true
+				}
+			},
+			"player6": {
+				"ability0": {
+					"name": "keeper_of_the_light_illuminate",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 9,
+					"ultimate": false
+				},
+				"ability1": {
+					"name": "keeper_of_the_light_blinding_light",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 12,
+					"ultimate": false
+				},
+				"ability2": {
+					"name": "keeper_of_the_light_chakra_magic",
+					"level": 4,
+					"can_cast": false,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 7,
+					"max_cooldown": 8,
+					"ultimate": false
+				},
+				"ability3": {
+					"name": "keeper_of_the_light_spirit_form",
+					"level": 3,
+					"can_cast": false,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 1,
+					"max_cooldown": 57,
+					"ultimate": true
+				},
+				"ability4": {
+					"name": "keeper_of_the_light_bright_speed",
+					"level": 1,
+					"can_cast": false,
+					"passive": true,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"ultimate": false
+				}
+			},
+			"player7": {
+				"ability0": {
+					"name": "windrunner_shackleshot",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 11,
+					"ultimate": false
+				},
+				"ability1": {
+					"name": "windrunner_powershot",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 10,
+					"ultimate": false
+				},
+				"ability2": {
+					"name": "windrunner_windrun",
+					"level": 4,
+					"can_cast": false,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 7,
+					"max_cooldown": 12,
+					"ultimate": false
+				},
+				"ability3": {
+					"name": "windrunner_focusfire",
+					"level": 2,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 41,
+					"ultimate": true
+				}
+			},
+			"player8": {
+				"ability0": {
+					"name": "phantom_lancer_spirit_lance",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 8,
+					"ultimate": false
+				},
+				"ability1": {
+					"name": "phantom_lancer_doppelwalk",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 11,
+					"ultimate": false
+				},
+				"ability2": {
+					"name": "phantom_lancer_phantom_edge",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 4,
+					"ultimate": false
+				},
+				"ability3": {
+					"name": "phantom_lancer_juxtapose",
+					"level": 2,
+					"can_cast": false,
+					"passive": true,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"ultimate": true
+				}
+			},
+			"player9": {
+				"ability0": {
+					"name": "rubick_telekinesis",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 14,
+					"ultimate": false
+				},
+				"ability1": {
+					"name": "rubick_fade_bolt",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 11,
+					"ultimate": false
+				},
+				"ability2": {
+					"name": "rubick_arcane_supremacy",
+					"level": 4,
+					"can_cast": false,
+					"passive": true,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"ultimate": false
+				},
+				"ability3": {
+					"name": "obsidian_destroyer_astral_imprisonment",
+					"level": 4,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 10,
+					"ultimate": false
+				},
+				"ability4": {
+					"name": "rubick_empty2",
+					"level": 0,
+					"can_cast": false,
+					"passive": true,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"ultimate": false
+				},
+				"ability5": {
+					"name": "rubick_spell_steal",
+					"level": 2,
+					"can_cast": true,
+					"passive": false,
+					"ability_active": true,
+					"cooldown": 0,
+					"max_cooldown": 11,
+					"ultimate": true
+				}
+			}
+		}
+	},
+	"items": {
+		"team2": {
+			"player0": {
+				"slot0": {
+					"name": "item_null_talisman",
+					"purchaser": 0,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot1": {
+					"name": "item_boots",
+					"purchaser": 0,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot2": {
+					"name": "item_essence_distiller",
+					"purchaser": 0,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false,
+					"item_charges": 4,
+					"charges": 4
+				},
+				"slot3": {
+					"name": "empty"
+				},
+				"slot4": {
+					"name": "item_ward_sentry",
+					"purchaser": 0,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 1,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"slot5": {
+					"name": "item_magic_wand",
+					"purchaser": 0,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 16,
+					"passive": false,
+					"item_charges": 7,
+					"charges": 7
+				},
+				"slot6": {
+					"name": "empty"
+				},
+				"slot7": {
+					"name": "empty"
+				},
+				"slot8": {
+					"name": "empty"
+				},
+				"stash0": {
+					"name": "empty"
+				},
+				"stash1": {
+					"name": "empty"
+				},
+				"stash2": {
+					"name": "empty"
+				},
+				"stash3": {
+					"name": "empty"
+				},
+				"stash4": {
+					"name": "empty"
+				},
+				"stash5": {
+					"name": "empty"
+				},
+				"teleport0": {
+					"name": "item_tpscroll",
+					"purchaser": 0,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 22,
+					"max_cooldown": 81,
+					"passive": false,
+					"item_charges": 2,
+					"charges": 2
+				},
+				"neutral0": {
+					"name": "item_weighted_dice",
+					"purchaser": 0,
+					"item_level": 1,
+					"passive": true
+				},
+				"neutral1": {
+					"name": "item_enhancement_mystical",
+					"purchaser": 0,
+					"item_level": 2,
+					"passive": true
+				},
+				"preserved_neutral6": {
+					"name": "empty"
+				},
+				"preserved_neutral7": {
+					"name": "empty"
+				},
+				"preserved_neutral8": {
+					"name": "empty"
+				},
+				"preserved_neutral9": {
+					"name": "empty"
+				},
+				"preserved_neutral10": {
+					"name": "empty"
+				}
+			},
+			"player1": {
+				"slot0": {
+					"name": "item_blink",
+					"purchaser": 1,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 4,
+					"passive": false
+				},
+				"slot1": {
+					"name": "item_orchid",
+					"purchaser": 1,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 19,
+					"passive": false
+				},
+				"slot2": {
+					"name": "item_null_talisman",
+					"purchaser": 1,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot3": {
+					"name": "item_null_talisman",
+					"purchaser": 1,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot4": {
+					"name": "item_staff_of_wizardry",
+					"purchaser": 1,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot5": {
+					"name": "item_power_treads",
+					"purchaser": 1,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false
+				},
+				"slot6": {
+					"name": "item_fluffy_hat",
+					"purchaser": 1,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot7": {
+					"name": "empty"
+				},
+				"slot8": {
+					"name": "empty"
+				},
+				"stash0": {
+					"name": "empty"
+				},
+				"stash1": {
+					"name": "empty"
+				},
+				"stash2": {
+					"name": "empty"
+				},
+				"stash3": {
+					"name": "empty"
+				},
+				"stash4": {
+					"name": "empty"
+				},
+				"stash5": {
+					"name": "empty"
+				},
+				"teleport0": {
+					"name": "item_tpscroll",
+					"purchaser": 1,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false,
+					"item_charges": 2,
+					"charges": 2
+				},
+				"neutral0": {
+					"name": "item_essence_ring",
+					"purchaser": 1,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false
+				},
+				"neutral1": {
+					"name": "item_enhancement_quickened",
+					"purchaser": 1,
+					"item_level": 2,
+					"passive": true
+				},
+				"preserved_neutral6": {
+					"name": "empty"
+				},
+				"preserved_neutral7": {
+					"name": "empty"
+				},
+				"preserved_neutral8": {
+					"name": "empty"
+				},
+				"preserved_neutral9": {
+					"name": "empty"
+				},
+				"preserved_neutral10": {
+					"name": "empty"
+				}
+			},
+			"player2": {
+				"slot0": {
+					"name": "item_blink",
+					"purchaser": 2,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 15,
+					"max_cooldown": 16,
+					"passive": false
+				},
+				"slot1": {
+					"name": "item_magic_stick",
+					"purchaser": 2,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 18,
+					"passive": false,
+					"item_charges": 4,
+					"charges": 4
+				},
+				"slot2": {
+					"name": "item_ward_sentry",
+					"purchaser": 2,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 1,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"slot3": {
+					"name": "item_wind_lace",
+					"purchaser": 2,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot4": {
+					"name": "item_boots",
+					"purchaser": 2,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot5": {
+					"name": "item_quelling_blade",
+					"purchaser": 2,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 5,
+					"passive": false
+				},
+				"slot6": {
+					"name": "empty"
+				},
+				"slot7": {
+					"name": "item_famango",
+					"purchaser": -1,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 6,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"slot8": {
+					"name": "item_smoke_of_deceit",
+					"purchaser": 2,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"stash0": {
+					"name": "empty"
+				},
+				"stash1": {
+					"name": "empty"
+				},
+				"stash2": {
+					"name": "empty"
+				},
+				"stash3": {
+					"name": "empty"
+				},
+				"stash4": {
+					"name": "empty"
+				},
+				"stash5": {
+					"name": "empty"
+				},
+				"teleport0": {
+					"name": "item_tpscroll",
+					"purchaser": 2,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 7,
+					"max_cooldown": 81,
+					"passive": false,
+					"item_charges": 4,
+					"charges": 4
+				},
+				"neutral0": {
+					"name": "item_mana_draught",
+					"purchaser": 2,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 61,
+					"passive": false
+				},
+				"neutral1": {
+					"name": "item_enhancement_greedy",
+					"purchaser": 2,
+					"item_level": 1,
+					"passive": true,
+					"item_charges": 750,
+					"charges": 750
+				},
+				"preserved_neutral6": {
+					"name": "empty"
+				},
+				"preserved_neutral7": {
+					"name": "empty"
+				},
+				"preserved_neutral8": {
+					"name": "empty"
+				},
+				"preserved_neutral9": {
+					"name": "empty"
+				},
+				"preserved_neutral10": {
+					"name": "empty"
+				}
+			},
+			"player3": {
+				"slot0": {
+					"name": "item_power_treads",
+					"purchaser": 3,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false
+				},
+				"slot1": {
+					"name": "item_bfury",
+					"purchaser": 3,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 5,
+					"passive": false
+				},
+				"slot2": {
+					"name": "item_sange_and_yasha",
+					"purchaser": 3,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot3": {
+					"name": "item_magic_wand",
+					"purchaser": 3,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 4,
+					"max_cooldown": 16,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"slot4": {
+					"name": "item_lifesteal",
+					"purchaser": 3,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot5": {
+					"name": "item_blight_stone",
+					"purchaser": 3,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot6": {
+					"name": "item_claymore",
+					"purchaser": 3,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot7": {
+					"name": "empty"
+				},
+				"slot8": {
+					"name": "empty"
+				},
+				"stash0": {
+					"name": "empty"
+				},
+				"stash1": {
+					"name": "empty"
+				},
+				"stash2": {
+					"name": "empty"
+				},
+				"stash3": {
+					"name": "empty"
+				},
+				"stash4": {
+					"name": "empty"
+				},
+				"stash5": {
+					"name": "empty"
+				},
+				"teleport0": {
+					"name": "item_tpscroll",
+					"purchaser": 3,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"neutral0": {
+					"name": "item_poor_mans_shield",
+					"purchaser": 3,
+					"item_level": 1,
+					"passive": true
+				},
+				"neutral1": {
+					"name": "item_enhancement_brawny",
+					"purchaser": 3,
+					"item_level": 2,
+					"passive": true
+				},
+				"preserved_neutral6": {
+					"name": "empty"
+				},
+				"preserved_neutral7": {
+					"name": "empty"
+				},
+				"preserved_neutral8": {
+					"name": "empty"
+				},
+				"preserved_neutral9": {
+					"name": "empty"
+				},
+				"preserved_neutral10": {
+					"name": "empty"
+				}
+			},
+			"player4": {
+				"slot0": {
+					"name": "item_magic_wand",
+					"purchaser": 4,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 16,
+					"passive": false,
+					"item_charges": 11,
+					"charges": 11
+				},
+				"slot1": {
+					"name": "item_bracer",
+					"purchaser": 4,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot2": {
+					"name": "item_travel_boots",
+					"purchaser": 4,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot3": {
+					"name": "item_wind_lace",
+					"purchaser": 4,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot4": {
+					"name": "item_radiance",
+					"purchaser": 4,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false
+				},
+				"slot5": {
+					"name": "item_staff_of_wizardry",
+					"purchaser": 4,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot6": {
+					"name": "item_recipe_cyclone",
+					"purchaser": 4,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false
+				},
+				"slot7": {
+					"name": "empty"
+				},
+				"slot8": {
+					"name": "empty"
+				},
+				"stash0": {
+					"name": "empty"
+				},
+				"stash1": {
+					"name": "empty"
+				},
+				"stash2": {
+					"name": "empty"
+				},
+				"stash3": {
+					"name": "empty"
+				},
+				"stash4": {
+					"name": "empty"
+				},
+				"stash5": {
+					"name": "empty"
+				},
+				"teleport0": {
+					"name": "item_tpscroll",
+					"purchaser": 4,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 41,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"neutral0": {
+					"name": "item_essence_ring",
+					"purchaser": 4,
+					"item_level": 2,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 26,
+					"passive": false
+				},
+				"neutral1": {
+					"name": "item_enhancement_quickened",
+					"purchaser": 4,
+					"item_level": 2,
+					"passive": true
+				},
+				"preserved_neutral6": {
+					"name": "empty"
+				},
+				"preserved_neutral7": {
+					"name": "empty"
+				},
+				"preserved_neutral8": {
+					"name": "empty"
+				},
+				"preserved_neutral9": {
+					"name": "empty"
+				},
+				"preserved_neutral10": {
+					"name": "empty"
+				}
+			}
+		},
+		"team3": {
+			"player5": {
+				"slot0": {
+					"name": "item_blink",
+					"purchaser": 5,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 16,
+					"passive": false
+				},
+				"slot1": {
+					"name": "item_hand_of_midas",
+					"purchaser": 5,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false,
+					"item_charges": 1,
+					"ability_charges": 1,
+					"max_charges": 2,
+					"charge_cooldown": 87,
+					"charges": 1
+				},
+				"slot2": {
+					"name": "item_boots_of_bearing",
+					"purchaser": 5,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 3,
+					"max_cooldown": 31,
+					"passive": false
+				},
+				"slot3": {
+					"name": "item_magic_wand",
+					"purchaser": 5,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 8,
+					"max_cooldown": 16,
+					"passive": false,
+					"item_charges": 0,
+					"charges": 0
+				},
+				"slot4": {
+					"name": "item_branches",
+					"purchaser": 5,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false
+				},
+				"slot5": {
+					"name": "item_branches",
+					"purchaser": 5,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false
+				},
+				"slot6": {
+					"name": "empty"
+				},
+				"slot7": {
+					"name": "empty"
+				},
+				"slot8": {
+					"name": "empty"
+				},
+				"stash0": {
+					"name": "empty"
+				},
+				"stash1": {
+					"name": "empty"
+				},
+				"stash2": {
+					"name": "empty"
+				},
+				"stash3": {
+					"name": "empty"
+				},
+				"stash4": {
+					"name": "empty"
+				},
+				"stash5": {
+					"name": "empty"
+				},
+				"teleport0": {
+					"name": "empty"
+				},
+				"neutral0": {
+					"name": "item_searing_signet",
+					"purchaser": 5,
+					"item_level": 1,
+					"passive": true
+				},
+				"neutral1": {
+					"name": "item_enhancement_quickened",
+					"purchaser": 5,
+					"item_level": 2,
+					"passive": true
+				},
+				"preserved_neutral6": {
+					"name": "empty"
+				},
+				"preserved_neutral7": {
+					"name": "empty"
+				},
+				"preserved_neutral8": {
+					"name": "empty"
+				},
+				"preserved_neutral9": {
+					"name": "empty"
+				},
+				"preserved_neutral10": {
+					"name": "empty"
+				}
+			},
+			"player6": {
+				"slot0": {
+					"name": "item_spirit_vessel",
+					"purchaser": 6,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 8,
+					"passive": false,
+					"item_charges": 8,
+					"charges": 8
+				},
+				"slot1": {
+					"name": "item_magic_wand",
+					"purchaser": 6,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 16,
+					"passive": false,
+					"item_charges": 20,
+					"charges": 20
+				},
+				"slot2": {
+					"name": "item_octarine_core",
+					"purchaser": 6,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot3": {
+					"name": "item_travel_boots",
+					"purchaser": 6,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot4": {
+					"name": "item_wind_lace",
+					"purchaser": 6,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot5": {
+					"name": "item_null_talisman",
+					"purchaser": 6,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot6": {
+					"name": "item_faerie_fire",
+					"purchaser": 6,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false
+				},
+				"slot7": {
+					"name": "empty"
+				},
+				"slot8": {
+					"name": "empty"
+				},
+				"stash0": {
+					"name": "empty"
+				},
+				"stash1": {
+					"name": "empty"
+				},
+				"stash2": {
+					"name": "empty"
+				},
+				"stash3": {
+					"name": "empty"
+				},
+				"stash4": {
+					"name": "empty"
+				},
+				"stash5": {
+					"name": "empty"
+				},
+				"teleport0": {
+					"name": "item_tpscroll",
+					"purchaser": 6,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 31,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"neutral0": {
+					"name": "item_essence_ring",
+					"purchaser": 6,
+					"item_level": 2,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false
+				},
+				"neutral1": {
+					"name": "item_enhancement_quickened",
+					"purchaser": 6,
+					"item_level": 2,
+					"passive": true
+				},
+				"preserved_neutral6": {
+					"name": "empty"
+				},
+				"preserved_neutral7": {
+					"name": "empty"
+				},
+				"preserved_neutral8": {
+					"name": "empty"
+				},
+				"preserved_neutral9": {
+					"name": "empty"
+				},
+				"preserved_neutral10": {
+					"name": "empty"
+				}
+			},
+			"player7": {
+				"slot0": {
+					"name": "item_arcane_boots",
+					"purchaser": 7,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 53,
+					"max_cooldown": 56,
+					"passive": false
+				},
+				"slot1": {
+					"name": "item_ward_sentry",
+					"purchaser": 7,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 1,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"slot2": {
+					"name": "item_urn_of_shadows",
+					"purchaser": 7,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 9,
+					"max_cooldown": 11,
+					"passive": false,
+					"item_charges": 5,
+					"charges": 5
+				},
+				"slot3": {
+					"name": "item_maelstrom",
+					"purchaser": 7,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot4": {
+					"name": "item_famango",
+					"purchaser": -1,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 6,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"slot5": {
+					"name": "item_magic_wand",
+					"purchaser": 7,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 16,
+					"passive": false,
+					"item_charges": 3,
+					"charges": 3
+				},
+				"slot6": {
+					"name": "item_dust",
+					"purchaser": 7,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"slot7": {
+					"name": "empty"
+				},
+				"slot8": {
+					"name": "empty"
+				},
+				"stash0": {
+					"name": "empty"
+				},
+				"stash1": {
+					"name": "empty"
+				},
+				"stash2": {
+					"name": "empty"
+				},
+				"stash3": {
+					"name": "empty"
+				},
+				"stash4": {
+					"name": "empty"
+				},
+				"stash5": {
+					"name": "empty"
+				},
+				"teleport0": {
+					"name": "item_tpscroll",
+					"purchaser": 7,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 81,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"neutral0": {
+					"name": "item_medallion_of_courage",
+					"purchaser": 7,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 19,
+					"passive": false
+				},
+				"neutral1": {
+					"name": "item_enhancement_alert",
+					"purchaser": 7,
+					"item_level": 2,
+					"passive": true
+				},
+				"preserved_neutral6": {
+					"name": "empty"
+				},
+				"preserved_neutral7": {
+					"name": "empty"
+				},
+				"preserved_neutral8": {
+					"name": "empty"
+				},
+				"preserved_neutral9": {
+					"name": "empty"
+				},
+				"preserved_neutral10": {
+					"name": "empty"
+				}
+			},
+			"player8": {
+				"slot0": {
+					"name": "item_quelling_blade",
+					"purchaser": 8,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 5,
+					"passive": false
+				},
+				"slot1": {
+					"name": "item_magic_wand",
+					"purchaser": 8,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 16,
+					"passive": false,
+					"item_charges": 20,
+					"charges": 20
+				},
+				"slot2": {
+					"name": "item_manta",
+					"purchaser": 8,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 20,
+					"max_cooldown": 35,
+					"passive": false
+				},
+				"slot3": {
+					"name": "item_power_treads",
+					"purchaser": 8,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false
+				},
+				"slot4": {
+					"name": "item_ultimate_scepter",
+					"purchaser": 8,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot5": {
+					"name": "item_orb_of_frost",
+					"purchaser": 8,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot6": {
+					"name": "empty"
+				},
+				"slot7": {
+					"name": "empty"
+				},
+				"slot8": {
+					"name": "empty"
+				},
+				"stash0": {
+					"name": "empty"
+				},
+				"stash1": {
+					"name": "empty"
+				},
+				"stash2": {
+					"name": "empty"
+				},
+				"stash3": {
+					"name": "empty"
+				},
+				"stash4": {
+					"name": "empty"
+				},
+				"stash5": {
+					"name": "empty"
+				},
+				"teleport0": {
+					"name": "item_tpscroll",
+					"purchaser": 8,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"neutral0": {
+					"name": "item_mana_draught",
+					"purchaser": 8,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 46,
+					"max_cooldown": 61,
+					"passive": false
+				},
+				"neutral1": {
+					"name": "item_enhancement_alert",
+					"purchaser": 8,
+					"item_level": 2,
+					"passive": true
+				},
+				"preserved_neutral6": {
+					"name": "empty"
+				},
+				"preserved_neutral7": {
+					"name": "empty"
+				},
+				"preserved_neutral8": {
+					"name": "empty"
+				},
+				"preserved_neutral9": {
+					"name": "empty"
+				},
+				"preserved_neutral10": {
+					"name": "empty"
+				}
+			},
+			"player9": {
+				"slot0": {
+					"name": "item_circlet",
+					"purchaser": 9,
+					"item_level": 1,
+					"passive": true
+				},
+				"slot1": {
+					"name": "item_blink",
+					"purchaser": 9,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 7,
+					"max_cooldown": 16,
+					"passive": false
+				},
+				"slot2": {
+					"name": "item_force_staff",
+					"purchaser": 9,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 5,
+					"max_cooldown": 20,
+					"passive": false
+				},
+				"slot3": {
+					"name": "item_ward_dispenser",
+					"purchaser": 9,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 1,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"slot4": {
+					"name": "item_magic_stick",
+					"purchaser": 9,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 7,
+					"max_cooldown": 18,
+					"passive": false,
+					"item_charges": 0,
+					"charges": 0
+				},
+				"slot5": {
+					"name": "item_arcane_boots",
+					"purchaser": 9,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 39,
+					"max_cooldown": 56,
+					"passive": false
+				},
+				"slot6": {
+					"name": "empty"
+				},
+				"slot7": {
+					"name": "empty"
+				},
+				"slot8": {
+					"name": "empty"
+				},
+				"stash0": {
+					"name": "empty"
+				},
+				"stash1": {
+					"name": "empty"
+				},
+				"stash2": {
+					"name": "empty"
+				},
+				"stash3": {
+					"name": "empty"
+				},
+				"stash4": {
+					"name": "empty"
+				},
+				"stash5": {
+					"name": "empty"
+				},
+				"teleport0": {
+					"name": "item_tpscroll",
+					"purchaser": 9,
+					"item_level": 1,
+					"can_cast": true,
+					"cooldown": 0,
+					"max_cooldown": 0,
+					"passive": false,
+					"item_charges": 1,
+					"charges": 1
+				},
+				"neutral0": {
+					"name": "item_mana_draught",
+					"purchaser": 9,
+					"item_level": 1,
+					"can_cast": false,
+					"cooldown": 44,
+					"max_cooldown": 61,
+					"passive": false
+				},
+				"neutral1": {
+					"name": "item_enhancement_greedy",
+					"purchaser": 9,
+					"item_level": 1,
+					"passive": true,
+					"item_charges": 750,
+					"charges": 750
+				},
+				"preserved_neutral6": {
+					"name": "empty"
+				},
+				"preserved_neutral7": {
+					"name": "empty"
+				},
+				"preserved_neutral8": {
+					"name": "empty"
+				},
+				"preserved_neutral9": {
+					"name": "empty"
+				},
+				"preserved_neutral10": {
+					"name": "empty"
+				}
+			}
+		}
+	},
+	"draft": {
+
+	},
+	"buildings": {
+		"radiant": {
+			"dota_goodguys_tower2_top": {
+				"health": 2454,
+				"max_health": 2500
+			},
+			"dota_goodguys_tower3_top": {
+				"health": 2500,
+				"max_health": 2500
+			},
+			"dota_goodguys_tower3_mid": {
+				"health": 2500,
+				"max_health": 2500
+			},
+			"dota_goodguys_tower2_bot": {
+				"health": 2,
+				"max_health": 2500
+			},
+			"dota_goodguys_tower3_bot": {
+				"health": 2500,
+				"max_health": 2500
+			},
+			"dota_goodguys_tower4_top": {
+				"health": 2600,
+				"max_health": 2600
+			},
+			"dota_goodguys_tower4_bot": {
+				"health": 2600,
+				"max_health": 2600
+			},
+			"good_rax_melee_top": {
+				"health": 2200,
+				"max_health": 2200
+			},
+			"good_rax_range_top": {
+				"health": 1300,
+				"max_health": 1300
+			},
+			"good_rax_melee_mid": {
+				"health": 2200,
+				"max_health": 2200
+			},
+			"good_rax_range_mid": {
+				"health": 1300,
+				"max_health": 1300
+			},
+			"good_rax_melee_bot": {
+				"health": 2200,
+				"max_health": 2200
+			},
+			"good_rax_range_bot": {
+				"health": 1300,
+				"max_health": 1300
+			},
+			"dota_goodguys_fort": {
+				"health": 4500,
+				"max_health": 4500
+			}
+		},
+		"dire": {
+			"dota_badguys_tower2_top": {
+				"health": 2447,
+				"max_health": 2500
+			},
+			"dota_badguys_tower3_top": {
+				"health": 2500,
+				"max_health": 2500
+			},
+			"dota_badguys_tower1_mid": {
+				"health": 440,
+				"max_health": 1800
+			},
+			"dota_badguys_tower2_mid": {
+				"health": 2500,
+				"max_health": 2500
+			},
+			"dota_badguys_tower3_mid": {
+				"health": 2500,
+				"max_health": 2500
+			},
+			"dota_badguys_tower1_bot": {
+				"health": 1029,
+				"max_health": 1800
+			},
+			"dota_badguys_tower2_bot": {
+				"health": 2500,
+				"max_health": 2500
+			},
+			"dota_badguys_tower3_bot": {
+				"health": 2500,
+				"max_health": 2500
+			},
+			"dota_badguys_tower4_top": {
+				"health": 2600,
+				"max_health": 2600
+			},
+			"dota_badguys_tower4_bot": {
+				"health": 2600,
+				"max_health": 2600
+			},
+			"bad_rax_melee_top": {
+				"health": 2200,
+				"max_health": 2200
+			},
+			"bad_rax_range_top": {
+				"health": 1300,
+				"max_health": 1300
+			},
+			"bad_rax_melee_mid": {
+				"health": 2200,
+				"max_health": 2200
+			},
+			"bad_rax_range_mid": {
+				"health": 1300,
+				"max_health": 1300
+			},
+			"bad_rax_melee_bot": {
+				"health": 2200,
+				"max_health": 2200
+			},
+			"bad_rax_range_bot": {
+				"health": 1300,
+				"max_health": 1300
+			},
+			"dota_badguys_fort": {
+				"health": 4500,
+				"max_health": 4500
+			}
+		}
+	},
+	"events": [
+		{
+			"game_time": 1786,
+			"event_type": "generic_event",
+			"data": "{\"type\":\"CHAT_MESSAGE_STREAK_KILL\",\"value\":415,\"playerid1\":9,\"playerid2\":3,\"playerid3\":1,\"playerid4\":3,\"playerid5\":1,\"playerid6\":-1,\"value2\":0,\"value3\":4294967295,\"time\":1540.6001}"
+		},
+		{
+			"game_time": 1786,
+			"event_type": "generic_event",
+			"data": "{\"type\":\"CHAT_MESSAGE_HERO_KILL\",\"value\":415,\"playerid1\":3,\"playerid2\":9,\"playerid3\":-1,\"playerid4\":-1,\"playerid5\":-1,\"playerid6\":-1,\"value2\":308,\"value3\":2,\"time\":1540.6001}"
+		},
+		{
+			"game_time": 1770,
+			"event_type": "generic_event",
+			"data": "{\"type\":\"CHAT_MESSAGE_HERO_KILL\",\"value\":317,\"playerid1\":0,\"playerid2\":7,\"playerid3\":-1,\"playerid4\":-1,\"playerid5\":-1,\"playerid6\":-1,\"value2\":176,\"value3\":2,\"time\":1524.6001}"
+		},
+		{
+			"game_time": 1764,
+			"event_type": "generic_event",
+			"data": "{\"type\":\"CHAT_MESSAGE_HERO_KILL\",\"value\":325,\"playerid1\":1,\"playerid2\":9,\"playerid3\":-1,\"playerid4\":-1,\"playerid5\":-1,\"playerid6\":-1,\"value2\":320,\"value3\":4,\"time\":1518.70007}"
+		}
+	]
+	,
+	"wearables": {
+		"team2": {
+			"player0": {
+				"wearable0": 9103,
+				"wearable1": 9102,
+				"wearable2": 98,
+				"wearable3": 9242,
+				"wearable4": 9544,
+				"wearable5": 9104,
+				"wearable6": 9541,
+				"wearable7": 8632,
+				"wearable8": 790,
+				"wearable9": 791,
+				"wearable10": 792,
+				"wearable11": 793,
+				"wearable12": 794,
+				"wearable13": 795,
+				"wearable14": 796,
+				"wearable15": 797,
+				"wearable16": 798,
+				"wearable17": 683,
+				"wearable18": 816,
+				"wearable19": 14912,
+				"wearable20": 34482,
+				"wearable21": 34480
+			},
+			"player1": {
+				"wearable0": 9369,
+				"wearable1": 9795,
+				"wearable2": 9367,
+				"wearable3": 9370,
+				"wearable4": 8632,
+				"wearable5": 226,
+				"wearable6": 533,
+				"wearable7": 791,
+				"wearable8": 793,
+				"wearable9": 816,
+				"wearable10": 14912,
+				"wearable11": 34482,
+				"wearable12": 34480
+			},
+			"player2": {
+				"wearable0": 12952,
+				"wearable1": 13474,
+				"wearable2": 9746,
+				"style2": 1,
+				"wearable3": 12948,
+				"wearable4": 12951,
+				"wearable5": 8632,
+				"wearable6": 791,
+				"wearable7": 792,
+				"wearable8": 816,
+				"wearable9": 13817,
+				"wearable10": 647,
+				"wearable11": 34482,
+				"wearable12": 34480
+			},
+			"player3": {
+				"wearable0": 7397,
+				"wearable1": 36070,
+				"wearable2": 36071,
+				"wearable3": 36072,
+				"wearable4": 36073,
+				"wearable5": 8632,
+				"wearable6": 790,
+				"wearable7": 792,
+				"wearable8": 764,
+				"wearable9": 816,
+				"wearable10": 14912,
+				"wearable11": 647,
+				"wearable12": 34482,
+				"wearable13": 34480
+			},
+			"player4": {
+				"wearable0": 24878,
+				"wearable1": 24879,
+				"wearable2": 7124,
+				"style2": 0,
+				"wearable3": 12932,
+				"wearable4": 9089,
+				"wearable5": 8632,
+				"wearable6": 508,
+				"wearable7": 790,
+				"wearable8": 793,
+				"wearable9": 816,
+				"wearable10": 14912,
+				"wearable11": 647,
+				"wearable12": 34482,
+				"wearable13": 34480
+			}
+		},
+		"team3": {
+			"player5": {
+				"wearable0": 17977,
+				"wearable1": 17975,
+				"wearable2": 17974,
+				"wearable3": 17976,
+				"wearable4": 8632,
+				"wearable5": 498,
+				"wearable6": 793,
+				"wearable7": 816,
+				"wearable8": 14912,
+				"wearable9": 34482,
+				"wearable10": 34480
+			},
+			"player6": {
+				"wearable0": 4956,
+				"wearable1": 4960,
+				"wearable2": 4957,
+				"wearable3": 9120,
+				"wearable4": 8632,
+				"wearable5": 528,
+				"wearable6": 790,
+				"wearable7": 791,
+				"wearable8": 816,
+				"wearable9": 13810,
+				"wearable10": 34482,
+				"wearable11": 34480
+			},
+			"player7": {
+				"wearable0": 22,
+				"wearable1": 21,
+				"wearable2": 24,
+				"wearable3": 23,
+				"wearable4": 25,
+				"wearable5": 8632,
+				"wearable6": 790,
+				"wearable7": 791,
+				"wearable8": 792,
+				"wearable9": 828,
+				"wearable10": 816,
+				"wearable11": 14912,
+				"wearable12": 34482,
+				"wearable13": 34480
+			},
+			"player8": {
+				"wearable0": 7557,
+				"wearable1": 14995,
+				"wearable2": 7817,
+				"wearable3": 36228,
+				"wearable4": 36227,
+				"wearable5": 8632,
+				"wearable6": 127,
+				"wearable7": 793,
+				"wearable8": 816,
+				"wearable9": 13816,
+				"wearable10": 647,
+				"wearable11": 34482,
+				"wearable12": 34480
+			},
+			"player9": {
+				"wearable0": 14437,
+				"wearable1": 14435,
+				"wearable2": 14436,
+				"wearable3": 14425,
+				"wearable4": 8632,
+				"wearable5": 544,
+				"wearable6": 674,
+				"wearable7": 790,
+				"wearable8": 791,
+				"wearable9": 816,
+				"wearable10": 14912,
+				"wearable11": 647,
+				"wearable12": 34482,
+				"wearable13": 34480
+			}
+		}
+	},
+	"league": {
+		"league_id": 0,
+		"match_id": "8904406010"
+	},
+	"couriers": {
+		"courier0": {
+			"health": 2,
+			"max_health": 2,
+			"alive": true,
+			"respawn_time_remaining": 0,
+			"xpos": 6580,
+			"ypos": 4767,
+			"yaw": 59,
+			"owner": 9,
+			"flying_upgrade": true,
+			"shield": false,
+			"boost": false,
+			"items": {
+
+			}
+		},
+		"courier1": {
+			"health": 6,
+			"max_health": 6,
+			"alive": true,
+			"respawn_time_remaining": 0,
+			"xpos": 7018,
+			"ypos": 6802,
+			"yaw": -136,
+			"owner": 5,
+			"flying_upgrade": true,
+			"shield": false,
+			"boost": false,
+			"items": {
+
+			}
+		},
+		"courier2": {
+			"health": 6,
+			"max_health": 6,
+			"alive": true,
+			"respawn_time_remaining": 0,
+			"xpos": 7091,
+			"ypos": 6641,
+			"yaw": -137,
+			"owner": 6,
+			"flying_upgrade": true,
+			"shield": false,
+			"boost": false,
+			"items": {
+
+			}
+		},
+		"courier3": {
+			"health": 6,
+			"max_health": 6,
+			"alive": true,
+			"respawn_time_remaining": 0,
+			"xpos": 7241,
+			"ypos": 6517,
+			"yaw": -139,
+			"owner": 7,
+			"flying_upgrade": true,
+			"shield": false,
+			"boost": false,
+			"items": {
+
+			}
+		},
+		"courier4": {
+			"health": 6,
+			"max_health": 6,
+			"alive": true,
+			"respawn_time_remaining": 0,
+			"xpos": 3733,
+			"ypos": -2314,
+			"yaw": -142,
+			"owner": 8,
+			"flying_upgrade": true,
+			"shield": false,
+			"boost": false,
+			"items": {
+				"item0": {
+					"owner": 8,
+					"name": "item_ultimate_orb"
+				}
+			}
+		},
+		"courier5": {
+			"health": 6,
+			"max_health": 6,
+			"alive": true,
+			"respawn_time_remaining": 0,
+			"xpos": -6841,
+			"ypos": -6841,
+			"yaw": 45,
+			"owner": 0,
+			"flying_upgrade": true,
+			"shield": false,
+			"boost": false,
+			"items": {
+
+			}
+		},
+		"courier6": {
+			"health": 6,
+			"max_health": 6,
+			"alive": true,
+			"respawn_time_remaining": 0,
+			"xpos": -6891,
+			"ypos": -6691,
+			"yaw": 43,
+			"owner": 1,
+			"flying_upgrade": true,
+			"shield": false,
+			"boost": false,
+			"items": {
+
+			}
+		},
+		"courier7": {
+			"health": 6,
+			"max_health": 6,
+			"alive": true,
+			"respawn_time_remaining": 0,
+			"xpos": -7041,
+			"ypos": -6566,
+			"yaw": 42,
+			"owner": 2,
+			"flying_upgrade": true,
+			"shield": false,
+			"boost": false,
+			"items": {
+
+			}
+		},
+		"courier8": {
+			"health": 6,
+			"max_health": 6,
+			"alive": true,
+			"respawn_time_remaining": 0,
+			"xpos": -7091,
+			"ypos": -6416,
+			"yaw": 40,
+			"owner": 3,
+			"flying_upgrade": true,
+			"shield": false,
+			"boost": false,
+			"items": {
+
+			}
+		},
+		"courier9": {
+			"health": 6,
+			"max_health": 6,
+			"alive": true,
+			"respawn_time_remaining": 0,
+			"xpos": -7124,
+			"ypos": -5764,
+			"yaw": 77,
+			"owner": 4,
+			"flying_upgrade": true,
+			"shield": false,
+			"boost": false,
+			"items": {
+
+			}
+		}
+	},
+	"neutralitems": {
+		"max_madstone": 26,
+		"tier0": {
+			"tier": 0,
+			"drop_after_time": 0,
+			"madstone_required": 6,
+			"escalating_recraft_cost": 0
+		},
+		"tier1": {
+			"tier": 1,
+			"drop_after_time": 900,
+			"madstone_required": 10,
+			"escalating_recraft_cost": 0
+		},
+		"tier2": {
+			"tier": 2,
+			"drop_after_time": 1500,
+			"madstone_required": 10,
+			"escalating_recraft_cost": 0
+		},
+		"tier3": {
+			"tier": 3,
+			"drop_after_time": 2100,
+			"madstone_required": 10,
+			"escalating_recraft_cost": 0
+		},
+		"tier4": {
+			"tier": 4,
+			"drop_after_time": 3600,
+			"madstone_required": 10,
+			"escalating_recraft_cost": 10
+		},
+		"team2": {
+			"player0": {
+				"current_madstone": 0,
+				"total_madstone": 16,
+				"crafting_tier": 2,
+				"tier0": {
+					"tier": 0,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_kobold_cup",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_ash_legion_shield",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_chipped_vest",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_weighted_dice",
+							"selected": true
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_enhancement_vital",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 1,
+							"selected": true
+						},
+						"choice3": {
+							"item_name": "item_enhancement_tough",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier1": {
+					"tier": 1,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_defiant_shell",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_crippling_crossbow",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_mana_draught",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_seeds_of_serenity",
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_weighted_dice",
+							"selected": true
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_enhancement_greedy",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 2,
+							"selected": true
+						},
+						"choice3": {
+							"item_name": "item_enhancement_tough",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_enhancement_keen_eyed",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier2": {
+					"tier": 2,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier3": {
+					"tier": 3,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier4": {
+					"tier": 4,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				}
+			},
+			"player1": {
+				"current_madstone": 0,
+				"total_madstone": 16,
+				"crafting_tier": 2,
+				"tier0": {
+					"tier": 0,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_dagger_of_ristul",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_polliwog_charm",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_possessed_mask",
+							"selected": true
+						},
+						"choice3": {
+							"item_name": "item_dormant_curio",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_enhancement_vital",
+							"item_level": 1,
+							"selected": true
+						},
+						"choice2": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_enhancement_tough",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier1": {
+					"tier": 1,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_mana_draught",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_essence_ring",
+							"selected": true
+						},
+						"choice2": {
+							"item_name": "item_seeds_of_serenity",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_searing_signet",
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_possessed_mask",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 2,
+							"selected": true
+						},
+						"choice1": {
+							"item_name": "item_enhancement_greedy",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_enhancement_tough",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_enhancement_keen_eyed",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier2": {
+					"tier": 2,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier3": {
+					"tier": 3,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier4": {
+					"tier": 4,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				}
+			},
+			"player2": {
+				"current_madstone": 0,
+				"total_madstone": 16,
+				"crafting_tier": 2,
+				"tier0": {
+					"tier": 0,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_possessed_mask",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_chipped_vest",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_occult_bracelet",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_polliwog_charm",
+							"selected": true
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 1,
+							"selected": true
+						},
+						"choice1": {
+							"item_name": "item_enhancement_vital",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_enhancement_tough",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier1": {
+					"tier": 1,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_mana_draught",
+							"selected": true
+						},
+						"choice1": {
+							"item_name": "item_seeds_of_serenity",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_pogo_stick",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_crippling_crossbow",
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_polliwog_charm",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_enhancement_greedy",
+							"item_level": 1,
+							"selected": true
+						},
+						"choice2": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_enhancement_tough",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_enhancement_keen_eyed",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier2": {
+					"tier": 2,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier3": {
+					"tier": 3,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier4": {
+					"tier": 4,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				}
+			},
+			"player3": {
+				"current_madstone": 0,
+				"total_madstone": 16,
+				"crafting_tier": 2,
+				"tier0": {
+					"tier": 0,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_stonefeather_satchel",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_occult_bracelet",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_possessed_mask",
+							"selected": true
+						},
+						"choice3": {
+							"item_name": "item_dagger_of_ristul",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_enhancement_vital",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_alert",
+							"item_level": 1,
+							"selected": true
+						},
+						"choice3": {
+							"item_name": "item_enhancement_brawny",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier1": {
+					"tier": 1,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_poor_mans_shield",
+							"selected": true
+						},
+						"choice1": {
+							"item_name": "item_pogo_stick",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_essence_ring",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_crippling_crossbow",
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_possessed_mask",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_enhancement_greedy",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_alert",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_enhancement_brawny",
+							"item_level": 2,
+							"selected": true
+						},
+						"choice4": {
+							"item_name": "item_enhancement_nimble",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier2": {
+					"tier": 2,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier3": {
+					"tier": 3,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier4": {
+					"tier": 4,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				}
+			},
+			"player4": {
+				"current_madstone": 0,
+				"total_madstone": 16,
+				"crafting_tier": 2,
+				"tier0": {
+					"tier": 0,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_foragers_kit",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_dormant_curio",
+							"selected": true
+						},
+						"choice2": {
+							"item_name": "item_dagger_of_ristul",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_stonefeather_satchel",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 1,
+							"selected": true
+						},
+						"choice1": {
+							"item_name": "item_enhancement_vital",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_enhancement_tough",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier1": {
+					"tier": 1,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_essence_ring",
+							"selected": true
+						},
+						"choice1": {
+							"item_name": "item_pogo_stick",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_medallion_of_courage",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_defiant_shell",
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_dormant_curio",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 2,
+							"selected": true
+						},
+						"choice1": {
+							"item_name": "item_enhancement_greedy",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_enhancement_tough",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_enhancement_keen_eyed",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier2": {
+					"tier": 2,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier3": {
+					"tier": 3,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier4": {
+					"tier": 4,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				}
+			}
+		},
+		"team3": {
+			"player5": {
+				"current_madstone": 0,
+				"total_madstone": 16,
+				"crafting_tier": 2,
+				"tier0": {
+					"tier": 0,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_dagger_of_ristul",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_chipped_vest",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_ash_legion_shield",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_duelist_gloves",
+							"selected": true
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 1,
+							"selected": true
+						},
+						"choice1": {
+							"item_name": "item_enhancement_vital",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_alert",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier1": {
+					"tier": 1,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_seeds_of_serenity",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_defiant_shell",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_pogo_stick",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_searing_signet",
+							"selected": true
+						},
+						"choice4": {
+							"item_name": "item_duelist_gloves",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 2,
+							"selected": true
+						},
+						"choice1": {
+							"item_name": "item_enhancement_greedy",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_alert",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_enhancement_titanic",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier2": {
+					"tier": 2,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier3": {
+					"tier": 3,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier4": {
+					"tier": 4,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				}
+			},
+			"player6": {
+				"current_madstone": 0,
+				"total_madstone": 16,
+				"crafting_tier": 2,
+				"tier0": {
+					"tier": 0,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_foragers_kit",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_polliwog_charm",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_dormant_curio",
+							"selected": true
+						},
+						"choice3": {
+							"item_name": "item_chipped_vest",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 1,
+							"selected": true
+						},
+						"choice1": {
+							"item_name": "item_enhancement_vital",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_enhancement_tough",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier1": {
+					"tier": 1,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_pogo_stick",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_seeds_of_serenity",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_essence_ring",
+							"selected": true
+						},
+						"choice3": {
+							"item_name": "item_defiant_shell",
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_dormant_curio",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 2,
+							"selected": true
+						},
+						"choice1": {
+							"item_name": "item_enhancement_greedy",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_enhancement_tough",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_enhancement_keen_eyed",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier2": {
+					"tier": 2,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier3": {
+					"tier": 3,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier4": {
+					"tier": 4,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				}
+			},
+			"player7": {
+				"current_madstone": 2,
+				"total_madstone": 18,
+				"crafting_tier": 2,
+				"tier0": {
+					"tier": 0,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_chipped_vest",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_weighted_dice",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_possessed_mask",
+							"selected": true
+						},
+						"choice3": {
+							"item_name": "item_occult_bracelet",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_enhancement_vital",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_alert",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 1,
+							"selected": true
+						}
+					}
+				},
+				"tier1": {
+					"tier": 1,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_searing_signet",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_pogo_stick",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_medallion_of_courage",
+							"selected": true
+						},
+						"choice3": {
+							"item_name": "item_crippling_crossbow",
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_possessed_mask",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_enhancement_greedy",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_alert",
+							"item_level": 2,
+							"selected": true
+						},
+						"choice3": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_enhancement_titanic",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier2": {
+					"tier": 2,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier3": {
+					"tier": 3,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier4": {
+					"tier": 4,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				}
+			},
+			"player8": {
+				"current_madstone": 0,
+				"total_madstone": 16,
+				"crafting_tier": 2,
+				"tier0": {
+					"tier": 0,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_chipped_vest",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_duelist_gloves",
+							"selected": true
+						},
+						"choice2": {
+							"item_name": "item_polliwog_charm",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_stonefeather_satchel",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_enhancement_vital",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_alert",
+							"item_level": 1,
+							"selected": true
+						},
+						"choice3": {
+							"item_name": "item_enhancement_brawny",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier1": {
+					"tier": 1,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_mana_draught",
+							"selected": true
+						},
+						"choice1": {
+							"item_name": "item_searing_signet",
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_essence_ring",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_poor_mans_shield",
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_duelist_gloves",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_enhancement_greedy",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_alert",
+							"item_level": 2,
+							"selected": true
+						},
+						"choice3": {
+							"item_name": "item_enhancement_brawny",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_enhancement_nimble",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier2": {
+					"tier": 2,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier3": {
+					"tier": 3,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier4": {
+					"tier": 4,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				}
+			},
+			"player9": {
+				"current_madstone": 1,
+				"total_madstone": 17,
+				"crafting_tier": 2,
+				"tier0": {
+					"tier": 0,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_stonefeather_satchel",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_weighted_dice",
+							"selected": true
+						},
+						"choice2": {
+							"item_name": "item_polliwog_charm",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_foragers_kit",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_enhancement_vital",
+							"item_level": 1,
+							"selected": false
+						},
+						"choice2": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 1,
+							"selected": true
+						},
+						"choice3": {
+							"item_name": "item_enhancement_tough",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier1": {
+					"tier": 1,
+					"times_crafted": 1,
+					"trinket_choices": {
+						"choice0": {
+							"item_name": "item_searing_signet",
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_mana_draught",
+							"selected": true
+						},
+						"choice2": {
+							"item_name": "item_medallion_of_courage",
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_crippling_crossbow",
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_weighted_dice",
+							"selected": false
+						}
+					},
+					"enchantment_choices": {
+						"choice0": {
+							"item_name": "item_enhancement_quickened",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice1": {
+							"item_name": "item_enhancement_greedy",
+							"item_level": 1,
+							"selected": true
+						},
+						"choice2": {
+							"item_name": "item_enhancement_mystical",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice3": {
+							"item_name": "item_enhancement_tough",
+							"item_level": 2,
+							"selected": false
+						},
+						"choice4": {
+							"item_name": "item_enhancement_keen_eyed",
+							"item_level": 1,
+							"selected": false
+						}
+					}
+				},
+				"tier2": {
+					"tier": 2,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier3": {
+					"tier": 3,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				},
+				"tier4": {
+					"tier": 4,
+					"times_crafted": 0,
+					"trinket_choices": {
+
+					},
+					"enchantment_choices": {
+
+					}
+				}
+			}
+		}
+	},
+	"roshan": {
+		"health": 9250,
+		"max_health": 9250,
+		"alive": true,
+		"spawn_phase": 0,
+		"phase_time_remaining": 0,
+		"xpos": 2859,
+		"ypos": -2764,
+		"yaw": 135,
+		"items_drop": {
+			"item0": "item_aegis"
+		}
+	},
+	"minimap": {
+		"o0": {
+			"xpos": 7917,
+			"ypos": -1523,
+			"image": "minimap_watcher",
+			"team": 5,
+			"yaw": 0,
+			"unitname": "npc_dota_lantern",
+			"visionrange": 450
+		},
+		"o1": {
+			"xpos": -6464,
+			"ypos": 6656,
+			"image": "minimap_watcher",
+			"team": 5,
+			"yaw": 0,
+			"unitname": "npc_dota_lantern",
+			"visionrange": 450
+		},
+		"o2": {
+			"xpos": 2717,
+			"ypos": -657,
+			"image": "minimap_watcher",
+			"team": 5,
+			"yaw": 0,
+			"unitname": "npc_dota_lantern",
+			"visionrange": 450
+		},
+		"o3": {
+			"xpos": -3483,
+			"ypos": 34,
+			"image": "minimap_watcher",
+			"team": 5,
+			"yaw": 0,
+			"unitname": "npc_dota_lantern",
+			"visionrange": 450
+		},
+		"o4": {
+			"xpos": 1032,
+			"ypos": -4260,
+			"image": "minimap_watcher",
+			"team": 5,
+			"yaw": 0,
+			"unitname": "npc_dota_lantern",
+			"visionrange": 450
+		},
+		"o5": {
+			"xpos": 6528,
+			"ypos": -6592,
+			"image": "minimap_watcher",
+			"team": 5,
+			"yaw": 0,
+			"unitname": "npc_dota_lantern",
+			"visionrange": 450
+		},
+		"o6": {
+			"xpos": -6589,
+			"ypos": -4206,
+			"image": "minimap_miscbuilding",
+			"team": 2,
+			"yaw": 302,
+			"unitname": "npc_dota_goodguys_fillers",
+			"visionrange": 600
+		},
+		"o7": {
+			"xpos": -5838,
+			"ypos": -4292,
+			"image": "minimap_miscbuilding",
+			"team": 2,
+			"yaw": 270,
+			"unitname": "npc_dota_goodguys_fillers",
+			"visionrange": 600
+		},
+		"o8": {
+			"xpos": 768,
+			"ypos": -7648,
+			"image": "minimap_watcher",
+			"team": 5,
+			"yaw": 0,
+			"unitname": "npc_dota_lantern",
+			"visionrange": 450
+		},
+		"o9": {
+			"xpos": -670,
+			"ypos": 7129,
+			"image": "minimap_watcher",
+			"team": 5,
+			"yaw": 0,
+			"unitname": "npc_dota_lantern",
+			"visionrange": 450
+		},
+		"o10": {
+			"xpos": -8088,
+			"ypos": 768,
+			"image": "minimap_plaincircle",
+			"team": 4,
+			"yaw": 315,
+			"unitname": "npc_dota_xp_fountain",
+			"visionrange": 0
+		},
+		"o11": {
+			"xpos": -1527,
+			"ypos": 3925,
+			"image": "minimap_watcher",
+			"team": 5,
+			"yaw": 0,
+			"unitname": "npc_dota_lantern",
+			"visionrange": 450
+		},
+		"o12": {
+			"xpos": -7808,
+			"ypos": 1056,
+			"image": "minimap_watcher",
+			"team": 5,
+			"yaw": 0,
+			"unitname": "npc_dota_lantern",
+			"visionrange": 450
+		},
+		"o13": {
+			"xpos": 8167,
+			"ypos": -1142,
+			"image": "minimap_plaincircle",
+			"team": 4,
+			"yaw": 315,
+			"unitname": "npc_dota_xp_fountain",
+			"visionrange": 0
+		},
+		"o14": {
+			"xpos": -4672,
+			"ypos": -4552,
+			"image": "minimap_racks45",
+			"team": 2,
+			"yaw": 135,
+			"unitname": "npc_dota_goodguys_melee_rax_mid",
+			"visionrange": 600
+		},
+		"o15": {
+			"xpos": -5060,
+			"ypos": -4199,
+			"image": "minimap_racks45",
+			"team": 2,
+			"yaw": 315,
+			"unitname": "npc_dota_goodguys_range_rax_mid",
+			"visionrange": 600
+		},
+		"o16": {
+			"xpos": -4280,
+			"ypos": -6360,
+			"image": "minimap_racks90",
+			"team": 2,
+			"yaw": 90,
+			"unitname": "npc_dota_goodguys_melee_rax_bot",
+			"visionrange": 600
+		},
+		"o17": {
+			"xpos": -4279,
+			"ypos": -5853,
+			"image": "minimap_racks90",
+			"team": 2,
+			"yaw": 270,
+			"unitname": "npc_dota_goodguys_range_rax_bot",
+			"visionrange": 600
+		},
+		"o18": {
+			"xpos": -6336,
+			"ypos": -3758,
+			"image": "minimap_racks90",
+			"team": 2,
+			"yaw": 180,
+			"unitname": "npc_dota_goodguys_melee_rax_top",
+			"visionrange": 600
+		},
+		"o19": {
+			"xpos": -6844,
+			"ypos": -3759,
+			"image": "minimap_racks90",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_goodguys_range_rax_top",
+			"visionrange": 600
+		},
+		"o20": {
+			"xpos": 6592,
+			"ypos": 3392,
+			"image": "minimap_racks90",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_badguys_melee_rax_bot",
+			"visionrange": 600
+		},
+		"o21": {
+			"xpos": 6064,
+			"ypos": 3376,
+			"image": "minimap_racks90",
+			"team": 3,
+			"yaw": 180,
+			"unitname": "npc_dota_badguys_range_rax_bot",
+			"visionrange": 600
+		},
+		"o22": {
+			"xpos": 4336,
+			"ypos": 4183,
+			"image": "minimap_racks45",
+			"team": 3,
+			"yaw": 135,
+			"unitname": "npc_dota_badguys_range_rax_mid",
+			"visionrange": 600
+		},
+		"o23": {
+			"xpos": 4702,
+			"ypos": 3824,
+			"image": "minimap_racks45",
+			"team": 3,
+			"yaw": 315,
+			"unitname": "npc_dota_badguys_melee_rax_mid",
+			"visionrange": 600
+		},
+		"o24": {
+			"xpos": 3898,
+			"ypos": 5496,
+			"image": "minimap_racks90",
+			"team": 3,
+			"yaw": 270,
+			"unitname": "npc_dota_badguys_melee_rax_top",
+			"visionrange": 600
+		},
+		"o25": {
+			"xpos": 3894,
+			"ypos": 6025,
+			"image": "minimap_racks90",
+			"team": 3,
+			"yaw": 90,
+			"unitname": "npc_dota_badguys_range_rax_top",
+			"visionrange": 600
+		},
+		"o26": {
+			"xpos": 5528,
+			"ypos": 5000,
+			"image": "minimap_ancient",
+			"team": 3,
+			"yaw": 45,
+			"unitname": "npc_dota_badguys_fort",
+			"visionrange": 2600
+		},
+		"o27": {
+			"xpos": -5920,
+			"ypos": -5352,
+			"image": "minimap_ancient",
+			"team": 2,
+			"yaw": 345,
+			"unitname": "npc_dota_goodguys_fort",
+			"visionrange": 2600
+		},
+		"o28": {
+			"xpos": 5286,
+			"ypos": 3374,
+			"image": "minimap_miscbuilding",
+			"team": 3,
+			"yaw": 124,
+			"unitname": "npc_dota_badguys_fillers",
+			"visionrange": 600
+		},
+		"o29": {
+			"xpos": 3783,
+			"ypos": 4718,
+			"image": "minimap_miscbuilding",
+			"team": 3,
+			"yaw": 85,
+			"unitname": "npc_dota_badguys_fillers",
+			"visionrange": 600
+		},
+		"o30": {
+			"xpos": -5597,
+			"ypos": -3710,
+			"image": "minimap_miscbuilding",
+			"team": 2,
+			"yaw": 302,
+			"unitname": "npc_dota_goodguys_fillers",
+			"visionrange": 600
+		},
+		"o31": {
+			"xpos": -4265,
+			"ypos": -5161,
+			"image": "minimap_miscbuilding",
+			"team": 2,
+			"yaw": 313,
+			"unitname": "npc_dota_goodguys_fillers",
+			"visionrange": 600
+		},
+		"o32": {
+			"xpos": -4096,
+			"ypos": -448,
+			"image": "minimap_miscbuilding",
+			"team": 2,
+			"yaw": 320,
+			"unitname": "npc_dota_watch_tower",
+			"visionrange": 0
+		},
+		"o33": {
+			"xpos": 3392,
+			"ypos": -448,
+			"image": "minimap_miscbuilding",
+			"team": 3,
+			"yaw": 139,
+			"unitname": "npc_dota_watch_tower",
+			"visionrange": 0
+		},
+		"o34": {
+			"xpos": -6457,
+			"ypos": 7599,
+			"image": "minimap_underlord_portal",
+			"team": 4,
+			"yaw": 270,
+			"unitname": "npc_dota_unit_twin_gate",
+			"visionrange": 500
+		},
+		"o35": {
+			"xpos": 6425,
+			"ypos": -7313,
+			"image": "minimap_underlord_portal",
+			"team": 4,
+			"yaw": 267,
+			"unitname": "npc_dota_unit_twin_gate",
+			"visionrange": 500
+		},
+		"o36": {
+			"xpos": -7548,
+			"ypos": 4209,
+			"image": "minimap_lotuspool",
+			"team": 4,
+			"yaw": 60,
+			"unitname": "npc_dota_lotus_pool",
+			"visionrange": 500
+		},
+		"o37": {
+			"xpos": 7503,
+			"ypos": -4404,
+			"image": "minimap_lotuspool",
+			"team": 4,
+			"yaw": 1,
+			"unitname": "npc_dota_lotus_pool",
+			"visionrange": 500
+		},
+		"o38": {
+			"xpos": 6697,
+			"ypos": 6809,
+			"image": "minimap_shop",
+			"team": 5,
+			"yaw": 317,
+			"unitname": "",
+			"visionrange": 575
+		},
+		"o39": {
+			"xpos": -7542,
+			"ypos": -6171,
+			"image": "minimap_shop",
+			"team": 5,
+			"yaw": 323,
+			"unitname": "",
+			"visionrange": 575
+		},
+		"o40": {
+			"xpos": 7408,
+			"ypos": 6848,
+			"image": "minimap_ward_obs",
+			"team": 3,
+			"yaw": 142,
+			"unitname": "dota_fountain",
+			"visionrange": 1800
+		},
+		"o41": {
+			"xpos": -5312,
+			"ypos": -4800,
+			"image": "minimap_miscbuilding",
+			"team": 2,
+			"yaw": 270,
+			"unitname": "npc_dota_goodguys_fillers",
+			"visionrange": 600
+		},
+		"o42": {
+			"xpos": -4782,
+			"ypos": -5268,
+			"image": "minimap_miscbuilding",
+			"team": 2,
+			"yaw": 270,
+			"unitname": "npc_dota_goodguys_fillers",
+			"visionrange": 600
+		},
+		"o43": {
+			"xpos": -4752,
+			"ypos": -6080,
+			"image": "minimap_miscbuilding",
+			"team": 2,
+			"yaw": 270,
+			"unitname": "npc_dota_goodguys_fillers",
+			"visionrange": 600
+		},
+		"o44": {
+			"xpos": 6326,
+			"ypos": 3798,
+			"image": "minimap_miscbuilding",
+			"team": 3,
+			"yaw": 244,
+			"unitname": "npc_dota_badguys_fillers",
+			"visionrange": 600
+		},
+		"o45": {
+			"xpos": 5520,
+			"ypos": 3949,
+			"image": "minimap_miscbuilding",
+			"team": 3,
+			"yaw": 270,
+			"unitname": "npc_dota_badguys_fillers",
+			"visionrange": 600
+		},
+		"o46": {
+			"xpos": 4894,
+			"ypos": 4370,
+			"image": "minimap_miscbuilding",
+			"team": 3,
+			"yaw": 270,
+			"unitname": "npc_dota_badguys_fillers",
+			"visionrange": 600
+		},
+		"o47": {
+			"xpos": 4480,
+			"ypos": 4989,
+			"image": "minimap_miscbuilding",
+			"team": 3,
+			"yaw": 270,
+			"unitname": "npc_dota_badguys_fillers",
+			"visionrange": 600
+		},
+		"o48": {
+			"xpos": 4411,
+			"ypos": 5753,
+			"image": "minimap_miscbuilding",
+			"team": 3,
+			"yaw": 270,
+			"unitname": "npc_dota_badguys_fillers",
+			"visionrange": 600
+		},
+		"o49": {
+			"xpos": -7456,
+			"ypos": -6938,
+			"image": "minimap_ward_obs",
+			"team": 2,
+			"yaw": 65,
+			"unitname": "dota_fountain",
+			"visionrange": 1800
+		},
+		"o50": {
+			"xpos": 4886,
+			"ypos": -1207,
+			"image": "minimap_secretshop",
+			"team": 5,
+			"yaw": 230,
+			"unitname": "",
+			"visionrange": 575
+		},
+		"o51": {
+			"xpos": -6416,
+			"ypos": -6729,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 175,
+			"unitname": "",
+			"visionrange": 575
+		},
+		"o52": {
+			"xpos": 7564,
+			"ypos": 6312,
+			"image": "minimap_plaincircle",
+			"team": 3,
+			"yaw": 177,
+			"unitname": "",
+			"visionrange": 575
+		},
+		"o53": {
+			"xpos": -5080,
+			"ypos": 1947,
+			"image": "minimap_secretshop",
+			"team": 5,
+			"yaw": 299,
+			"unitname": "",
+			"visionrange": 575
+		},
+		"o54": {
+			"xpos": -5838,
+			"ypos": -4292,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 221,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o55": {
+			"xpos": -5312,
+			"ypos": -4800,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 303,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o56": {
+			"xpos": -4782,
+			"ypos": -5268,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 232,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o57": {
+			"xpos": -4752,
+			"ypos": -6080,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 304,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o58": {
+			"xpos": 5520,
+			"ypos": 3949,
+			"image": "minimap_plaincircle",
+			"team": 3,
+			"yaw": 294,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o59": {
+			"xpos": 4894,
+			"ypos": 4370,
+			"image": "minimap_plaincircle",
+			"team": 3,
+			"yaw": 46,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o60": {
+			"xpos": 4480,
+			"ypos": 4989,
+			"image": "minimap_plaincircle",
+			"team": 3,
+			"yaw": 120,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o61": {
+			"xpos": 4411,
+			"ypos": 5753,
+			"image": "minimap_plaincircle",
+			"team": 3,
+			"yaw": 64,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o62": {
+			"xpos": -6589,
+			"ypos": -4206,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 302,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o63": {
+			"xpos": 6656,
+			"ypos": 7088,
+			"image": "minimap_plaincircle",
+			"team": 3,
+			"yaw": 266,
+			"unitname": "ent_dota_halloffame",
+			"visionrange": 575
+		},
+		"o64": {
+			"xpos": -7664,
+			"ypos": -5904,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 339,
+			"unitname": "ent_dota_halloffame",
+			"visionrange": 575
+		},
+		"o65": {
+			"xpos": 6326,
+			"ypos": 3798,
+			"image": "minimap_plaincircle",
+			"team": 3,
+			"yaw": 244,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o66": {
+			"xpos": -3952,
+			"ypos": -6112,
+			"image": "minimap_tower90",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_goodguys_tower3_bot",
+			"visionrange": 1100
+		},
+		"o67": {
+			"xpos": -4640,
+			"ypos": -4144,
+			"image": "minimap_tower45",
+			"team": 2,
+			"yaw": 45,
+			"unitname": "npc_dota_goodguys_tower3_mid",
+			"visionrange": 1100
+		},
+		"o68": {
+			"xpos": -6592,
+			"ypos": -3408,
+			"image": "minimap_tower90",
+			"team": 2,
+			"yaw": 90,
+			"unitname": "npc_dota_goodguys_tower3_top",
+			"visionrange": 1100
+		},
+		"o69": {
+			"xpos": -360,
+			"ypos": -6256,
+			"image": "minimap_tower90",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_goodguys_tower2_bot",
+			"visionrange": 1100
+		},
+		"o70": {
+			"xpos": -6501,
+			"ypos": -872,
+			"image": "minimap_tower90",
+			"team": 2,
+			"yaw": 90,
+			"unitname": "npc_dota_goodguys_tower2_top",
+			"visionrange": 1100
+		},
+		"o71": {
+			"xpos": -5712,
+			"ypos": -4864,
+			"image": "minimap_tower45",
+			"team": 2,
+			"yaw": 45,
+			"unitname": "npc_dota_goodguys_tower4",
+			"visionrange": 1100
+		},
+		"o72": {
+			"xpos": 4944,
+			"ypos": 4776,
+			"image": "minimap_tower45",
+			"team": 3,
+			"yaw": 42,
+			"unitname": "npc_dota_badguys_tower4",
+			"visionrange": 1100
+		},
+		"o73": {
+			"xpos": -128,
+			"ypos": 6016,
+			"image": "minimap_tower90",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_badguys_tower2_top",
+			"visionrange": 1100
+		},
+		"o74": {
+			"xpos": 2496,
+			"ypos": 2112,
+			"image": "minimap_tower45",
+			"team": 3,
+			"yaw": 45,
+			"unitname": "npc_dota_badguys_tower2_mid",
+			"visionrange": 1100
+		},
+		"o75": {
+			"xpos": 524,
+			"ypos": 652,
+			"image": "minimap_tower45",
+			"team": 3,
+			"yaw": 45,
+			"unitname": "npc_dota_badguys_tower1_mid",
+			"visionrange": 800
+		},
+		"o76": {
+			"xpos": 6400,
+			"ypos": 384,
+			"image": "minimap_tower90",
+			"team": 3,
+			"yaw": 90,
+			"unitname": "npc_dota_badguys_tower2_bot",
+			"visionrange": 1100
+		},
+		"o77": {
+			"xpos": 6336,
+			"ypos": 3032,
+			"image": "minimap_tower90",
+			"team": 3,
+			"yaw": 90,
+			"unitname": "npc_dota_badguys_tower3_bot",
+			"visionrange": 1100
+		},
+		"o78": {
+			"xpos": 3552,
+			"ypos": 5776,
+			"image": "minimap_tower90",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_badguys_tower3_top",
+			"visionrange": 1100
+		},
+		"o79": {
+			"xpos": 4272,
+			"ypos": 3759,
+			"image": "minimap_tower45",
+			"team": 3,
+			"yaw": 45,
+			"unitname": "npc_dota_badguys_tower3_mid",
+			"visionrange": 1100
+		},
+		"o80": {
+			"xpos": 5280,
+			"ypos": 4432,
+			"image": "minimap_tower45",
+			"team": 3,
+			"yaw": 42,
+			"unitname": "npc_dota_badguys_tower4",
+			"visionrange": 1100
+		},
+		"o81": {
+			"xpos": -5392,
+			"ypos": -5192,
+			"image": "minimap_tower45",
+			"team": 2,
+			"yaw": 45,
+			"unitname": "npc_dota_goodguys_tower4",
+			"visionrange": 1100
+		},
+		"o82": {
+			"xpos": 6269,
+			"ypos": -2240,
+			"image": "minimap_tower90",
+			"team": 3,
+			"yaw": 90,
+			"unitname": "npc_dota_badguys_tower1_bot",
+			"visionrange": 800
+		},
+		"o83": {
+			"xpos": -2080,
+			"ypos": -3879,
+			"image": "minimap_ward_invis",
+			"team": 2,
+			"yaw": 274,
+			"unitname": "npc_dota_sentry_wards",
+			"visionrange": 0
+		},
+		"o84": {
+			"xpos": -1578,
+			"ypos": -2098,
+			"image": "minimap_ward_invis",
+			"team": 3,
+			"yaw": 253,
+			"unitname": "npc_dota_sentry_wards",
+			"visionrange": 0
+		},
+		"o85": {
+			"xpos": -8036,
+			"ypos": -1890,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 70,
+			"unitname": "npc_dota_neutral_gnoll_assassin",
+			"visionrange": 400
+		},
+		"o86": {
+			"xpos": -2358,
+			"ypos": 6099,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 178,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o87": {
+			"xpos": -6490,
+			"ypos": 1718,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 80,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 750
+		},
+		"o88": {
+			"xpos": -5068,
+			"ypos": -94,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 350,
+			"unitname": "npc_dota_neutral_frostbitten_golem",
+			"visionrange": 800
+		},
+		"o89": {
+			"xpos": -2851,
+			"ypos": 7375,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 49,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 800
+		},
+		"o90": {
+			"xpos": -4039,
+			"ypos": 916,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 270,
+			"unitname": "npc_dota_neutral_satyr_soulstealer",
+			"visionrange": 800
+		},
+		"o91": {
+			"xpos": -2118,
+			"ypos": -6306,
+			"image": "minimap_ward_obs",
+			"team": 3,
+			"yaw": 284,
+			"unitname": "npc_dota_observer_wards",
+			"visionrange": 1600
+		},
+		"o92": {
+			"xpos": -938,
+			"ypos": 4978,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 240,
+			"unitname": "npc_dota_neutral_ancient_frog_mage",
+			"visionrange": 800
+		},
+		"o93": {
+			"xpos": 3809,
+			"ypos": -3930,
+			"image": "minimap_ward_invis",
+			"team": 3,
+			"yaw": 250,
+			"unitname": "npc_dota_sentry_wards",
+			"visionrange": 0
+		},
+		"o94": {
+			"xpos": -6209,
+			"ypos": 3019,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -66,
+			"unitname": "npc_dota_creep_badguys_flagbearer",
+			"visionrange": 750
+		},
+		"o95": {
+			"xpos": -1983,
+			"ypos": -4820,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 11,
+			"unitname": "npc_dota_neutral_alpha_wolf",
+			"visionrange": 800
+		},
+		"o96": {
+			"xpos": 2859,
+			"ypos": -2764,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 135,
+			"unitname": "npc_dota_roshan",
+			"visionrange": 1400
+		},
+		"o97": {
+			"xpos": -2847,
+			"ypos": 7297,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 57,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 800
+		},
+		"o98": {
+			"xpos": 4480,
+			"ypos": -8421,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 85,
+			"unitname": "npc_dota_neutral_giant_wolf",
+			"visionrange": 800
+		},
+		"o99": {
+			"xpos": 20,
+			"ypos": -6178,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 152,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o100": {
+			"xpos": -3772,
+			"ypos": -3170,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 57,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 750
+		},
+		"o101": {
+			"xpos": 2044,
+			"ypos": 7845,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 251,
+			"unitname": "npc_dota_neutral_satyr_trickster",
+			"visionrange": 800
+		},
+		"o102": {
+			"xpos": -4331,
+			"ypos": -1044,
+			"image": "minimap_ward_invis",
+			"team": 3,
+			"yaw": 288,
+			"unitname": "npc_dota_sentry_wards",
+			"visionrange": 0
+		},
+		"o103": {
+			"xpos": -2251,
+			"ypos": 6102,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 178,
+			"unitname": "npc_dota_creep_badguys_ranged",
+			"visionrange": 750
+		},
+		"o104": {
+			"xpos": 8355,
+			"ypos": 1288,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 182,
+			"unitname": "npc_dota_neutral_forest_troll_berserker",
+			"visionrange": 800
+		},
+		"o105": {
+			"xpos": -8337,
+			"ypos": -645,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 19,
+			"unitname": "npc_dota_neutral_satyr_trickster",
+			"visionrange": 800
+		},
+		"o106": {
+			"xpos": 121,
+			"ypos": 139,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -144,
+			"unitname": "npc_dota_creep_badguys_ranged",
+			"visionrange": 750
+		},
+		"o107": {
+			"xpos": -4975,
+			"ypos": -107,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 341,
+			"unitname": "npc_dota_neutral_ice_shaman",
+			"visionrange": 800
+		},
+		"o108": {
+			"xpos": -8015,
+			"ypos": -1839,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 54,
+			"unitname": "npc_dota_neutral_gnoll_assassin",
+			"visionrange": 400
+		},
+		"o109": {
+			"xpos": 2087,
+			"ypos": 7881,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 233,
+			"unitname": "npc_dota_neutral_satyr_trickster",
+			"visionrange": 800
+		},
+		"o110": {
+			"xpos": 1165,
+			"ypos": 4108,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 201,
+			"unitname": "npc_dota_neutral_mud_golem",
+			"visionrange": 800
+		},
+		"o111": {
+			"xpos": 7921,
+			"ypos": -103,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 9,
+			"unitname": "npc_dota_neutral_polar_furbolg_champion",
+			"visionrange": 800
+		},
+		"o112": {
+			"xpos": -3967,
+			"ypos": 924,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 289,
+			"unitname": "npc_dota_neutral_satyr_trickster",
+			"visionrange": 800
+		},
+		"o113": {
+			"xpos": -3962,
+			"ypos": 989,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 291,
+			"unitname": "npc_dota_neutral_satyr_soulstealer",
+			"visionrange": 800
+		},
+		"o114": {
+			"xpos": -2701,
+			"ypos": 6102,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 178,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o115": {
+			"xpos": 2017,
+			"ypos": 7898,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 250,
+			"unitname": "npc_dota_neutral_satyr_soulstealer",
+			"visionrange": 800
+		},
+		"o116": {
+			"xpos": -6362,
+			"ypos": 2921,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -95,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o117": {
+			"xpos": 8359,
+			"ypos": 1201,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 201,
+			"unitname": "npc_dota_neutral_forest_troll_berserker",
+			"visionrange": 800
+		},
+		"o118": {
+			"xpos": -3881,
+			"ypos": -3286,
+			"image": "minimap_siege",
+			"team": 2,
+			"yaw": 50,
+			"unitname": "npc_dota_goodguys_siege",
+			"visionrange": 750
+		},
+		"o119": {
+			"xpos": 1928,
+			"ypos": 7927,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 244,
+			"unitname": "npc_dota_neutral_satyr_soulstealer",
+			"visionrange": 800
+		},
+		"o120": {
+			"xpos": -6502,
+			"ypos": 1644,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 80,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 750
+		},
+		"o121": {
+			"xpos": 7869,
+			"ypos": -187,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 23,
+			"unitname": "npc_dota_neutral_polar_furbolg_ursa_warrior",
+			"visionrange": 800
+		},
+		"o122": {
+			"xpos": -6542,
+			"ypos": 1411,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 80,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 750
+		},
+		"o123": {
+			"xpos": 2815,
+			"ypos": -8270,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 59,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 800
+		},
+		"o124": {
+			"xpos": -3977,
+			"ypos": -3434,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 53,
+			"unitname": "npc_dota_creep_goodguys_ranged",
+			"visionrange": 750
+		},
+		"o125": {
+			"xpos": 8454,
+			"ypos": 1269,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 202,
+			"unitname": "npc_dota_neutral_forest_troll_high_priest",
+			"visionrange": 800
+		},
+		"o126": {
+			"xpos": -3889,
+			"ypos": 4765,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 143,
+			"unitname": "npc_dota_neutral_fel_beast",
+			"visionrange": 800
+		},
+		"o127": {
+			"xpos": 551,
+			"ypos": -6275,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -171,
+			"unitname": "npc_dota_creep_badguys_ranged",
+			"visionrange": 750
+		},
+		"o128": {
+			"xpos": -4202,
+			"ypos": 8329,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 302,
+			"unitname": "npc_dota_neutral_centaur_outrunner",
+			"visionrange": 800
+		},
+		"o129": {
+			"xpos": 4257,
+			"ypos": 67,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 195,
+			"unitname": "npc_dota_neutral_rock_golem",
+			"visionrange": 800
+		},
+		"o130": {
+			"xpos": 6622,
+			"ypos": -1899,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -104,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o131": {
+			"xpos": 4351,
+			"ypos": 49,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 194,
+			"unitname": "npc_dota_neutral_granite_golem",
+			"visionrange": 800
+		},
+		"o132": {
+			"xpos": -152,
+			"ypos": -6175,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -160,
+			"unitname": "npc_dota_creep_badguys_flagbearer",
+			"visionrange": 750
+		},
+		"o133": {
+			"xpos": -3984,
+			"ypos": 4809,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 144,
+			"unitname": "npc_dota_neutral_ghost",
+			"visionrange": 800
+		},
+		"o134": {
+			"xpos": 338,
+			"ypos": 7688,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 271,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 800
+		},
+		"o135": {
+			"xpos": -6238,
+			"ypos": 3485,
+			"image": "minimap_siege",
+			"team": 3,
+			"yaw": -73,
+			"unitname": "npc_dota_badguys_siege",
+			"visionrange": 750
+		},
+		"o136": {
+			"xpos": -6371,
+			"ypos": 3338,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -97,
+			"unitname": "npc_dota_creep_badguys_ranged",
+			"visionrange": 750
+		},
+		"o137": {
+			"xpos": -3711,
+			"ypos": -3069,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -85,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o138": {
+			"xpos": -8382,
+			"ypos": -564,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 4,
+			"unitname": "npc_dota_neutral_satyr_soulstealer",
+			"visionrange": 800
+		},
+		"o139": {
+			"xpos": 287,
+			"ypos": -6293,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 175,
+			"unitname": "npc_dota_creep_badguys_ranged",
+			"visionrange": 750
+		},
+		"o140": {
+			"xpos": -3545,
+			"ypos": -3161,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 137,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 750
+		},
+		"o141": {
+			"xpos": 3459,
+			"ypos": -1406,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 122,
+			"unitname": "npc_dota_neutral_ogre_magi",
+			"visionrange": 800
+		},
+		"o142": {
+			"xpos": -6159,
+			"ypos": 2966,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -154,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o143": {
+			"xpos": 1877,
+			"ypos": -3930,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 240,
+			"unitname": "npc_dota_neutral_satyr_soulstealer",
+			"visionrange": 800
+		},
+		"o144": {
+			"xpos": 6590,
+			"ypos": -1671,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -74,
+			"unitname": "npc_dota_creep_badguys_ranged",
+			"visionrange": 750
+		},
+		"o145": {
+			"xpos": -3931,
+			"ypos": 4917,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 119,
+			"unitname": "npc_dota_neutral_fel_beast",
+			"visionrange": 800
+		},
+		"o146": {
+			"xpos": -75,
+			"ypos": -6177,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 177,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o147": {
+			"xpos": 240,
+			"ypos": 7700,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 274,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 800
+		},
+		"o148": {
+			"xpos": 6563,
+			"ypos": -2148,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -104,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o149": {
+			"xpos": -3701,
+			"ypos": -3182,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 94,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 750
+		},
+		"o150": {
+			"xpos": -3209,
+			"ypos": -2671,
+			"image": "minimap_siege",
+			"team": 3,
+			"yaw": -125,
+			"unitname": "npc_dota_badguys_siege",
+			"visionrange": 750
+		},
+		"o151": {
+			"xpos": 4646,
+			"ypos": -3703,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 272,
+			"unitname": "npc_dota_neutral_centaur_outrunner",
+			"visionrange": 800
+		},
+		"o152": {
+			"xpos": 196,
+			"ypos": -5199,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 49,
+			"unitname": "npc_dota_neutral_ancient_frog",
+			"visionrange": 800
+		},
+		"o153": {
+			"xpos": 728,
+			"ypos": -3081,
+			"image": "minimap_ward_invis",
+			"team": 3,
+			"yaw": 262,
+			"unitname": "npc_dota_sentry_wards",
+			"visionrange": 0
+		},
+		"o154": {
+			"xpos": -208,
+			"ypos": -100,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -140,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o155": {
+			"xpos": 3980,
+			"ypos": -5086,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 305,
+			"unitname": "npc_dota_neutral_ghost",
+			"visionrange": 800
+		},
+		"o156": {
+			"xpos": 4571,
+			"ypos": -3665,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 296,
+			"unitname": "npc_dota_neutral_centaur_khan",
+			"visionrange": 800
+		},
+		"o157": {
+			"xpos": 1847,
+			"ypos": -4007,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 243,
+			"unitname": "npc_dota_neutral_satyr_soulstealer",
+			"visionrange": 800
+		},
+		"o158": {
+			"xpos": 1135,
+			"ypos": 2622,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 63,
+			"unitname": "npc_dota_neutral_warpine_raider",
+			"visionrange": 800
+		},
+		"o159": {
+			"xpos": 1976,
+			"ypos": -3969,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 237,
+			"unitname": "npc_dota_neutral_satyr_trickster",
+			"visionrange": 800
+		},
+		"o160": {
+			"xpos": -6517,
+			"ypos": 1199,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 108,
+			"unitname": "npc_dota_creep_goodguys_ranged",
+			"visionrange": 750
+		},
+		"o161": {
+			"xpos": -994,
+			"ypos": -575,
+			"image": "minimap_ward_obs",
+			"team": 3,
+			"yaw": 282,
+			"unitname": "npc_dota_observer_wards",
+			"visionrange": 1600
+		},
+		"o162": {
+			"xpos": 4408,
+			"ypos": -8440,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 82,
+			"unitname": "npc_dota_neutral_giant_wolf",
+			"visionrange": 800
+		},
+		"o163": {
+			"xpos": -1982,
+			"ypos": -4898,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 5,
+			"unitname": "npc_dota_neutral_giant_wolf",
+			"visionrange": 800
+		},
+		"o164": {
+			"xpos": 1587,
+			"ypos": -6471,
+			"image": "minimap_ward_invis",
+			"team": 2,
+			"yaw": 255,
+			"unitname": "npc_dota_sentry_wards",
+			"visionrange": 0
+		},
+		"o165": {
+			"xpos": -2400,
+			"ypos": -8358,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": -59,
+			"unitname": "npc_dota_neutral_mud_golem_split",
+			"visionrange": 800
+		},
+		"o166": {
+			"xpos": -2235,
+			"ypos": -7841,
+			"image": "minimap_ward_invis",
+			"team": 3,
+			"yaw": 254,
+			"unitname": "npc_dota_sentry_wards",
+			"visionrange": 0
+		},
+		"o167": {
+			"xpos": -1924,
+			"ypos": -4787,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 11,
+			"unitname": "npc_dota_neutral_giant_wolf",
+			"visionrange": 800
+		},
+		"o168": {
+			"xpos": 2497,
+			"ypos": -4842,
+			"image": "minimap_ward_invis",
+			"team": 2,
+			"yaw": 282,
+			"unitname": "npc_dota_sentry_wards",
+			"visionrange": 0
+		},
+		"o169": {
+			"xpos": 375,
+			"ypos": 7618,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 260,
+			"unitname": "npc_dota_neutral_grown_frog_mage",
+			"visionrange": 800
+		},
+		"o170": {
+			"xpos": -1511,
+			"ypos": 1745,
+			"image": "minimap_ward_obs",
+			"team": 2,
+			"yaw": 274,
+			"unitname": "npc_dota_observer_wards",
+			"visionrange": 1600
+		},
+		"o171": {
+			"xpos": 6583,
+			"ypos": -2064,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -104,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o172": {
+			"xpos": -383,
+			"ypos": -245,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -140,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o173": {
+			"xpos": -6471,
+			"ypos": 2313,
+			"image": "minimap_siege",
+			"team": 2,
+			"yaw": 78,
+			"unitname": "npc_dota_goodguys_siege",
+			"visionrange": 750
+		},
+		"o174": {
+			"xpos": 4421,
+			"ypos": -8356,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 77,
+			"unitname": "npc_dota_neutral_alpha_wolf",
+			"visionrange": 800
+		},
+		"o175": {
+			"xpos": -4028,
+			"ypos": 994,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 267,
+			"unitname": "npc_dota_neutral_satyr_trickster",
+			"visionrange": 800
+		},
+		"o176": {
+			"xpos": 6629,
+			"ypos": -1797,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -74,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o177": {
+			"xpos": -2575,
+			"ypos": 3942,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 70,
+			"unitname": "npc_dota_neutral_centaur_outrunner",
+			"visionrange": 800
+		},
+		"o178": {
+			"xpos": -2901,
+			"ypos": 7397,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 32,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 800
+		},
+		"o179": {
+			"xpos": -4132,
+			"ypos": 8342,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 319,
+			"unitname": "npc_dota_neutral_centaur_khan",
+			"visionrange": 800
+		},
+		"o180": {
+			"xpos": 2395,
+			"ypos": -7048,
+			"image": "minimap_ward_obs",
+			"team": 2,
+			"yaw": 264,
+			"unitname": "npc_dota_observer_wards",
+			"visionrange": 1600
+		},
+		"o181": {
+			"xpos": 3358,
+			"ypos": -1416,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 104,
+			"unitname": "npc_dota_neutral_ogre_mauler",
+			"visionrange": 800
+		},
+		"o182": {
+			"xpos": -118,
+			"ypos": -30,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -144,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o183": {
+			"xpos": -2605,
+			"ypos": 6102,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 178,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o184": {
+			"xpos": -1457,
+			"ypos": -3313,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 267,
+			"unitname": "npc_dota_neutral_dark_troll_warlord",
+			"visionrange": 800
+		},
+		"o185": {
+			"xpos": 4288,
+			"ypos": 18,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 187,
+			"unitname": "npc_dota_neutral_rock_golem",
+			"visionrange": 800
+		},
+		"o186": {
+			"xpos": 450,
+			"ypos": -6233,
+			"image": "minimap_siege",
+			"team": 3,
+			"yaw": -178,
+			"unitname": "npc_dota_badguys_siege",
+			"visionrange": 750
+		},
+		"o187": {
+			"xpos": -2507,
+			"ypos": 6099,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 178,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o188": {
+			"xpos": -1419,
+			"ypos": -3407,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 257,
+			"unitname": "npc_dota_neutral_dark_troll",
+			"visionrange": 800
+		},
+		"o189": {
+			"xpos": -138,
+			"ypos": -6353,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 156,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o190": {
+			"xpos": 4020,
+			"ypos": -5045,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 293,
+			"unitname": "npc_dota_neutral_fel_beast",
+			"visionrange": 800
+		},
+		"o191": {
+			"xpos": -142,
+			"ypos": -6247,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -178,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o192": {
+			"xpos": 2769,
+			"ypos": -8331,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 78,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 800
+		},
+		"o193": {
+			"xpos": -6392,
+			"ypos": 2553,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 84,
+			"unitname": "npc_dota_creep_goodguys_ranged",
+			"visionrange": 750
+		},
+		"o194": {
+			"xpos": -3363,
+			"ypos": -2850,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -120,
+			"unitname": "npc_dota_creep_badguys_ranged",
+			"visionrange": 750
+		},
+		"o195": {
+			"xpos": -6520,
+			"ypos": 1554,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 80,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 750
+		},
+		"o196": {
+			"xpos": -3639,
+			"ypos": -3079,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -122,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o197": {
+			"xpos": 4701,
+			"ypos": -3681,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 279,
+			"unitname": "npc_dota_neutral_centaur_outrunner",
+			"visionrange": 800
+		},
+		"o198": {
+			"xpos": 3407,
+			"ypos": -1442,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 123,
+			"unitname": "npc_dota_neutral_ogre_mauler",
+			"visionrange": 800
+		},
+		"o199": {
+			"xpos": -2447,
+			"ypos": -8455,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 53,
+			"unitname": "npc_dota_neutral_mud_golem_split",
+			"visionrange": 800
+		},
+		"o200": {
+			"xpos": -2371,
+			"ypos": -8404,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 37,
+			"unitname": "npc_dota_neutral_mud_golem_split",
+			"visionrange": 800
+		},
+		"o201": {
+			"xpos": -5023,
+			"ypos": -51,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 5,
+			"unitname": "npc_dota_neutral_frostbitten_golem",
+			"visionrange": 800
+		},
+		"o202": {
+			"xpos": -8096,
+			"ypos": -1888,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 61,
+			"unitname": "npc_dota_neutral_gnoll_assassin",
+			"visionrange": 400
+		},
+		"o203": {
+			"xpos": 1918,
+			"ypos": -4004,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 241,
+			"unitname": "npc_dota_neutral_satyr_trickster",
+			"visionrange": 800
+		},
+		"o204": {
+			"xpos": -278,
+			"ypos": -158,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -140,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o205": {
+			"xpos": 1197,
+			"ypos": 4180,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 189,
+			"unitname": "npc_dota_neutral_mud_golem",
+			"visionrange": 800
+		},
+		"o206": {
+			"xpos": 2825,
+			"ypos": -8330,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 85,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 800
+		},
+		"o207": {
+			"xpos": -6287,
+			"ypos": 2965,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -105,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o208": {
+			"xpos": 1063,
+			"ypos": 2608,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 70,
+			"unitname": "npc_dota_neutral_warpine_raider",
+			"visionrange": 800
+		},
+		"o209": {
+			"xpos": -2638,
+			"ypos": 3900,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 71,
+			"unitname": "npc_dota_neutral_centaur_khan",
+			"visionrange": 800
+		},
+		"o210": {
+			"xpos": -851,
+			"ypos": 4940,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 240,
+			"unitname": "npc_dota_neutral_ancient_frog",
+			"visionrange": 800
+		},
+		"o211": {
+			"xpos": -905,
+			"ypos": 4895,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 237,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 800
+		},
+		"o212": {
+			"xpos": 108,
+			"ypos": -5173,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 73,
+			"unitname": "npc_dota_neutral_ancient_frog_mage",
+			"visionrange": 800
+		},
+		"o213": {
+			"xpos": -1393,
+			"ypos": -3325,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 246,
+			"unitname": "npc_dota_neutral_dark_troll",
+			"visionrange": 800
+		},
+		"o214": {
+			"xpos": 3954,
+			"ypos": -5024,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 296,
+			"unitname": "npc_dota_neutral_fel_beast",
+			"visionrange": 800
+		},
+		"o215": {
+			"xpos": -8436,
+			"ypos": -499,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 7,
+			"unitname": "npc_dota_neutral_satyr_hellcaller",
+			"visionrange": 800
+		},
+		"o216": {
+			"xpos": 170,
+			"ypos": -5254,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 68,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 800
+		},
+		"o217": {
+			"xpos": 386,
+			"ypos": -6278,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 120,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 750
+		},
+		"o218": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 575
+		},
+		"o219": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 575
+		},
+		"o220": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 575
+		},
+		"o221": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 575
+		},
+		"o222": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 575
+		},
+		"o223": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 575
+		},
+		"o224": {
+			"xpos": 196,
+			"ypos": -5192,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o225": {
+			"xpos": -1403,
+			"ypos": -3392,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_wildkin",
+			"visionrange": 0
+		},
+		"o226": {
+			"xpos": 3136,
+			"ypos": 5737,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 0
+		},
+		"o227": {
+			"xpos": -2495,
+			"ypos": -8420,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_satyr_trickster",
+			"visionrange": 0
+		},
+		"o228": {
+			"xpos": -7680,
+			"ypos": 6336,
+			"image": "minimap_plaincircle",
+			"team": 4,
+			"yaw": 35,
+			"unitname": "npc_dota_miniboss",
+			"visionrange": 1200
+		},
+		"o229": {
+			"xpos": -2587,
+			"ypos": 3846,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_mud_golem",
+			"visionrange": 0
+		},
+		"o230": {
+			"xpos": 4583,
+			"ypos": 5069,
+			"image": "minimap_plaincircle",
+			"team": 3,
+			"yaw": -118,
+			"unitname": "npc_dota_poogie",
+			"visionrange": 0
+		},
+		"o231": {
+			"xpos": -7692,
+			"ypos": -2929,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 700
+		},
+		"o232": {
+			"xpos": 7360,
+			"ypos": 2432,
+			"image": "minimap_plaincircle",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 700
+		},
+		"o233": {
+			"xpos": -5160,
+			"ypos": -4803,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 118,
+			"unitname": "npc_dota_poogie",
+			"visionrange": 0
+		},
+		"o234": {
+			"xpos": -3444,
+			"ypos": -7475,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 270,
+			"unitname": "",
+			"visionrange": 700
+		},
+		"o235": {
+			"xpos": 2944,
+			"ypos": 7296,
+			"image": "minimap_plaincircle",
+			"team": 3,
+			"yaw": 270,
+			"unitname": "",
+			"visionrange": 700
+		},
+		"o236": {
+			"xpos": -862,
+			"ypos": 4939,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o237": {
+			"xpos": -3868,
+			"ypos": 4880,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_harpy_scout",
+			"visionrange": 0
+		},
+		"o238": {
+			"xpos": 252,
+			"ypos": 7735,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o239": {
+			"xpos": -4033,
+			"ypos": 983,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_alpha_wolf",
+			"visionrange": 0
+		},
+		"o240": {
+			"xpos": -1395,
+			"ypos": -3382,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_wildkin",
+			"visionrange": 0
+		},
+		"o241": {
+			"xpos": -2874,
+			"ypos": 7374,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_tadpole",
+			"visionrange": 0
+		},
+		"o242": {
+			"xpos": 205,
+			"ypos": -5278,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o243": {
+			"xpos": 3412,
+			"ypos": -1493,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_centaur_outrunner",
+			"visionrange": 0
+		},
+		"o244": {
+			"xpos": 188,
+			"ypos": -5272,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o245": {
+			"xpos": -6692,
+			"ypos": -4064,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 0
+		},
+		"o246": {
+			"xpos": -8088,
+			"ypos": 768,
+			"image": "minimap_plaincircle",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_thinker",
+			"visionrange": 0
+		},
+		"o247": {
+			"xpos": 8167,
+			"ypos": -1142,
+			"image": "minimap_plaincircle",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_thinker",
+			"visionrange": 0
+		},
+		"o248": {
+			"xpos": -3599,
+			"ypos": -6152,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 0
+		},
+		"o249": {
+			"xpos": -2858,
+			"ypos": 7412,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_tadpole",
+			"visionrange": 0
+		},
+		"o250": {
+			"xpos": -2932,
+			"ypos": 7446,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o251": {
+			"xpos": -2876,
+			"ypos": 7399,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_tadpole",
+			"visionrange": 0
+		},
+		"o252": {
+			"xpos": -3617,
+			"ypos": -3171,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 102,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 0
+		},
+		"o253": {
+			"xpos": -6482,
+			"ypos": -4064,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_flagbearer",
+			"visionrange": 0
+		},
+		"o254": {
+			"xpos": -7548,
+			"ypos": 4209,
+			"image": "minimap_plaincircle",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_thinker",
+			"visionrange": 0
+		},
+		"o255": {
+			"xpos": 7503,
+			"ypos": -4404,
+			"image": "minimap_plaincircle",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_thinker",
+			"visionrange": 0
+		},
+		"o256": {
+			"xpos": -678,
+			"ypos": -7623,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o257": {
+			"xpos": -709,
+			"ypos": -7631,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o258": {
+			"xpos": -3637,
+			"ypos": -6049,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 0
+		},
+		"o259": {
+			"xpos": -2833,
+			"ypos": 7388,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o260": {
+			"xpos": 2756,
+			"ypos": -8344,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_tadpole",
+			"visionrange": 0
+		},
+		"o261": {
+			"xpos": -6377,
+			"ypos": 2909,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 74,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 0
+		},
+		"o262": {
+			"xpos": -787,
+			"ypos": 4997,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o263": {
+			"xpos": -813,
+			"ypos": 4891,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o264": {
+			"xpos": 4351,
+			"ypos": 41,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_big_thunder_lizard",
+			"visionrange": 0
+		},
+		"o265": {
+			"xpos": -1990,
+			"ypos": -4854,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_ogre_mauler",
+			"visionrange": 0
+		},
+		"o266": {
+			"xpos": -2413,
+			"ypos": -8411,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_satyr_soulstealer",
+			"visionrange": 0
+		},
+		"o267": {
+			"xpos": 214,
+			"ypos": -5269,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o268": {
+			"xpos": -8359,
+			"ypos": -528,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_wildkin",
+			"visionrange": 0
+		},
+		"o269": {
+			"xpos": 4096,
+			"ypos": 3584,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_badguys_ranged",
+			"visionrange": 0
+		},
+		"o270": {
+			"xpos": 131,
+			"ypos": -5184,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o271": {
+			"xpos": 211,
+			"ypos": -5167,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o272": {
+			"xpos": -4826,
+			"ypos": 3897,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_warpine_raider",
+			"visionrange": 0
+		},
+		"o273": {
+			"xpos": 6272,
+			"ypos": 3648,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_badguys_ranged",
+			"visionrange": 0
+		},
+		"o274": {
+			"xpos": -4955,
+			"ypos": -119,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_rock_golem",
+			"visionrange": 0
+		},
+		"o275": {
+			"xpos": 178,
+			"ypos": -5270,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o276": {
+			"xpos": -734,
+			"ypos": -7694,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o277": {
+			"xpos": 363,
+			"ypos": 7722,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o278": {
+			"xpos": -3963,
+			"ypos": 4804,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_harpy_scout",
+			"visionrange": 0
+		},
+		"o279": {
+			"xpos": -772,
+			"ypos": -7638,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o280": {
+			"xpos": -3944,
+			"ypos": 937,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_giant_wolf",
+			"visionrange": 0
+		},
+		"o281": {
+			"xpos": -814,
+			"ypos": 4998,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o282": {
+			"xpos": 274,
+			"ypos": 7655,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o283": {
+			"xpos": 2757,
+			"ypos": -8369,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o284": {
+			"xpos": -894,
+			"ypos": 4856,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o285": {
+			"xpos": 4337,
+			"ypos": 57,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_small_thunder_lizard",
+			"visionrange": 0
+		},
+		"o286": {
+			"xpos": -2038,
+			"ypos": -4820,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_ogre_mauler",
+			"visionrange": 0
+		},
+		"o287": {
+			"xpos": 296,
+			"ypos": 7667,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog_mage",
+			"visionrange": 0
+		},
+		"o288": {
+			"xpos": -6256,
+			"ypos": 2919,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 112,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 0
+		},
+		"o289": {
+			"xpos": 348,
+			"ypos": 7670,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o290": {
+			"xpos": 263,
+			"ypos": 7723,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o291": {
+			"xpos": -669,
+			"ypos": -7689,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o292": {
+			"xpos": -882,
+			"ypos": 4953,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o293": {
+			"xpos": 1907,
+			"ypos": -4046,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_ogre_mauler",
+			"visionrange": 0
+		},
+		"o294": {
+			"xpos": 1246,
+			"ypos": 4194,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_satyr_trickster",
+			"visionrange": 0
+		},
+		"o295": {
+			"xpos": 2768,
+			"ypos": -8337,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_tadpole",
+			"visionrange": 0
+		},
+		"o296": {
+			"xpos": -3679,
+			"ypos": -6166,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 0
+		},
+		"o297": {
+			"xpos": 334,
+			"ypos": 7677,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o298": {
+			"xpos": 7921,
+			"ypos": -78,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_satyr_trickster",
+			"visionrange": 0
+		},
+		"o299": {
+			"xpos": -2879,
+			"ypos": 7379,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_tadpole",
+			"visionrange": 0
+		},
+		"o300": {
+			"xpos": -838,
+			"ypos": 4907,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o301": {
+			"xpos": -725,
+			"ypos": -7696,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o302": {
+			"xpos": 8343,
+			"ypos": 1259,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_fel_beast",
+			"visionrange": 0
+		},
+		"o303": {
+			"xpos": 271,
+			"ypos": -5154,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o304": {
+			"xpos": -2803,
+			"ypos": 7414,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o305": {
+			"xpos": -8038,
+			"ypos": -1839,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_forest_troll_berserker",
+			"visionrange": 0
+		},
+		"o306": {
+			"xpos": 2013,
+			"ypos": 7885,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_centaur_outrunner",
+			"visionrange": 0
+		},
+		"o307": {
+			"xpos": 2770,
+			"ypos": -8323,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_tadpole",
+			"visionrange": 0
+		},
+		"o308": {
+			"xpos": 370,
+			"ypos": 7680,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o309": {
+			"xpos": 230,
+			"ypos": -5219,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o310": {
+			"xpos": 7973,
+			"ypos": -62,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_satyr_soulstealer",
+			"visionrange": 0
+		},
+		"o311": {
+			"xpos": -3897,
+			"ypos": 4897,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_harpy_storm",
+			"visionrange": 0
+		},
+		"o312": {
+			"xpos": -2807,
+			"ypos": 7356,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_tadpole",
+			"visionrange": 0
+		},
+		"o313": {
+			"xpos": -802,
+			"ypos": 5014,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o314": {
+			"xpos": -709,
+			"ypos": -7632,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o315": {
+			"xpos": 8405,
+			"ypos": 1188,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_fel_beast",
+			"visionrange": 0
+		},
+		"o316": {
+			"xpos": 170,
+			"ypos": -5222,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o317": {
+			"xpos": -7975,
+			"ypos": -1895,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_forest_troll_berserker",
+			"visionrange": 0
+		},
+		"o318": {
+			"xpos": -4022,
+			"ypos": 998,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_giant_wolf",
+			"visionrange": 0
+		},
+		"o319": {
+			"xpos": -815,
+			"ypos": 4929,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o320": {
+			"xpos": 2783,
+			"ypos": -8367,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_tadpole",
+			"visionrange": 0
+		},
+		"o321": {
+			"xpos": -3594,
+			"ypos": -3138,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -95,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 0
+		},
+		"o322": {
+			"xpos": 215,
+			"ypos": -5126,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog_mage",
+			"visionrange": 0
+		},
+		"o323": {
+			"xpos": 388,
+			"ypos": 7701,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o324": {
+			"xpos": 141,
+			"ypos": -5229,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o325": {
+			"xpos": -727,
+			"ypos": -7660,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o326": {
+			"xpos": 4064,
+			"ypos": 3529,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 0
+		},
+		"o327": {
+			"xpos": 2762,
+			"ypos": -8294,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_tadpole",
+			"visionrange": 0
+		},
+		"o328": {
+			"xpos": 112,
+			"ypos": -5238,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o329": {
+			"xpos": -6559,
+			"ypos": -4023,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 0
+		},
+		"o330": {
+			"xpos": 4634,
+			"ypos": -3726,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_wildkin",
+			"visionrange": 0
+		},
+		"o331": {
+			"xpos": 2740,
+			"ypos": -8381,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_tadpole",
+			"visionrange": 0
+		},
+		"o332": {
+			"xpos": 331,
+			"ypos": 7644,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o333": {
+			"xpos": 3443,
+			"ypos": -1429,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_centaur_khan",
+			"visionrange": 0
+		},
+		"o334": {
+			"xpos": 7968,
+			"ypos": -39,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_satyr_hellcaller",
+			"visionrange": 0
+		},
+		"o335": {
+			"xpos": -2927,
+			"ypos": 7341,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_tadpole",
+			"visionrange": 0
+		},
+		"o336": {
+			"xpos": 2751,
+			"ypos": -8355,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o337": {
+			"xpos": -850,
+			"ypos": 4909,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o338": {
+			"xpos": -693,
+			"ypos": -7720,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o339": {
+			"xpos": 8404,
+			"ypos": 1245,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_ghost",
+			"visionrange": 0
+		},
+		"o340": {
+			"xpos": -2897,
+			"ypos": 7465,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_tadpole",
+			"visionrange": 0
+		},
+		"o341": {
+			"xpos": 238,
+			"ypos": -5250,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o342": {
+			"xpos": 2013,
+			"ypos": 7885,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_centaur_khan",
+			"visionrange": 0
+		},
+		"o343": {
+			"xpos": -883,
+			"ypos": 4910,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o344": {
+			"xpos": -898,
+			"ypos": 4975,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o345": {
+			"xpos": -4882,
+			"ypos": 3884,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_warpine_raider",
+			"visionrange": 0
+		},
+		"o346": {
+			"xpos": -5026,
+			"ypos": -116,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_rock_golem",
+			"visionrange": 0
+		},
+		"o347": {
+			"xpos": -4280,
+			"ypos": 8319,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_mud_golem",
+			"visionrange": 0
+		},
+		"o348": {
+			"xpos": 335,
+			"ypos": 7695,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o349": {
+			"xpos": -856,
+			"ypos": 4961,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog_mage",
+			"visionrange": 0
+		},
+		"o350": {
+			"xpos": 162,
+			"ypos": -5124,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog_mage",
+			"visionrange": 0
+		},
+		"o351": {
+			"xpos": 1061,
+			"ypos": 2585,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_polar_furbolg_champion",
+			"visionrange": 0
+		},
+		"o352": {
+			"xpos": -669,
+			"ypos": -7662,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o353": {
+			"xpos": 6212,
+			"ypos": 3669,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 0
+		},
+		"o354": {
+			"xpos": -3707,
+			"ypos": -6090,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_flagbearer",
+			"visionrange": 0
+		},
+		"o355": {
+			"xpos": -2866,
+			"ypos": 7430,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o356": {
+			"xpos": -851,
+			"ypos": 4935,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o357": {
+			"xpos": -868,
+			"ypos": 4996,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o358": {
+			"xpos": 4399,
+			"ypos": 30,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_small_thunder_lizard",
+			"visionrange": 0
+		},
+		"o359": {
+			"xpos": -3648,
+			"ypos": -6112,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_ranged",
+			"visionrange": 0
+		},
+		"o360": {
+			"xpos": -5008,
+			"ypos": -4488,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_ranged",
+			"visionrange": 0
+		},
+		"o361": {
+			"xpos": 3971,
+			"ypos": -4991,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_forest_troll_berserker",
+			"visionrange": 0
+		},
+		"o362": {
+			"xpos": 4399,
+			"ypos": -8424,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_centaur_outrunner",
+			"visionrange": 0
+		},
+		"o363": {
+			"xpos": 1916,
+			"ypos": -3920,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_ogre_magi",
+			"visionrange": 0
+		},
+		"o364": {
+			"xpos": -8017,
+			"ypos": -1773,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_kobold_taskmaster",
+			"visionrange": 0
+		},
+		"o365": {
+			"xpos": -711,
+			"ypos": -7706,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o366": {
+			"xpos": 140,
+			"ypos": -5143,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o367": {
+			"xpos": -4996,
+			"ypos": -93,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_granite_golem",
+			"visionrange": 0
+		},
+		"o368": {
+			"xpos": 2739,
+			"ypos": -8377,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o369": {
+			"xpos": -822,
+			"ypos": 4954,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o370": {
+			"xpos": 363,
+			"ypos": 7698,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o371": {
+			"xpos": -1993,
+			"ypos": -4788,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_ogre_magi",
+			"visionrange": 0
+		},
+		"o372": {
+			"xpos": 4027,
+			"ypos": -4996,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_forest_troll_berserker",
+			"visionrange": 0
+		},
+		"o373": {
+			"xpos": -2908,
+			"ypos": 7309,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o374": {
+			"xpos": -903,
+			"ypos": 4923,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog_mage",
+			"visionrange": 0
+		},
+		"o375": {
+			"xpos": -840,
+			"ypos": 4949,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog_mage",
+			"visionrange": 0
+		},
+		"o376": {
+			"xpos": 1134,
+			"ypos": 4200,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_satyr_soulstealer",
+			"visionrange": 0
+		},
+		"o377": {
+			"xpos": -6639,
+			"ypos": -4009,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 0
+		},
+		"o378": {
+			"xpos": 1224,
+			"ypos": 4179,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_satyr_trickster",
+			"visionrange": 0
+		},
+		"o379": {
+			"xpos": 4144,
+			"ypos": 3543,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 0
+		},
+		"o380": {
+			"xpos": -2620,
+			"ypos": 3864,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_mud_golem",
+			"visionrange": 0
+		},
+		"o381": {
+			"xpos": 3216,
+			"ypos": 5832,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 0
+		},
+		"o382": {
+			"xpos": -6301,
+			"ypos": 2954,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -150,
+			"unitname": "npc_dota_creep_badguys_ranged",
+			"visionrange": 0
+		},
+		"o383": {
+			"xpos": -2481,
+			"ypos": -8350,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_satyr_trickster",
+			"visionrange": 0
+		},
+		"o384": {
+			"xpos": -8322,
+			"ypos": -587,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_wildkin",
+			"visionrange": 0
+		},
+		"o385": {
+			"xpos": 3168,
+			"ypos": 5792,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_badguys_ranged",
+			"visionrange": 0
+		},
+		"o386": {
+			"xpos": 162,
+			"ypos": -5202,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_ancient_frog_mage",
+			"visionrange": 0
+		},
+		"o387": {
+			"xpos": -724,
+			"ypos": -7679,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog_mage",
+			"visionrange": 0
+		},
+		"o388": {
+			"xpos": 191,
+			"ypos": -5196,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_grown_frog",
+			"visionrange": 0
+		},
+		"o389": {
+			"xpos": 4662,
+			"ypos": -3677,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_wildkin",
+			"visionrange": 0
+		},
+		"o390": {
+			"xpos": 1851,
+			"ypos": -4037,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_ogre_mauler",
+			"visionrange": 0
+		},
+		"o391": {
+			"xpos": -6313,
+			"ypos": 2873,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 81,
+			"unitname": "npc_dota_creep_goodguys_flagbearer",
+			"visionrange": 0
+		},
+		"o392": {
+			"xpos": 4356,
+			"ypos": -8429,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_centaur_khan",
+			"visionrange": 0
+		},
+		"o393": {
+			"xpos": -4997,
+			"ypos": -4425,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 0
+		},
+		"o394": {
+			"xpos": 2774,
+			"ypos": -8308,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o395": {
+			"xpos": 6240,
+			"ypos": 3593,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 0
+		},
+		"o396": {
+			"xpos": 1068,
+			"ypos": 2507,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_polar_furbolg_ursa_warrior",
+			"visionrange": 0
+		},
+		"o397": {
+			"xpos": -4130,
+			"ypos": 8329,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_mud_golem",
+			"visionrange": 0
+		},
+		"o398": {
+			"xpos": 2753,
+			"ypos": -8284,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet_mage",
+			"visionrange": 0
+		},
+		"o399": {
+			"xpos": 2742,
+			"ypos": -8341,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_froglet",
+			"visionrange": 0
+		},
+		"o400": {
+			"xpos": 3108,
+			"ypos": 5813,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_badguys_melee",
+			"visionrange": 0
+		},
+		"o401": {
+			"xpos": -4945,
+			"ypos": -4488,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 0
+		},
+		"o402": {
+			"xpos": -5067,
+			"ypos": -4509,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_melee",
+			"visionrange": 0
+		},
+		"o403": {
+			"xpos": -1494,
+			"ypos": -3412,
+			"image": "minimap_creep",
+			"team": 4,
+			"yaw": 0,
+			"unitname": "npc_dota_neutral_enraged_wildkin",
+			"visionrange": 0
+		},
+		"o404": {
+			"xpos": -6608,
+			"ypos": -4064,
+			"image": "minimap_creep",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_creep_goodguys_ranged",
+			"visionrange": 0
+		},
+		"o405": {
+			"xpos": -3525,
+			"ypos": -3163,
+			"image": "minimap_creep",
+			"team": 3,
+			"yaw": -137,
+			"unitname": "npc_dota_creep_badguys_flagbearer",
+			"visionrange": 0
+		},
+		"o406": {
+			"xpos": -1351,
+			"ypos": -6432,
+			"image": "minimap_enemyicon",
+			"team": 3,
+			"name": "npc_dota_hero_enigma",
+			"yaw": 19,
+			"unitname": "npc_dota_hero_enigma",
+			"visionrange": 800
+		},
+		"o407": {
+			"xpos": -1113,
+			"ypos": -6391,
+			"image": "minimap_enemyicon",
+			"team": 3,
+			"name": "npc_dota_hero_keeper_of_the_light",
+			"yaw": 9,
+			"unitname": "npc_dota_hero_keeper_of_the_light",
+			"visionrange": 800
+		},
+		"o408": {
+			"xpos": -465,
+			"ypos": -6875,
+			"image": "minimap_enemyicon",
+			"team": 3,
+			"name": "npc_dota_hero_windrunner",
+			"yaw": 80,
+			"unitname": "npc_dota_hero_windrunner",
+			"visionrange": 925
+		},
+		"o409": {
+			"xpos": -822,
+			"ypos": -5846,
+			"image": "minimap_enemyicon",
+			"team": 3,
+			"name": "npc_dota_hero_phantom_lancer",
+			"yaw": 118,
+			"unitname": "npc_dota_hero_phantom_lancer",
+			"visionrange": 925
+		},
+		"o410": {
+			"xpos": -881,
+			"ypos": -6919,
+			"image": "minimap_enemyicon",
+			"team": 3,
+			"name": "npc_dota_hero_rubick",
+			"yaw": 49,
+			"unitname": "npc_dota_hero_rubick",
+			"visionrange": 800
+		},
+		"o411": {
+			"xpos": -4114,
+			"ypos": -3525,
+			"image": "minimap_herocircle",
+			"team": 2,
+			"name": "npc_dota_hero_lion",
+			"yaw": 56,
+			"unitname": "npc_dota_hero_lion",
+			"visionrange": 800
+		},
+		"o412": {
+			"xpos": -5227,
+			"ypos": -4911,
+			"image": "minimap_herocircle",
+			"team": 2,
+			"name": "npc_dota_hero_necrolyte",
+			"yaw": 32,
+			"unitname": "npc_dota_hero_necrolyte",
+			"visionrange": 800
+		},
+		"o413": {
+			"xpos": -314,
+			"ypos": -6434,
+			"image": "minimap_enemyimage",
+			"team": 3,
+			"name": "npc_dota_hero_phantom_lancer",
+			"yaw": 104,
+			"unitname": "npc_dota_hero_phantom_lancer",
+			"visionrange": 400
+		},
+		"o414": {
+			"xpos": -260,
+			"ypos": -6472,
+			"image": "minimap_enemyimage",
+			"team": 3,
+			"name": "npc_dota_hero_phantom_lancer",
+			"yaw": 113,
+			"unitname": "npc_dota_hero_phantom_lancer",
+			"visionrange": 400
+		},
+		"o415": {
+			"xpos": -2375,
+			"ypos": -7389,
+			"image": "minimap_herocircle",
+			"team": 2,
+			"name": "npc_dota_hero_invoker",
+			"yaw": 146,
+			"unitname": "npc_dota_hero_invoker",
+			"visionrange": 0
+		},
+		"o416": {
+			"xpos": -1948,
+			"ypos": -7775,
+			"image": "minimap_herocircle",
+			"team": 2,
+			"name": "npc_dota_hero_obsidian_destroyer",
+			"yaw": 50,
+			"unitname": "npc_dota_hero_obsidian_destroyer",
+			"visionrange": 0
+		},
+		"o417": {
+			"xpos": -4494,
+			"ypos": -5408,
+			"image": "minimap_herocircle",
+			"team": 2,
+			"name": "npc_dota_hero_phantom_assassin",
+			"yaw": -179,
+			"unitname": "npc_dota_hero_phantom_assassin",
+			"visionrange": 0
+		},
+		"o418": {
+			"xpos": -239,
+			"ypos": -6396,
+			"image": "minimap_enemyimage",
+			"team": 3,
+			"name": "npc_dota_hero_phantom_lancer",
+			"yaw": 129,
+			"unitname": "npc_dota_hero_phantom_lancer",
+			"visionrange": 0
+		},
+		"o419": {
+			"xpos": -2643,
+			"ypos": -6209,
+			"image": "minimap_controlledcreep",
+			"team": 3,
+			"yaw": -4,
+			"unitname": "npc_dota_dire_eidolon",
+			"visionrange": 0
+		},
+		"o420": {
+			"xpos": 6572,
+			"ypos": 4754,
+			"image": "minimap_courier_dire_flying",
+			"team": 3,
+			"yaw": 59,
+			"unitname": "npc_dota_courier",
+			"visionrange": 200
+		},
+		"o421": {
+			"xpos": 7018,
+			"ypos": 6802,
+			"image": "minimap_courier_dire_flying",
+			"team": 3,
+			"yaw": -136,
+			"unitname": "npc_dota_courier",
+			"visionrange": 200
+		},
+		"o422": {
+			"xpos": 7091,
+			"ypos": 6641,
+			"image": "minimap_courier_dire_flying",
+			"team": 3,
+			"yaw": -137,
+			"unitname": "npc_dota_courier",
+			"visionrange": 200
+		},
+		"o423": {
+			"xpos": 7241,
+			"ypos": 6517,
+			"image": "minimap_courier_dire_flying",
+			"team": 3,
+			"yaw": -139,
+			"unitname": "npc_dota_courier",
+			"visionrange": 200
+		},
+		"o424": {
+			"xpos": 3745,
+			"ypos": -2304,
+			"image": "minimap_courier_dire_flying",
+			"team": 3,
+			"yaw": -142,
+			"unitname": "npc_dota_courier",
+			"visionrange": 200
+		},
+		"o425": {
+			"xpos": -6841,
+			"ypos": -6841,
+			"image": "minimap_courier_flying",
+			"team": 2,
+			"yaw": 45,
+			"unitname": "npc_dota_courier",
+			"visionrange": 200
+		},
+		"o426": {
+			"xpos": -6891,
+			"ypos": -6691,
+			"image": "minimap_courier_flying",
+			"team": 2,
+			"yaw": 43,
+			"unitname": "npc_dota_courier",
+			"visionrange": 200
+		},
+		"o427": {
+			"xpos": -7041,
+			"ypos": -6566,
+			"image": "minimap_courier_flying",
+			"team": 2,
+			"yaw": 42,
+			"unitname": "npc_dota_courier",
+			"visionrange": 200
+		},
+		"o428": {
+			"xpos": -7091,
+			"ypos": -6416,
+			"image": "minimap_courier_flying",
+			"team": 2,
+			"yaw": 40,
+			"unitname": "npc_dota_courier",
+			"visionrange": 200
+		},
+		"o429": {
+			"xpos": -7128,
+			"ypos": -5782,
+			"image": "minimap_courier_flying",
+			"team": 2,
+			"yaw": 77,
+			"unitname": "npc_dota_courier",
+			"visionrange": 200
+		},
+		"o430": {
+			"xpos": -1403,
+			"ypos": -6251,
+			"image": "minimap_controlledcreep",
+			"team": 3,
+			"yaw": -1,
+			"unitname": "npc_dota_dire_eidolon",
+			"visionrange": 800
+		},
+		"o431": {
+			"xpos": -1348,
+			"ypos": -6252,
+			"image": "minimap_controlledcreep",
+			"team": 3,
+			"yaw": -1,
+			"unitname": "npc_dota_dire_eidolon",
+			"visionrange": 800
+		},
+		"o432": {
+			"xpos": -1264,
+			"ypos": -6432,
+			"image": "minimap_controlledcreep",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_dire_eidolon",
+			"visionrange": 800
+		},
+		"o433": {
+			"xpos": -1508,
+			"ypos": -6198,
+			"image": "minimap_controlledcreep",
+			"team": 3,
+			"yaw": -4,
+			"unitname": "npc_dota_dire_eidolon",
+			"visionrange": 800
+		},
+		"o434": {
+			"xpos": -1500,
+			"ypos": -6258,
+			"image": "minimap_controlledcreep",
+			"team": 3,
+			"yaw": 0,
+			"unitname": "npc_dota_dire_eidolon",
+			"visionrange": 800
+		}
+	},
+	"previously": {
+		"map": {
+			"clock_time": 1547
+		},
+		"player": {
+			"team3": {
+				"player6": {
+					"xpm": 766
+				}
+			}
+		},
+		"hero": {
+			"team2": {
+				"player2": {
+					"xpos": -4157,
+					"ypos": -3590
+				},
+				"player4": {
+					"xpos": -5291,
+					"ypos": -4948
+				}
+			},
+			"team3": {
+				"player5": {
+					"xpos": -1428,
+					"ypos": -6450,
+					"mana": 672,
+					"mana_percent": 57
+				},
+				"player6": {
+					"xpos": -1159,
+					"ypos": -6399,
+					"health": 2167,
+					"mana": 1292,
+					"mana_percent": 64
+				},
+				"player7": {
+					"health": 864,
+					"mana": 829
+				},
+				"player8": {
+					"xpos": -783,
+					"ypos": -5918,
+					"mana": 575
+				},
+				"player9": {
+					"xpos": -928,
+					"ypos": -6975,
+					"health": 1075,
+					"mana": 887
+				}
+			}
+		},
+		"abilities": {
+			"team3": {
+				"player5": {
+					"ability1": {
+						"cooldown": 17
+					},
+					"ability2": {
+						"cooldown": 8
+					}
+				},
+				"player7": {
+					"ability2": {
+						"cooldown": 8
+					}
+				}
+			}
+		},
+		"items": {
+			"team2": {
+				"player0": {
+					"teleport0": {
+						"cooldown": 23
+					}
+				}
+			},
+			"team3": {
+				"player5": {
+					"slot1": {
+						"charge_cooldown": 88
+					}
+				},
+				"player9": {
+					"slot4": {
+						"cooldown": 8
+					},
+					"neutral0": {
+						"cooldown": 45
+					}
+				}
+			}
+		},
+		"couriers": {
+			"courier0": {
+				"xpos": 6527,
+				"ypos": 4676
+			},
+			"courier4": {
+				"xpos": 3819,
+				"ypos": -2245,
+				"yaw": -141
+			},
+			"courier9": {
+				"xpos": -7153,
+				"ypos": -5895
+			}
+		},
+		"minimap": {
+			"o86": {
+				"xpos": -2277,
+				"ypos": 6098
+			},
+			"o87": {
+				"xpos": -6503,
+				"ypos": 1639
+			},
+			"o94": {
+				"xpos": -6216,
+				"ypos": 3011,
+				"yaw": -91
+			},
+			"o99": {
+				"xpos": 99,
+				"ypos": -6184,
+				"yaw": 177
+			},
+			"o103": {
+				"xpos": -2170,
+				"ypos": 6101
+			},
+			"o106": {
+				"xpos": 187,
+				"ypos": 185
+			},
+			"o114": {
+				"xpos": -2620,
+				"ypos": 6101
+			},
+			"o116": {
+				"xpos": -6358,
+				"ypos": 2980,
+				"yaw": -35
+			},
+			"o120": {
+				"xpos": -6516,
+				"ypos": 1564
+			},
+			"o122": {
+				"xpos": -6555,
+				"ypos": 1331,
+				"yaw": 89
+			},
+			"o127": {
+				"xpos": 566,
+				"ypos": -6273
+			},
+			"o130": {
+				"xpos": 6634,
+				"ypos": -1821,
+				"yaw": -80
+			},
+			"o132": {
+				"xpos": -96,
+				"ypos": -6176,
+				"yaw": 177
+			},
+			"o135": {
+				"xpos": -6260,
+				"ypos": 3556,
+				"yaw": -77
+			},
+			"o136": {
+				"xpos": -6363,
+				"ypos": 3407,
+				"yaw": -82
+			},
+			"o144": {
+				"xpos": 6567,
+				"ypos": -1593
+			},
+			"o146": {
+				"xpos": 0,
+				"ypos": -6180
+			},
+			"o148": {
+				"xpos": 6580,
+				"ypos": -2069
+			},
+			"o154": {
+				"xpos": -145,
+				"ypos": -50,
+				"yaw": -143
+			},
+			"o160": {
+				"xpos": -6491,
+				"ypos": 1123
+			},
+			"o171": {
+				"xpos": 6601,
+				"ypos": -1985
+			},
+			"o172": {
+				"xpos": -321,
+				"ypos": -193
+			},
+			"o173": {
+				"yaw": 80
+			},
+			"o176": {
+				"xpos": 6606,
+				"ypos": -1720
+			},
+			"o182": {
+				"xpos": -52,
+				"ypos": 16
+			},
+			"o183": {
+				"xpos": -2525,
+				"ypos": 6101
+			},
+			"o187": {
+				"xpos": -2426,
+				"ypos": 6098
+			},
+			"o195": {
+				"xpos": -6533,
+				"ypos": 1474
+			},
+			"o204": {
+				"xpos": -216,
+				"ypos": -107
+			},
+			"o207": {
+				"xpos": -6286,
+				"ypos": 2985,
+				"yaw": -81
+			},
+			"o217": {
+				"xpos": 453,
+				"ypos": -6309,
+				"yaw": -175
+			},
+			"o233": {
+				"xpos": -5121,
+				"ypos": -4873,
+				"yaw": 103
+			},
+			"o406": {
+				"xpos": -1442,
+				"ypos": -6454,
+				"yaw": 12
+			},
+			"o407": {
+				"xpos": -1177,
+				"ypos": -6402
+			},
+			"o409": {
+				"xpos": -776,
+				"ypos": -5931
+			},
+			"o410": {
+				"xpos": -937,
+				"ypos": -6986,
+				"yaw": 66
+			},
+			"o411": {
+				"xpos": -4165,
+				"ypos": -3602
+			},
+			"o412": {
+				"xpos": -5304,
+				"ypos": -4955,
+				"yaw": 26
+			},
+			"o419": {
+				"xpos": -937,
+				"ypos": -6986,
+				"remainingtime": 0.1962890625,
+				"eventduration": 0
+			},
+			"o420": {
+				"xpos": 6519,
+				"ypos": 4662
+			},
+			"o424": {
+				"xpos": 3832,
+				"ypos": -2234,
+				"yaw": -141
+			},
+			"o429": {
+				"xpos": -7158,
+				"ypos": -5916
+			},
+			"o430": {
+				"xpos": -1499,
+				"ypos": -6250
+			},
+			"o431": {
+				"xpos": -1443
+			},
+			"o432": {
+				"xpos": -1355,
+				"ypos": -6454,
+				"yaw": 21
+			},
+			"o433": {
+				"xpos": -1604,
+				"ypos": -6193
+			},
+			"o434": {
+				"xpos": -1596
+			},
+			"o435": {
+				"xpos": -2643,
+				"ypos": -6209,
+				"image": "minimap_controlledcreep",
+				"team": 3,
+				"yaw": -4,
+				"unitname": "npc_dota_dire_eidolon",
+				"visionrange": 0
+			}
+		}
+	},
+	"added": {
+		"minimap": {
+			"o419": {
+				"image": true,
+				"team": true,
+				"yaw": true,
+				"unitname": true,
+				"visionrange": true
+			}
+		}
+	},
+	"auth": {
+		"token": "midmind-capture"
+	}
+}
