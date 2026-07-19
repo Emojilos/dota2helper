@@ -1,0 +1,33 @@
+{
+	"provider": {
+		"name": "Dota 2",
+		"appid": 570,
+		"version": 48,
+		"timestamp": 1784494304
+	},
+	"player": {
+
+	},
+	"draft": {
+
+	},
+	"events": [
+
+	]
+	,
+	"league": {
+
+	},
+	"couriers": {
+
+	},
+	"neutralitems": {
+
+	},
+	"roshan": {
+
+	},
+	"auth": {
+		"token": "midmind-capture"
+	}
+}

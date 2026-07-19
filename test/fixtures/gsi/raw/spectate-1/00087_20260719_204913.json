@@ -1,0 +1,2393 @@
+{
+	"provider": {
+		"name": "Dota 2",
+		"appid": 570,
+		"version": 48,
+		"timestamp": 1784494153
+	},
+	"player": {
+
+	},
+	"draft": {
+
+	},
+	"events": [
+
+	]
+	,
+	"league": {
+
+	},
+	"couriers": {
+
+	},
+	"neutralitems": {
+
+	},
+	"roshan": {
+
+	},
+	"previously": {
+		"map": true,
+		"player": {
+			"team2": {
+				"player0": {
+					"steamid": "76561198007455244",
+					"accountid": "47189516",
+					"name": "TTV/OffLightC",
+					"activity": "playing",
+					"kills": 9,
+					"deaths": 1,
+					"assists": 11,
+					"last_hits": 251,
+					"denies": 1,
+					"kill_streak": 8,
+					"commands_issued": 9923,
+					"kill_list": {
+						"victimid_5": 3,
+						"victimid_6": 1,
+						"victimid_7": 1,
+						"victimid_8": 2,
+						"victimid_9": 2
+					},
+					"team_name": "radiant",
+					"player_slot": 9,
+					"team_slot": 0,
+					"gold": 2444,
+					"gold_reliable": 773,
+					"gold_unreliable": 1671,
+					"gold_from_hero_kills": 4163,
+					"gold_from_creep_kills": 6731,
+					"gold_from_summon_kills": 0,
+					"gold_from_income": 3748,
+					"gold_from_shared": 2174,
+					"gpm": 679,
+					"xpm": 849,
+					"net_worth": 19806,
+					"hero_damage": 18476,
+					"hero_healing": 15974,
+					"tower_damage": 931,
+					"wards_purchased": 5,
+					"wards_placed": 4,
+					"wards_destroyed": 1,
+					"runes_activated": 4,
+					"water_runes_activated": 0,
+					"bounty_runes_activated": 1,
+					"camps_stacked": 3,
+					"support_gold_spent": 50,
+					"consumable_gold_spent": 580,
+					"item_gold_spent": 17450,
+					"gold_lost_to_death": 101,
+					"gold_spent_on_buybacks": 0,
+					"damage_received_pre_reduction_physical": 5777,
+					"damage_received_pre_reduction_magical": 6405,
+					"damage_received_pre_reduction_pure": 290,
+					"damage_received_post_reduction_physical": 3539,
+					"damage_received_post_reduction_magical": 4067,
+					"damage_received_post_reduction_pure": 184,
+					"damage_outgoing_pre_reduction_physical": 1099,
+					"damage_outgoing_pre_reduction_magical": 24259,
+					"damage_outgoing_pre_reduction_pure": 0,
+					"damage_outgoing_post_reduction_physical": 654,
+					"damage_outgoing_post_reduction_magical": 17822,
+					"damage_outgoing_post_reduction_pure": 0
+				},
+				"player1": {
+					"steamid": "76561199134437564",
+					"accountid": "1174171836",
+					"name": "nil",
+					"activity": "playing",
+					"kills": 3,
+					"deaths": 3,
+					"assists": 2,
+					"last_hits": 337,
+					"denies": 21,
+					"kill_streak": 1,
+					"commands_issued": 9690,
+					"kill_list": {
+						"victimid_6": 1,
+						"victimid_7": 1,
+						"victimid_9": 1
+					},
+					"team_name": "radiant",
+					"player_slot": 7,
+					"team_slot": 1,
+					"gold": 3645,
+					"gold_reliable": 452,
+					"gold_unreliable": 3193,
+					"gold_from_hero_kills": 1339,
+					"gold_from_creep_kills": 6809,
+					"gold_from_summon_kills": 32,
+					"gold_from_income": 2732,
+					"gold_from_shared": 576,
+					"gpm": 705,
+					"xpm": 793,
+					"net_worth": 20660,
+					"hero_damage": 5301,
+					"hero_healing": 0,
+					"tower_damage": 18266,
+					"wards_purchased": 0,
+					"wards_placed": 0,
+					"wards_destroyed": 1,
+					"runes_activated": 0,
+					"water_runes_activated": 0,
+					"bounty_runes_activated": 2,
+					"camps_stacked": 4,
+					"support_gold_spent": 0,
+					"consumable_gold_spent": 500,
+					"item_gold_spent": 16705,
+					"gold_lost_to_death": 507,
+					"gold_spent_on_buybacks": 0,
+					"damage_received_pre_reduction_physical": 4177,
+					"damage_received_pre_reduction_magical": 6439,
+					"damage_received_pre_reduction_pure": 510,
+					"damage_received_post_reduction_physical": 1894,
+					"damage_received_post_reduction_magical": 3403,
+					"damage_received_post_reduction_pure": 510,
+					"damage_outgoing_pre_reduction_physical": 6580,
+					"damage_outgoing_pre_reduction_magical": 2644,
+					"damage_outgoing_pre_reduction_pure": 0,
+					"damage_outgoing_post_reduction_physical": 4074,
+					"damage_outgoing_post_reduction_magical": 1227,
+					"damage_outgoing_post_reduction_pure": 0
+				},
+				"player2": {
+					"steamid": "76561199042537145",
+					"accountid": "1082271417",
+					"name": "大メViMAメ 大",
+					"activity": "playing",
+					"kills": 4,
+					"deaths": 7,
+					"assists": 9,
+					"last_hits": 79,
+					"denies": 2,
+					"kill_streak": 1,
+					"commands_issued": 6374,
+					"kill_list": {
+						"victimid_5": 2,
+						"victimid_8": 2
+					},
+					"team_name": "radiant",
+					"player_slot": 5,
+					"team_slot": 2,
+					"gold": 1001,
+					"gold_reliable": 341,
+					"gold_unreliable": 660,
+					"gold_from_hero_kills": 1958,
+					"gold_from_creep_kills": 2611,
+					"gold_from_summon_kills": 0,
+					"gold_from_income": 3640,
+					"gold_from_shared": 1162,
+					"gpm": 408,
+					"xpm": 483,
+					"net_worth": 10981,
+					"hero_damage": 13780,
+					"hero_healing": 0,
+					"tower_damage": 1721,
+					"wards_purchased": 23,
+					"wards_placed": 10,
+					"wards_destroyed": 5,
+					"runes_activated": 2,
+					"water_runes_activated": 0,
+					"bounty_runes_activated": 4,
+					"camps_stacked": 3,
+					"support_gold_spent": 650,
+					"consumable_gold_spent": 955,
+					"item_gold_spent": 9825,
+					"gold_lost_to_death": 826,
+					"gold_spent_on_buybacks": 0,
+					"damage_received_pre_reduction_physical": 14627,
+					"damage_received_pre_reduction_magical": 6394,
+					"damage_received_pre_reduction_pure": 0,
+					"damage_received_post_reduction_physical": 7655,
+					"damage_received_post_reduction_magical": 4387,
+					"damage_received_post_reduction_pure": 0,
+					"damage_outgoing_pre_reduction_physical": 14238,
+					"damage_outgoing_pre_reduction_magical": 5711,
+					"damage_outgoing_pre_reduction_pure": 0,
+					"damage_outgoing_post_reduction_physical": 10076,
+					"damage_outgoing_post_reduction_magical": 3704,
+					"damage_outgoing_post_reduction_pure": 0
+				},
+				"player3": {
+					"steamid": "76561198890472283",
+					"accountid": "930206555",
+					"name": "K0garash1",
+					"activity": "playing",
+					"kills": 10,
+					"deaths": 1,
+					"assists": 12,
+					"last_hits": 217,
+					"denies": 6,
+					"kill_streak": 5,
+					"commands_issued": 10456,
+					"kill_list": {
+						"victimid_5": 2,
+						"victimid_6": 3,
+						"victimid_7": 2,
+						"victimid_8": 1,
+						"victimid_9": 2
+					},
+					"team_name": "radiant",
+					"player_slot": 4,
+					"team_slot": 3,
+					"gold": 281,
+					"gold_reliable": 136,
+					"gold_unreliable": 145,
+					"gold_from_hero_kills": 4731,
+					"gold_from_creep_kills": 6243,
+					"gold_from_summon_kills": 32,
+					"gold_from_income": 2732,
+					"gold_from_shared": 2261,
+					"gpm": 624,
+					"xpm": 808,
+					"net_worth": 18301,
+					"hero_damage": 23819,
+					"hero_healing": 0,
+					"tower_damage": 9015,
+					"wards_purchased": 0,
+					"wards_placed": 0,
+					"wards_destroyed": 0,
+					"runes_activated": 2,
+					"water_runes_activated": 0,
+					"bounty_runes_activated": 1,
+					"camps_stacked": 0,
+					"support_gold_spent": 0,
+					"consumable_gold_spent": 400,
+					"item_gold_spent": 18260,
+					"gold_lost_to_death": 238,
+					"gold_spent_on_buybacks": 0,
+					"damage_received_pre_reduction_physical": 15788,
+					"damage_received_pre_reduction_magical": 11312,
+					"damage_received_pre_reduction_pure": 720,
+					"damage_received_post_reduction_physical": 8551,
+					"damage_received_post_reduction_magical": 7641,
+					"damage_received_post_reduction_pure": 720,
+					"damage_outgoing_pre_reduction_physical": 16782,
+					"damage_outgoing_pre_reduction_magical": 22043,
+					"damage_outgoing_pre_reduction_pure": 306,
+					"damage_outgoing_post_reduction_physical": 9152,
+					"damage_outgoing_post_reduction_magical": 14361,
+					"damage_outgoing_post_reduction_pure": 306
+				},
+				"player4": {
+					"steamid": "76561199793691190",
+					"accountid": "1833425462",
+					"name": "мечта.",
+					"activity": "playing",
+					"kills": 2,
+					"deaths": 8,
+					"assists": 17,
+					"last_hits": 18,
+					"denies": 4,
+					"kill_streak": 0,
+					"commands_issued": 10211,
+					"kill_list": {
+						"victimid_5": 1,
+						"victimid_6": 1
+					},
+					"team_name": "radiant",
+					"player_slot": 8,
+					"team_slot": 4,
+					"gold": 2096,
+					"gold_reliable": 638,
+					"gold_unreliable": 1458,
+					"gold_from_hero_kills": 2444,
+					"gold_from_creep_kills": 566,
+					"gold_from_summon_kills": 0,
+					"gold_from_income": 3623,
+					"gold_from_shared": 2026,
+					"gpm": 337,
+					"xpm": 491,
+					"net_worth": 8941,
+					"hero_damage": 13146,
+					"hero_healing": 0,
+					"tower_damage": 336,
+					"wards_purchased": 38,
+					"wards_placed": 20,
+					"wards_destroyed": 10,
+					"runes_activated": 1,
+					"water_runes_activated": 0,
+					"bounty_runes_activated": 1,
+					"camps_stacked": 0,
+					"support_gold_spent": 750,
+					"consumable_gold_spent": 1665,
+					"item_gold_spent": 6425,
+					"gold_lost_to_death": 389,
+					"gold_spent_on_buybacks": 0,
+					"damage_received_pre_reduction_physical": 9938,
+					"damage_received_pre_reduction_magical": 15572,
+					"damage_received_pre_reduction_pure": 1020,
+					"damage_received_post_reduction_physical": 5164,
+					"damage_received_post_reduction_magical": 10650,
+					"damage_received_post_reduction_pure": 802,
+					"damage_outgoing_pre_reduction_physical": 513,
+					"damage_outgoing_pre_reduction_magical": 18334,
+					"damage_outgoing_pre_reduction_pure": 0,
+					"damage_outgoing_post_reduction_physical": 317,
+					"damage_outgoing_post_reduction_magical": 12829,
+					"damage_outgoing_post_reduction_pure": 0
+				}
+			},
+			"team3": {
+				"player5": {
+					"steamid": "76561198830141755",
+					"accountid": "869876027",
+					"name": "Xiaoy",
+					"activity": "playing",
+					"kills": 0,
+					"deaths": 8,
+					"assists": 17,
+					"last_hits": 43,
+					"denies": 1,
+					"kill_streak": 0,
+					"commands_issued": 8617,
+					"kill_list": {
+
+					},
+					"team_name": "dire",
+					"player_slot": 6,
+					"team_slot": 0,
+					"gold": 193,
+					"gold_reliable": 193,
+					"gold_unreliable": 0,
+					"gold_from_hero_kills": 1748,
+					"gold_from_creep_kills": 1389,
+					"gold_from_summon_kills": 0,
+					"gold_from_income": 3678,
+					"gold_from_shared": 1555,
+					"gpm": 272,
+					"xpm": 360,
+					"net_worth": 6268,
+					"hero_damage": 10159,
+					"hero_healing": 10,
+					"tower_damage": 6,
+					"wards_purchased": 19,
+					"wards_placed": 12,
+					"wards_destroyed": 6,
+					"runes_activated": 0,
+					"water_runes_activated": 0,
+					"bounty_runes_activated": 3,
+					"camps_stacked": 2,
+					"support_gold_spent": 500,
+					"consumable_gold_spent": 1535,
+					"item_gold_spent": 6200,
+					"gold_lost_to_death": 755,
+					"gold_spent_on_buybacks": 0,
+					"damage_received_pre_reduction_physical": 8184,
+					"damage_received_pre_reduction_magical": 16450,
+					"damage_received_pre_reduction_pure": 0,
+					"damage_received_post_reduction_physical": 6717,
+					"damage_received_post_reduction_magical": 11763,
+					"damage_received_post_reduction_pure": 0,
+					"damage_outgoing_pre_reduction_physical": 5311,
+					"damage_outgoing_pre_reduction_magical": 10595,
+					"damage_outgoing_pre_reduction_pure": 0,
+					"damage_outgoing_post_reduction_physical": 3164,
+					"damage_outgoing_post_reduction_magical": 6995,
+					"damage_outgoing_post_reduction_pure": 0
+				},
+				"player6": {
+					"steamid": "76561198992868167",
+					"accountid": "1032602439",
+					"name": "aggress",
+					"activity": "playing",
+					"kills": 1,
+					"deaths": 6,
+					"assists": 5,
+					"last_hits": 286,
+					"denies": 7,
+					"kill_streak": 0,
+					"commands_issued": 6086,
+					"kill_list": {
+						"victimid_2": 1
+					},
+					"team_name": "dire",
+					"player_slot": 10,
+					"team_slot": 1,
+					"gold": 540,
+					"gold_reliable": 162,
+					"gold_unreliable": 378,
+					"gold_from_hero_kills": 872,
+					"gold_from_creep_kills": 6139,
+					"gold_from_summon_kills": 0,
+					"gold_from_income": 2732,
+					"gold_from_shared": 538,
+					"gpm": 539,
+					"xpm": 606,
+					"net_worth": 14925,
+					"hero_damage": 8710,
+					"hero_healing": 0,
+					"tower_damage": 0,
+					"wards_purchased": 3,
+					"wards_placed": 2,
+					"wards_destroyed": 1,
+					"runes_activated": 0,
+					"water_runes_activated": 0,
+					"bounty_runes_activated": 1,
+					"camps_stacked": 1,
+					"support_gold_spent": 50,
+					"consumable_gold_spent": 605,
+					"item_gold_spent": 14175,
+					"gold_lost_to_death": 1134,
+					"gold_spent_on_buybacks": 0,
+					"damage_received_pre_reduction_physical": 9307,
+					"damage_received_pre_reduction_magical": 10058,
+					"damage_received_pre_reduction_pure": 0,
+					"damage_received_post_reduction_physical": 4560,
+					"damage_received_post_reduction_magical": 6813,
+					"damage_received_post_reduction_pure": 0,
+					"damage_outgoing_pre_reduction_physical": 15948,
+					"damage_outgoing_pre_reduction_magical": 0,
+					"damage_outgoing_pre_reduction_pure": 0,
+					"damage_outgoing_post_reduction_physical": 8710,
+					"damage_outgoing_post_reduction_magical": 0,
+					"damage_outgoing_post_reduction_pure": 0
+				},
+				"player7": {
+					"steamid": "76561198361908560",
+					"accountid": "401642832",
+					"name": "Klimmer",
+					"activity": "playing",
+					"kills": 5,
+					"deaths": 4,
+					"assists": 5,
+					"last_hits": 46,
+					"denies": 4,
+					"kill_streak": 0,
+					"commands_issued": 8317,
+					"kill_list": {
+						"victimid_0": 1,
+						"victimid_1": 1,
+						"victimid_2": 1,
+						"victimid_4": 2
+					},
+					"team_name": "dire",
+					"player_slot": 3,
+					"team_slot": 2,
+					"gold": 2040,
+					"gold_reliable": 1290,
+					"gold_unreliable": 750,
+					"gold_from_hero_kills": 1994,
+					"gold_from_creep_kills": 1176,
+					"gold_from_summon_kills": 0,
+					"gold_from_income": 2732,
+					"gold_from_shared": 1105,
+					"gpm": 250,
+					"xpm": 351,
+					"net_worth": 6255,
+					"hero_damage": 8815,
+					"hero_healing": 0,
+					"tower_damage": 64,
+					"wards_purchased": 30,
+					"wards_placed": 17,
+					"wards_destroyed": 7,
+					"runes_activated": 0,
+					"water_runes_activated": 0,
+					"bounty_runes_activated": 2,
+					"camps_stacked": 0,
+					"support_gold_spent": 1120,
+					"consumable_gold_spent": 1870,
+					"item_gold_spent": 3830,
+					"gold_lost_to_death": 404,
+					"gold_spent_on_buybacks": 0,
+					"damage_received_pre_reduction_physical": 4871,
+					"damage_received_pre_reduction_magical": 12919,
+					"damage_received_pre_reduction_pure": 306,
+					"damage_received_post_reduction_physical": 3739,
+					"damage_received_post_reduction_magical": 8718,
+					"damage_received_post_reduction_pure": 306,
+					"damage_outgoing_pre_reduction_physical": 2221,
+					"damage_outgoing_pre_reduction_magical": 8069,
+					"damage_outgoing_pre_reduction_pure": 2540,
+					"damage_outgoing_post_reduction_physical": 1278,
+					"damage_outgoing_post_reduction_magical": 5321,
+					"damage_outgoing_post_reduction_pure": 2216
+				},
+				"player8": {
+					"steamid": "76561199097358075",
+					"accountid": "1137092347",
+					"name": "agekko",
+					"activity": "playing",
+					"kills": 3,
+					"deaths": 5,
+					"assists": 5,
+					"last_hits": 130,
+					"denies": 11,
+					"kill_streak": 0,
+					"commands_issued": 7986,
+					"kill_list": {
+						"victimid_1": 1,
+						"victimid_2": 1,
+						"victimid_4": 1
+					},
+					"team_name": "dire",
+					"player_slot": 2,
+					"team_slot": 3,
+					"gold": 1145,
+					"gold_reliable": 451,
+					"gold_unreliable": 694,
+					"gold_from_hero_kills": 2351,
+					"gold_from_creep_kills": 4335,
+					"gold_from_summon_kills": 64,
+					"gold_from_income": 2732,
+					"gold_from_shared": 1625,
+					"gpm": 419,
+					"xpm": 542,
+					"net_worth": 11760,
+					"hero_damage": 10497,
+					"hero_healing": 0,
+					"tower_damage": 0,
+					"wards_purchased": 8,
+					"wards_placed": 3,
+					"wards_destroyed": 1,
+					"runes_activated": 0,
+					"water_runes_activated": 0,
+					"bounty_runes_activated": 0,
+					"camps_stacked": 0,
+					"support_gold_spent": 200,
+					"consumable_gold_spent": 400,
+					"item_gold_spent": 10555,
+					"gold_lost_to_death": 892,
+					"gold_spent_on_buybacks": 0,
+					"damage_received_pre_reduction_physical": 8619,
+					"damage_received_pre_reduction_magical": 14194,
+					"damage_received_pre_reduction_pure": 0,
+					"damage_received_post_reduction_physical": 4705,
+					"damage_received_post_reduction_magical": 10964,
+					"damage_received_post_reduction_pure": 0,
+					"damage_outgoing_pre_reduction_physical": 12129,
+					"damage_outgoing_pre_reduction_magical": 7137,
+					"damage_outgoing_pre_reduction_pure": 0,
+					"damage_outgoing_post_reduction_physical": 6394,
+					"damage_outgoing_post_reduction_magical": 4103,
+					"damage_outgoing_post_reduction_pure": 0
+				},
+				"player9": {
+					"steamid": "76561199094064539",
+					"accountid": "1133798811",
+					"name": "я уже красный",
+					"activity": "playing",
+					"kills": 9,
+					"deaths": 5,
+					"assists": 6,
+					"last_hits": 212,
+					"denies": 4,
+					"kill_streak": 0,
+					"commands_issued": 6379,
+					"kill_list": {
+						"victimid_1": 1,
+						"victimid_2": 3,
+						"victimid_3": 1,
+						"victimid_4": 4
+					},
+					"team_name": "dire",
+					"player_slot": 1,
+					"team_slot": 4,
+					"gold": 2010,
+					"gold_reliable": 724,
+					"gold_unreliable": 1286,
+					"gold_from_hero_kills": 3424,
+					"gold_from_creep_kills": 5423,
+					"gold_from_summon_kills": 16,
+					"gold_from_income": 2732,
+					"gold_from_shared": 1342,
+					"gpm": 512,
+					"xpm": 585,
+					"net_worth": 13995,
+					"hero_damage": 20986,
+					"hero_healing": 0,
+					"tower_damage": 1206,
+					"wards_purchased": 6,
+					"wards_placed": 3,
+					"wards_destroyed": 2,
+					"runes_activated": 2,
+					"water_runes_activated": 4,
+					"bounty_runes_activated": 1,
+					"camps_stacked": 0,
+					"support_gold_spent": 100,
+					"consumable_gold_spent": 530,
+					"item_gold_spent": 13535,
+					"gold_lost_to_death": 1227,
+					"gold_spent_on_buybacks": 0,
+					"damage_received_pre_reduction_physical": 8231,
+					"damage_received_pre_reduction_magical": 19371,
+					"damage_received_pre_reduction_pure": 0,
+					"damage_received_post_reduction_physical": 4552,
+					"damage_received_post_reduction_magical": 11685,
+					"damage_received_post_reduction_pure": 0,
+					"damage_outgoing_pre_reduction_physical": 14697,
+					"damage_outgoing_pre_reduction_magical": 20320,
+					"damage_outgoing_pre_reduction_pure": 0,
+					"damage_outgoing_post_reduction_physical": 7257,
+					"damage_outgoing_post_reduction_magical": 13729,
+					"damage_outgoing_post_reduction_pure": 0
+				}
+			}
+		},
+		"hero": true,
+		"abilities": true,
+		"items": true,
+		"buildings": true,
+		"events": {
+			"event": {
+				"game_time": 2030,
+				"event_type": "generic_event",
+				"data": "{\"type\":\"CHAT_MESSAGE_DISCONNECT\",\"value\":0,\"playerid1\":1,\"playerid2\":-1,\"time\":1764.3335}",
+				"game_time": 2026,
+				"event_type": "generic_event",
+				"data": "{\"type\":\"CHAT_MESSAGE_DISCONNECT\",\"value\":0,\"playerid1\":7,\"playerid2\":-1,\"time\":1764.3335}",
+				"game_time": 2026,
+				"event_type": "chat_message",
+				"player_id": 8,
+				"channel_type": 11,
+				"message": ")",
+				"game_time": 2025,
+				"event_type": "chat_message",
+				"player_id": 8,
+				"channel_type": 11,
+				"message": "гейм руин",
+				"game_time": 2024,
+				"event_type": "generic_event",
+				"data": "{\"type\":\"CHAT_MESSAGE_DISCONNECT\",\"value\":0,\"playerid1\":6,\"playerid2\":-1,\"time\":1764.3335}",
+				"game_time": 2021,
+				"event_type": "chat_message",
+				"player_id": 8,
+				"channel_type": 11,
+				"message": "причём тут смкрф",
+				"game_time": 2019,
+				"event_type": "chat_message",
+				"player_id": 2,
+				"channel_type": 11,
+				"message": "0_0",
+				"game_time": 2010,
+				"event_type": "chat_message",
+				"player_id": 4,
+				"channel_type": 11,
+				"message": "ну сколько аккаунтов смурферских улетает в бан ? ",
+				"game_time": 2007,
+				"event_type": "generic_event",
+				"data": "{\"type\":\"CHAT_MESSAGE_SMOKE_ACTIVATED\",\"value\":0,\"playerid1\":2,\"playerid2\":-1,\"time\":1750.40015}",
+				"game_time": 2004,
+				"event_type": "generic_event",
+				"data": "{\"type\":\"CHAT_MESSAGE_TOWER_KILL\",\"value\":2,\"playerid1\":1,\"playerid2\":4,\"playerid3\":0,\"playerid4\":3,\"playerid5\":-1,\"playerid6\":-1,\"value2\":145,\"value3\":4,\"time\":1748.26685}",
+				"game_time": 2001,
+				"event_type": "generic_event",
+				"data": "{\"type\":\"CHAT_MESSAGE_ITEM_PURCHASE\",\"value\":263,\"playerid1\":6,\"playerid2\":-1,\"time\":1744.4668}"
+			}
+		},
+		"wearables": true,
+		"league": {
+			"league_id": 0,
+			"match_id": "8904609613"
+		},
+		"couriers": {
+			"courier0": {
+				"health": 6,
+				"max_health": 6,
+				"alive": true,
+				"respawn_time_remaining": 0,
+				"xpos": 7441,
+				"ypos": 6241,
+				"yaw": 219,
+				"owner": 9,
+				"flying_upgrade": true,
+				"shield": false,
+				"boost": false,
+				"items": {
+
+				}
+			},
+			"courier1": {
+				"health": 6,
+				"max_health": 6,
+				"alive": true,
+				"respawn_time_remaining": 0,
+				"xpos": 7018,
+				"ypos": 6802,
+				"yaw": 223,
+				"owner": 5,
+				"flying_upgrade": true,
+				"shield": false,
+				"boost": false,
+				"items": {
+
+				}
+			},
+			"courier2": {
+				"health": 6,
+				"max_health": 6,
+				"alive": true,
+				"respawn_time_remaining": 0,
+				"xpos": 7091,
+				"ypos": 6641,
+				"yaw": 222,
+				"owner": 6,
+				"flying_upgrade": true,
+				"shield": false,
+				"boost": false,
+				"items": {
+
+				}
+			},
+			"courier3": {
+				"health": 6,
+				"max_health": 6,
+				"alive": true,
+				"respawn_time_remaining": 0,
+				"xpos": 7241,
+				"ypos": 6517,
+				"yaw": 220,
+				"owner": 7,
+				"flying_upgrade": true,
+				"shield": false,
+				"boost": false,
+				"items": {
+
+				}
+			},
+			"courier4": {
+				"health": 6,
+				"max_health": 6,
+				"alive": true,
+				"respawn_time_remaining": 0,
+				"xpos": 7291,
+				"ypos": 6366,
+				"yaw": 220,
+				"owner": 8,
+				"flying_upgrade": true,
+				"shield": false,
+				"boost": false,
+				"items": {
+
+				}
+			},
+			"courier5": {
+				"health": 6,
+				"max_health": 6,
+				"alive": true,
+				"respawn_time_remaining": 0,
+				"xpos": -6841,
+				"ypos": -6841,
+				"yaw": 45,
+				"owner": 0,
+				"flying_upgrade": true,
+				"shield": false,
+				"boost": false,
+				"items": {
+
+				}
+			},
+			"courier6": {
+				"health": 6,
+				"max_health": 6,
+				"alive": true,
+				"respawn_time_remaining": 0,
+				"xpos": -6891,
+				"ypos": -6691,
+				"yaw": 43,
+				"owner": 1,
+				"flying_upgrade": true,
+				"shield": false,
+				"boost": false,
+				"items": {
+
+				}
+			},
+			"courier7": {
+				"health": 6,
+				"max_health": 6,
+				"alive": true,
+				"respawn_time_remaining": 0,
+				"xpos": -7041,
+				"ypos": -6566,
+				"yaw": 42,
+				"owner": 2,
+				"flying_upgrade": true,
+				"shield": false,
+				"boost": false,
+				"items": {
+
+				}
+			},
+			"courier8": {
+				"health": 6,
+				"max_health": 6,
+				"alive": true,
+				"respawn_time_remaining": 0,
+				"xpos": 785,
+				"ypos": 1764,
+				"yaw": -135,
+				"owner": 3,
+				"flying_upgrade": true,
+				"shield": false,
+				"boost": false,
+				"items": {
+
+				}
+			},
+			"courier9": {
+				"health": 6,
+				"max_health": 6,
+				"alive": true,
+				"respawn_time_remaining": 0,
+				"xpos": -7241,
+				"ypos": -6291,
+				"yaw": 40,
+				"owner": 4,
+				"flying_upgrade": true,
+				"shield": false,
+				"boost": false,
+				"items": {
+
+				}
+			}
+		},
+		"neutralitems": {
+			"max_madstone": 26,
+			"tier0": {
+				"tier": 0,
+				"drop_after_time": 0,
+				"madstone_required": 6,
+				"escalating_recraft_cost": 0
+			},
+			"tier1": {
+				"tier": 1,
+				"drop_after_time": 900,
+				"madstone_required": 10,
+				"escalating_recraft_cost": 0
+			},
+			"tier2": {
+				"tier": 2,
+				"drop_after_time": 1500,
+				"madstone_required": 10,
+				"escalating_recraft_cost": 0
+			},
+			"tier3": {
+				"tier": 3,
+				"drop_after_time": 2100,
+				"madstone_required": 10,
+				"escalating_recraft_cost": 0
+			},
+			"tier4": {
+				"tier": 4,
+				"drop_after_time": 3600,
+				"madstone_required": 10,
+				"escalating_recraft_cost": 10
+			},
+			"team2": {
+				"player0": {
+					"current_madstone": 0,
+					"total_madstone": 26,
+					"crafting_tier": 3,
+					"tier0": {
+						"tier": 0,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_occult_bracelet",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_polliwog_charm",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_ash_legion_shield",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_weighted_dice",
+								"selected": true
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 1,
+								"selected": true
+							},
+							"choice1": {
+								"item_name": "item_enhancement_vital",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_mystical",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier1": {
+						"tier": 1,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_crippling_crossbow",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_medallion_of_courage",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_seeds_of_serenity",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_defiant_shell",
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_weighted_dice",
+								"selected": true
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 1,
+								"selected": true
+							},
+							"choice2": {
+								"item_name": "item_enhancement_mystical",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_enhancement_keen_eyed",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier2": {
+						"tier": 2,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_stormcrafter",
+								"selected": true
+							},
+							"choice1": {
+								"item_name": "item_unrelenting_eye",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_gunpowder_gauntlets",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_cloak_of_flames",
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_weighted_dice",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 3,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 2,
+								"selected": true
+							},
+							"choice2": {
+								"item_name": "item_enhancement_mystical",
+								"item_level": 3,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 3,
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_enhancement_keen_eyed",
+								"item_level": 2,
+								"selected": false
+							}
+						}
+					},
+					"tier3": {
+						"tier": 3,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier4": {
+						"tier": 4,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					}
+				},
+				"player1": {
+					"current_madstone": 0,
+					"total_madstone": 26,
+					"crafting_tier": 3,
+					"tier0": {
+						"tier": 0,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_kobold_cup",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_polliwog_charm",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_occult_bracelet",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_possessed_mask",
+								"selected": true
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_vital",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_alert",
+								"item_level": 1,
+								"selected": true
+							},
+							"choice3": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier1": {
+						"tier": 1,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_searing_signet",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_seeds_of_serenity",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_medallion_of_courage",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_mana_draught",
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_possessed_mask",
+								"selected": true
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_alert",
+								"item_level": 2,
+								"selected": true
+							},
+							"choice3": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_enhancement_nimble",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier2": {
+						"tier": 2,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_spellslinger",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_gunpowder_gauntlets",
+								"selected": true
+							},
+							"choice2": {
+								"item_name": "item_psychic_headband",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_serrated_shiv",
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_possessed_mask",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 3,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_alert",
+								"item_level": 3,
+								"selected": true
+							},
+							"choice3": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 3,
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_enhancement_nimble",
+								"item_level": 2,
+								"selected": false
+							}
+						}
+					},
+					"tier3": {
+						"tier": 3,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier4": {
+						"tier": 4,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					}
+				},
+				"player2": {
+					"current_madstone": 8,
+					"total_madstone": 24,
+					"crafting_tier": 2,
+					"tier0": {
+						"tier": 0,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_kobold_cup",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_polliwog_charm",
+								"selected": true
+							},
+							"choice2": {
+								"item_name": "item_weighted_dice",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_occult_bracelet",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_vital",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_alert",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 1,
+								"selected": true
+							}
+						}
+					},
+					"tier1": {
+						"tier": 1,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_medallion_of_courage",
+								"selected": true
+							},
+							"choice1": {
+								"item_name": "item_pogo_stick",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_seeds_of_serenity",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_poor_mans_shield",
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_polliwog_charm",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 1,
+								"selected": true
+							},
+							"choice2": {
+								"item_name": "item_enhancement_alert",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_enhancement_nimble",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier2": {
+						"tier": 2,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier3": {
+						"tier": 3,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier4": {
+						"tier": 4,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					}
+				},
+				"player3": {
+					"current_madstone": 8,
+					"total_madstone": 24,
+					"crafting_tier": 2,
+					"tier0": {
+						"tier": 0,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_foragers_kit",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_duelist_gloves",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_polliwog_charm",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_possessed_mask",
+								"selected": true
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_vital",
+								"item_level": 1,
+								"selected": true
+							},
+							"choice2": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier1": {
+						"tier": 1,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_searing_signet",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_defiant_shell",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_mana_draught",
+								"selected": true
+							},
+							"choice3": {
+								"item_name": "item_seeds_of_serenity",
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_possessed_mask",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 2,
+								"selected": true
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_enhancement_crude",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier2": {
+						"tier": 2,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier3": {
+						"tier": 3,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier4": {
+						"tier": 4,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					}
+				},
+				"player4": {
+					"current_madstone": 6,
+					"total_madstone": 22,
+					"crafting_tier": 2,
+					"tier0": {
+						"tier": 0,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_chipped_vest",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_occult_bracelet",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_polliwog_charm",
+								"selected": true
+							},
+							"choice3": {
+								"item_name": "item_foragers_kit",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 1,
+								"selected": true
+							},
+							"choice1": {
+								"item_name": "item_enhancement_vital",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier1": {
+						"tier": 1,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_medallion_of_courage",
+								"selected": true
+							},
+							"choice1": {
+								"item_name": "item_defiant_shell",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_crippling_crossbow",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_seeds_of_serenity",
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_polliwog_charm",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 1,
+								"selected": true
+							},
+							"choice2": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_enhancement_crude",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier2": {
+						"tier": 2,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier3": {
+						"tier": 3,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier4": {
+						"tier": 4,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					}
+				}
+			},
+			"team3": {
+				"player5": {
+					"current_madstone": 8,
+					"total_madstone": 24,
+					"crafting_tier": 2,
+					"tier0": {
+						"tier": 0,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_occult_bracelet",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_foragers_kit",
+								"selected": true
+							},
+							"choice2": {
+								"item_name": "item_weighted_dice",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_dagger_of_ristul",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 1,
+								"selected": true
+							},
+							"choice1": {
+								"item_name": "item_enhancement_vital",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier1": {
+						"tier": 1,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_medallion_of_courage",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_crippling_crossbow",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_searing_signet",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_defiant_shell",
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_foragers_kit",
+								"selected": true
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 1,
+								"selected": true
+							},
+							"choice2": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_enhancement_crude",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier2": {
+						"tier": 2,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier3": {
+						"tier": 3,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier4": {
+						"tier": 4,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					}
+				},
+				"player6": {
+					"current_madstone": 0,
+					"total_madstone": 26,
+					"crafting_tier": 3,
+					"tier0": {
+						"tier": 0,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_dagger_of_ristul",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_dormant_curio",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_duelist_gloves",
+								"selected": true
+							},
+							"choice3": {
+								"item_name": "item_ash_legion_shield",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_vital",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_alert",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 1,
+								"selected": true
+							}
+						}
+					},
+					"tier1": {
+						"tier": 1,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_crippling_crossbow",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_defiant_shell",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_searing_signet",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_mana_draught",
+								"selected": true
+							},
+							"choice4": {
+								"item_name": "item_duelist_gloves",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_alert",
+								"item_level": 2,
+								"selected": true
+							},
+							"choice3": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_enhancement_nimble",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier2": {
+						"tier": 2,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_spellslinger",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_partisans_brand",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_unrelenting_eye",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_serrated_shiv",
+								"selected": true
+							},
+							"choice4": {
+								"item_name": "item_mana_draught",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 3,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_alert",
+								"item_level": 3,
+								"selected": true
+							},
+							"choice3": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 3,
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_enhancement_nimble",
+								"item_level": 2,
+								"selected": false
+							}
+						}
+					},
+					"tier3": {
+						"tier": 3,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier4": {
+						"tier": 4,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					}
+				},
+				"player7": {
+					"current_madstone": 8,
+					"total_madstone": 24,
+					"crafting_tier": 2,
+					"tier0": {
+						"tier": 0,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_polliwog_charm",
+								"selected": true
+							},
+							"choice1": {
+								"item_name": "item_kobold_cup",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_stonefeather_satchel",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_possessed_mask",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_vital",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 1,
+								"selected": true
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier1": {
+						"tier": 1,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_crippling_crossbow",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_poor_mans_shield",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_mana_draught",
+								"selected": true
+							},
+							"choice3": {
+								"item_name": "item_defiant_shell",
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_polliwog_charm",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 2,
+								"selected": true
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_enhancement_crude",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier2": {
+						"tier": 2,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier3": {
+						"tier": 3,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier4": {
+						"tier": 4,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					}
+				},
+				"player8": {
+					"current_madstone": 0,
+					"total_madstone": 26,
+					"crafting_tier": 3,
+					"tier0": {
+						"tier": 0,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_occult_bracelet",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_duelist_gloves",
+								"selected": true
+							},
+							"choice2": {
+								"item_name": "item_polliwog_charm",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_ash_legion_shield",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_vital",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 1,
+								"selected": true
+							}
+						}
+					},
+					"tier1": {
+						"tier": 1,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_defiant_shell",
+								"selected": true
+							},
+							"choice1": {
+								"item_name": "item_mana_draught",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_medallion_of_courage",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_pogo_stick",
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_duelist_gloves",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 2,
+								"selected": true
+							},
+							"choice4": {
+								"item_name": "item_enhancement_crude",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier2": {
+						"tier": 2,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_stormcrafter",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_serrated_shiv",
+								"selected": true
+							},
+							"choice2": {
+								"item_name": "item_psychic_headband",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_partisans_brand",
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_defiant_shell",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 3,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_brawny",
+								"item_level": 3,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 3,
+								"selected": true
+							},
+							"choice4": {
+								"item_name": "item_enhancement_crude",
+								"item_level": 2,
+								"selected": false
+							}
+						}
+					},
+					"tier3": {
+						"tier": 3,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier4": {
+						"tier": 4,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					}
+				},
+				"player9": {
+					"current_madstone": 9,
+					"total_madstone": 25,
+					"crafting_tier": 2,
+					"tier0": {
+						"tier": 0,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_chipped_vest",
+								"selected": true
+							},
+							"choice1": {
+								"item_name": "item_stonefeather_satchel",
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_weighted_dice",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_polliwog_charm",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_enhancement_vital",
+								"item_level": 1,
+								"selected": true
+							},
+							"choice2": {
+								"item_name": "item_enhancement_mystical",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier1": {
+						"tier": 1,
+						"times_crafted": 1,
+						"trinket_choices": {
+							"choice0": {
+								"item_name": "item_crippling_crossbow",
+								"selected": false
+							},
+							"choice1": {
+								"item_name": "item_searing_signet",
+								"selected": true
+							},
+							"choice2": {
+								"item_name": "item_seeds_of_serenity",
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_poor_mans_shield",
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_chipped_vest",
+								"selected": false
+							}
+						},
+						"enchantment_choices": {
+							"choice0": {
+								"item_name": "item_enhancement_quickened",
+								"item_level": 2,
+								"selected": true
+							},
+							"choice1": {
+								"item_name": "item_enhancement_greedy",
+								"item_level": 1,
+								"selected": false
+							},
+							"choice2": {
+								"item_name": "item_enhancement_mystical",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice3": {
+								"item_name": "item_enhancement_tough",
+								"item_level": 2,
+								"selected": false
+							},
+							"choice4": {
+								"item_name": "item_enhancement_keen_eyed",
+								"item_level": 1,
+								"selected": false
+							}
+						}
+					},
+					"tier2": {
+						"tier": 2,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier3": {
+						"tier": 3,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					},
+					"tier4": {
+						"tier": 4,
+						"times_crafted": 0,
+						"trinket_choices": {
+
+						},
+						"enchantment_choices": {
+
+						}
+					}
+				}
+			}
+		},
+		"roshan": {
+			"health": 9770,
+			"max_health": 9770,
+			"alive": true,
+			"spawn_phase": 0,
+			"phase_time_remaining": 0,
+			"xpos": 2859,
+			"ypos": -2764,
+			"yaw": 135,
+			"items_drop": {
+				"item0": "item_aegis"
+			}
+		},
+		"minimap": true
+	},
+	"auth": {
+		"token": "midmind-capture"
+	}
+}
