@@ -127,9 +127,13 @@ function startAdviceScheduler(): void {
  * которая сама решает, когда именно оно уйдёт в renderer. Перед этим уведомление
  * проходит умное подавление AdviceGate.isSuppressed (TASK-044: не показывать
  * F3-события вроде напоминания о стаке кемпа, если герой мёртв или идёт активный
- * файт — раздел F3 PRD) — этот вызов безопасен и до старта adviceGate (см.
- * startAdviceGate ниже), т.к. до его создания suppression не применяется.
- * Отключение типов (getDisabledEventIds) подключит проекция настроек из TASK-018.
+ * файт — раздел F3 PRD). GameStateStore.set() уведомляет подписчиков синхронно
+ * в порядке подписки (см. GameStateStore) — поэтому startAdviceGate ДОЛЖЕН
+ * подписаться на стор раньше startTimingScheduler (см. порядок вызовов в
+ * app.whenReady): иначе AdviceGate.onFacts (обновляет heroAlive/health-историю)
+ * ещё не отработает для текущего тика, когда сюда придёт isSuppressed, и проверка
+ * будет читать состояние с предыдущего тика. Отключение типов (getDisabledEventIds)
+ * подключит проекция настроек из TASK-018.
  */
 function startTimingScheduler(): void {
   if (!configLoader || !gsiServer || !adviceScheduler) {
@@ -654,11 +658,11 @@ app.whenReady().then(() => {
   startSteamIdDetection()
   startMatchHistory()
   startAdviceScheduler()
-  startTimingScheduler()
   startRulesConfig()
   startHeroProfilesConfig()
   startMatchupKnowledgeConfig()
   startAdviceGate()
+  startTimingScheduler()
   startStratzClient()
   startDataService()
   startPatchWatcher()
