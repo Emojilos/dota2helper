@@ -8,7 +8,7 @@ import { TimingScheduler } from './timings'
 import { TimingsConfigSchema, type TimingsConfig } from '@shared/schemas/timings'
 import { broadcast, registerSettingsHandlers, createSettingsController, type SettingsController } from './ipc'
 import { AdviceScheduler, AdviceGate } from './advice'
-import { HotkeyManager } from './hotkeys'
+import { HotkeyManager, createHotkeyBackends } from './hotkeys'
 import { OverlayWindow } from './windows'
 import { AutoLaunchManager } from './autolaunch'
 import {
@@ -516,18 +516,24 @@ function syncHeroPool(steamId64: string): void {
 }
 
 /**
- * Поднимает globalShortcut-регистрацию (TASK-018): F9 (расширенная панель —
- * окна ещё нет, TASK-014/037, handler пока просто логирует срабатывание как
- * шов для будущего подписчика), тихий режим (реально флипает persisted
- * silentMode через settingsController.apply) и toggle click-through (TASK-008,
- * F8 по умолчанию) — переключает интерактивность базового overlay-окна
- * (startOverlayWindow). Требует уже поднятого overlayWindow.
+ * Поднимает регистрацию глобальных хоткеев (TASK-018): F9 (расширенная
+ * панель — окна ещё нет, TASK-014/037, handler пока просто логирует
+ * срабатывание как шов для будущего подписчика), тихий режим (реально
+ * флипает persisted silentMode через settingsController.apply) и toggle
+ * click-through (TASK-008, F8 по умолчанию) — переключает интерактивность
+ * базового overlay-окна (startOverlayWindow). Механизм — платформенные
+ * бэкенды createHotkeyBackends: на win32 uiohook (globalShortcut не
+ * срабатывает поверх сфокусированной Dota — находка живого гейта TASK-008),
+ * на darwin-dev globalShortcut. Требует уже поднятого overlayWindow.
  */
 function startHotkeys(): void {
   if (!settingsController) {
     return
   }
+  const backends = createHotkeyBackends((message) => console.log(`[hotkeys] ${message}`))
   hotkeyManager = new HotkeyManager({
+    backend: backends.backend,
+    fallbackBackend: backends.fallbackBackend,
     onToggleExpandedPanel: () => {
       console.log('[hotkeys] expanded panel toggle pressed — window not wired yet (TASK-014/037)')
     },

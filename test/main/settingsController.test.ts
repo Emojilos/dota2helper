@@ -96,4 +96,29 @@ describe('SettingsController', () => {
     expect(() => controller.apply({ steamId: 'not-a-steam-id' })).toThrow(/invalid steamId/)
     expect(repo.update).not.toHaveBeenCalled()
   })
+
+  it('apply() rejects an unparseable hotkey accelerator without touching the repository (TASK-008)', () => {
+    const repo = {
+      getOrCreate: vi.fn(() => makeProfile()),
+      update: vi.fn()
+    } as unknown as UserProfileRepository
+    const controller = createSettingsController(repo, vi.fn())
+
+    expect(() => controller.apply({ hotkeyClickThroughToggle: 'Ctrl+' })).toThrow(/invalid hotkey/)
+    expect(() => controller.apply({ hotkeySilentMode: 'Space' })).toThrow(/invalid hotkey/)
+    expect(repo.update).not.toHaveBeenCalled()
+  })
+
+  it('apply() accepts a parseable hotkey accelerator', () => {
+    const repo = {
+      getOrCreate: vi.fn(() => makeProfile()),
+      update: vi.fn((patch) => makeProfile(patch))
+    } as unknown as UserProfileRepository
+    const controller = createSettingsController(repo, vi.fn())
+
+    const result = controller.apply({ hotkeyClickThroughToggle: 'Ctrl+Shift+F8' })
+
+    expect(repo.update).toHaveBeenCalledWith({ hotkeyClickThroughToggle: 'Ctrl+Shift+F8' })
+    expect(result.hotkeyClickThroughToggle).toBe('Ctrl+Shift+F8')
+  })
 })

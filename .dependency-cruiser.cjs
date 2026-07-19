@@ -49,6 +49,17 @@ module.exports = {
       to: { path: '(node_modules[/\\\\]|^)better-sqlite3([/\\\\]|$)' }
     },
 
+    // ── INV2: чистое ядро без uiohook-napi ──────────────────────────
+    {
+      name: 'core-no-uiohook',
+      comment:
+        'INV2: src/engine/** и src/shared/** не должны импортировать uiohook-napi (native). ' +
+        'Глобальный клавиатурный хук — только main/hotkeys (UiohookBackend).',
+      severity: 'error',
+      from: { path: CORE },
+      to: { path: '(node_modules[/\\\\]|^)uiohook-napi([/\\\\]|$)' }
+    },
+
     // ── INV2: чистое ядро без файловой системы ──────────────────────
     {
       name: 'core-no-fs',

@@ -21,6 +21,7 @@
 import { AppSettingsSchema, type AppSettings } from '@shared/schemas/settings'
 import type { UserProfile } from '@shared/schemas/userProfile'
 import { parseSteamId64Input } from '@shared/steam/parseSteamId64'
+import { parseAccelerator, type HotkeyPlatform } from '@shared/hotkeys/parseAccelerator'
 import type { UserProfileRepository } from '../db/UserProfileRepository'
 
 function toAppSettings(profile: UserProfile): AppSettings {
@@ -48,6 +49,29 @@ function normalizeSteamIdPatch(patch: Partial<AppSettings>): Partial<AppSettings
   return { ...patch, steamId: parsed.steamId }
 }
 
+const HOTKEY_FIELDS = ['hotkeyExpandedPanel', 'hotkeySilentMode', 'hotkeyClickThroughToggle'] as const
+
+/**
+ * Отклоняет непарсибельный акселератор ДО персиста (TASK-008, по образцу
+ * steamId): win32-бэкенд хоткеев (UiohookBackend) регистрирует только то,
+ * что понимает parseAccelerator, — молча сохранённый «кривой» хоткей стал бы
+ * немым. Ошибка уходит рендереру отклонённым промисом settings:set.
+ */
+function validateHotkeyPatch(patch: Partial<AppSettings>): void {
+  const platform: HotkeyPlatform =
+    process.platform === 'darwin' ? 'darwin' : process.platform === 'linux' ? 'linux' : 'win32'
+  for (const field of HOTKEY_FIELDS) {
+    const value = patch[field]
+    if (value === undefined) {
+      continue
+    }
+    const parsed = parseAccelerator(value, platform)
+    if (!parsed.ok) {
+      throw new Error(`invalid hotkey ${field} "${value}": ${parsed.error}`)
+    }
+  }
+}
+
 export interface SettingsController {
   get(): AppSettings
   apply(patch: Partial<AppSettings>): AppSettings
@@ -63,6 +87,7 @@ export function createSettingsController(
       return toAppSettings(userProfileRepository.getOrCreate())
     },
     apply(patch: Partial<AppSettings>): AppSettings {
+      validateHotkeyPatch(patch)
       const normalizedPatch = normalizeSteamIdPatch(patch)
       const settings = toAppSettings(userProfileRepository.update(normalizedPatch))
       onApplied(settings)
