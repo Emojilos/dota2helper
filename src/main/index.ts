@@ -14,6 +14,11 @@ import {
   COMPACT_PANEL_WIDTH,
   compactPanelHeight
 } from '@shared/overlay/compactPanel'
+import {
+  NOTIFICATIONS_WIDTH,
+  NOTIFICATIONS_HEIGHT,
+  NOTIFICATIONS_POSITION
+} from '@shared/overlay/notifications'
 import { broadcast, registerSettingsHandlers, createSettingsController, type SettingsController } from './ipc'
 import { AdviceScheduler, AdviceGate } from './advice'
 import { HotkeyManager, createHotkeyBackends } from './hotkeys'
@@ -743,6 +748,45 @@ function startCompactPanelWindow(): void {
 }
 
 /**
+ * Загружает реальный renderer-контент окна уведомлений (TASK-015) — тот же
+ * бандл, что и остальные окна, с `?window=notifications` (main.tsx выбирает
+ * NotificationsPanel). См. комментарий loadCompactPanelContent — тот же приём.
+ */
+function loadNotificationsContent(win: OverlayWindow): void {
+  const query = { window: 'notifications' }
+  if (process.env['ELECTRON_RENDERER_URL']) {
+    const qs = new URLSearchParams(query).toString()
+    void win.loadURL(`${process.env['ELECTRON_RENDERER_URL']}?${qs}`)
+  } else {
+    void win.loadFile(join(__dirname, '../renderer/index.html'), { query })
+  }
+}
+
+/**
+ * Поднимает окно всплывающих уведомлений F5 режим 2 (TASK-015): свой инстанс
+ * OverlayWindow в фиксированной зоне над панелью героя со смещением вверх
+ * (раздел 6 PRD, координаты — src/shared/overlay/notifications.ts,
+ * откалиброваны под референсное разрешение 1920x1080). В отличие от
+ * компактной панели (TASK-014) НЕ перетаскивается и НЕ участвует в
+ * onToggleClickThrough (F8) — остаётся click-through всегда, поэтому позиция
+ * не персистится (нечему меняться между сессиями).
+ *
+ * Контент — очередь Advice из AdviceScheduler (TASK-013): main просто
+ * рассылает advice:push всем окнам (broadcast), это окно — один из
+ * подписчиков наравне с главным окном настроек, без отдельного wiring.
+ */
+function startNotificationsWindow(): void {
+  const win = new OverlayWindow({
+    width: NOTIFICATIONS_WIDTH,
+    height: NOTIFICATIONS_HEIGHT,
+    x: NOTIFICATIONS_POSITION.x,
+    y: NOTIFICATIONS_POSITION.y
+  })
+  loadNotificationsContent(win)
+  win.show()
+}
+
+/**
  * Создаёт основное окно приложения (настройки/статус). Прозрачное безрамочное
  * окно с React-рендерером; preload поднят с contextIsolation/nodeIntegration/
  * sandbox по CLAUDE.md §6 (TASK-007). Базовое overlay-окно поверх игры
@@ -783,6 +827,7 @@ app.whenReady().then(() => {
   startDatabase()
   startSettings()
   startCompactPanelWindow()
+  startNotificationsWindow()
   startHotkeys()
   startConfigLoader()
   void startGsiServer()
