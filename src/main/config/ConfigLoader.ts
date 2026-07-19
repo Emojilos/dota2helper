@@ -26,7 +26,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
-import { watch, watchFile, unwatchFile, type FSWatcher, type Stats } from 'node:fs'
+import { watch, type FSWatcher } from 'node:fs'
 import { basename, join } from 'node:path'
 import type { ZodError, ZodType, ZodTypeDef } from 'zod'
 import type { ConfigReloadedPayload } from '@shared/types/ipc'
@@ -45,9 +45,10 @@ export interface ConfigLoaderOptions {
   /** Debounce перед перезагрузкой после события файловой системы, мс. */
   debounceMs?: number
   /**
-   * Интервал polling-фолбэка (fs.watchFile), мс. fs.watch на macOS (FSEvents)
+   * Интервал JS-таймера polling-фолбэка, мс. fs.watch на macOS (FSEvents)
    * ненадёжен — особенно первое событие сразу после старта watch может
-   * потеряться; polling по mtime гарантирует, что правка конфига подхватится.
+   * потеряться без всякой диагностики; периодическое сравнение содержимого
+   * файла гарантирует, что правка конфига в итоге подхватится.
    */
   pollIntervalMs?: number
   /** Пробрасывает событие перезагрузки конкретного конфига (в IPC config:reloaded). */
@@ -78,8 +79,16 @@ interface RegisteredConfig<T> {
   status: ConfigStatus
   readonly listeners: Set<ConfigListener<T>>
   debounceTimer: ReturnType<typeof setTimeout> | null
-  /** Слушатель polling-фолбэка (fs.watchFile); null, пока не подключён. */
-  pollListener: ((curr: Stats, prev: Stats) => void) | null
+  /** Таймер polling-фолбэка (чистый JS setInterval); null, пока не подключён. */
+  pollTimer: ReturnType<typeof setInterval> | null
+  /**
+   * Последнее прочитанное сырое содержимое файла (null = файл отсутствовал).
+   * Источник истины для polling-фолбэка: сравнение по mtime/size ненадёжно —
+   * правка с тем же размером в ту же мс-«тику» mtime (частый случай в тестах
+   * и при быстрых повторных сохранениях) не меняет ни то, ни другое, и правка
+   * молча теряется, если то же самое пропустил fs.watch.
+   */
+  rawSeen: string | null
 }
 
 const DEFAULT_DEBOUNCE_MS = 150
@@ -128,7 +137,8 @@ export class ConfigLoader {
       status: 'invalid',
       listeners: new Set(),
       debounceTimer: null,
-      pollListener: null
+      pollTimer: null,
+      rawSeen: null
     }
     this.byFileName.set(fileName, entry as RegisteredConfig<unknown>)
 
@@ -147,9 +157,9 @@ export class ConfigLoader {
       this.watcher = null
     }
     for (const entry of this.byFileName.values()) {
-      if (entry.pollListener) {
-        unwatchFile(entry.fullPath, entry.pollListener)
-        entry.pollListener = null
+      if (entry.pollTimer) {
+        clearInterval(entry.pollTimer)
+        entry.pollTimer = null
       }
       if (entry.debounceTimer) {
         clearTimeout(entry.debounceTimer)
@@ -176,8 +186,10 @@ export class ConfigLoader {
   private readSync<T>(entry: RegisteredConfig<T>): LoadResult<T> {
     try {
       const raw = readFileSync(join(this.dir, entry.fileName), 'utf-8')
+      entry.rawSeen = raw
       return this.parseAndValidate(entry, raw)
     } catch (error) {
+      entry.rawSeen = null
       return { ok: false, reason: describeError(error) }
     }
   }
@@ -186,8 +198,10 @@ export class ConfigLoader {
   private async readAsync<T>(entry: RegisteredConfig<T>): Promise<LoadResult<T>> {
     try {
       const raw = await readFile(join(this.dir, entry.fileName), 'utf-8')
+      entry.rawSeen = raw
       return this.parseAndValidate(entry, raw)
     } catch (error) {
+      entry.rawSeen = null
       return { ok: false, reason: describeError(error) }
     }
   }
@@ -260,28 +274,39 @@ export class ConfigLoader {
   }
 
   /**
-   * Polling-фолбэк к fs.watch: fs.watch (FSEvents на macOS) ненадёжен и может
-   * потерять событие — особенно первую правку сразу после старта watch. watchFile
-   * периодически сверяет mtime/size файла и гарантирует, что правка подхватится.
+   * Polling-фолбэк к fs.watch: и fs.watch (FSEvents), и fs.watchFile (kqueue)
+   * на macOS опираются на нативную ОС-подсистему, у которой есть предел на
+   * число одновременных наблюдателей в процессе — под нагрузкой (много
+   * конфигов/тестов одновременно) регистрация нового наблюдателя может молча
+   * не сработать вообще, без единого события за всё время жизни процесса.
+   * Поэтому фолбэк — чистый JS setInterval, не зависящий ни от какой ОС-
+   * подсистемы наблюдения: он гарантированно тикает, пока жив процесс.
+   * Сравниваем не curr/prev Stats (mtime/size), а реальное содержимое файла
+   * против entry.rawSeen — правка с тем же размером байт, попавшая в ту же
+   * mtime-«тику» (частый случай при быстрых повторных сохранениях), с
+   * mtime/size неотличима от отсутствия правки и молча терялась бы, если то
+   * же событие пропустил fs.watch.
    * Если fs.watch и polling сработают порознь, перезагрузка выполнится дважды с
    * тем же результатом — это идемпотентно (тот же last-good, те же уведомления).
    */
   private ensureFileFallback<T>(entry: RegisteredConfig<T>): void {
-    if (entry.pollListener) {
+    if (entry.pollTimer) {
       return
     }
-    const listener = (curr: Stats, prev: Stats): void => {
-      if (curr.mtimeMs !== prev.mtimeMs || curr.size !== prev.size) {
+    const tick = (): void => {
+      let raw: string | null
+      try {
+        raw = readFileSync(entry.fullPath, 'utf-8')
+      } catch {
+        raw = null
+      }
+      if (raw !== entry.rawSeen) {
         this.scheduleReload(entry)
       }
     }
-    entry.pollListener = listener
-    try {
-      watchFile(entry.fullPath, { interval: this.pollIntervalMs, persistent: false }, listener)
-    } catch (error) {
-      this.logger(`failed to poll config '${entry.name}': ${describeError(error)}`)
-      entry.pollListener = null
-    }
+    entry.pollTimer = setInterval(tick, this.pollIntervalMs)
+    // Таймер не должен держать процесс живым.
+    entry.pollTimer.unref?.()
   }
 
   /** Debounce: fs.watch часто эмитит несколько событий на одно сохранение. */

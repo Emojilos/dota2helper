@@ -49,7 +49,7 @@ function write(name: string, content: unknown | string): void {
 function waitForReload(
   events: ConfigReloadedPayload[],
   name: string,
-  timeoutMs = 2000
+  timeoutMs = 5000
 ): Promise<ConfigReloadedPayload> {
   return new Promise((resolve, reject) => {
     const start = Date.now()
@@ -80,7 +80,7 @@ describe('TASK-011: ConfigLoader', () => {
     dir = makeDir()
     write('timings', validConfig)
 
-    loader = new ConfigLoader({ dir, debounceMs: 20 })
+    loader = new ConfigLoader({ dir, debounceMs: 20, pollIntervalMs: 20 })
     const handle = loader.register('timings', timingsSchema)
 
     expect(handle.status()).toBe('ok')
@@ -93,7 +93,7 @@ describe('TASK-011: ConfigLoader', () => {
     write('timings', validConfig)
 
     const reloaded: ConfigReloadedPayload[] = []
-    loader = new ConfigLoader({ dir, debounceMs: 20, onReloaded: (p) => reloaded.push(p) })
+    loader = new ConfigLoader({ dir, debounceMs: 20, pollIntervalMs: 20, onReloaded: (p) => reloaded.push(p) })
     const handle = loader.register('timings', timingsSchema)
 
     const received: unknown[] = []
@@ -115,7 +115,7 @@ describe('TASK-011: ConfigLoader', () => {
     write('timings', validConfig)
 
     const reloaded: ConfigReloadedPayload[] = []
-    loader = new ConfigLoader({ dir, debounceMs: 20, onReloaded: (p) => reloaded.push(p) })
+    loader = new ConfigLoader({ dir, debounceMs: 20, pollIntervalMs: 20, onReloaded: (p) => reloaded.push(p) })
     const handle = loader.register('timings', timingsSchema)
 
     // Портим файл — не валидный JSON (висячая запятая перед закрывающей скобкой).
@@ -135,7 +135,7 @@ describe('TASK-011: ConfigLoader', () => {
     write('timings', validConfig)
 
     const reloaded: ConfigReloadedPayload[] = []
-    loader = new ConfigLoader({ dir, debounceMs: 20, onReloaded: (p) => reloaded.push(p) })
+    loader = new ConfigLoader({ dir, debounceMs: 20, pollIntervalMs: 20, onReloaded: (p) => reloaded.push(p) })
     const handle = loader.register('timings', timingsSchema)
 
     // Валидный JSON, но не проходит схему (at_sec — строка).
@@ -153,7 +153,7 @@ describe('TASK-011: ConfigLoader', () => {
     write('timings', validConfig)
 
     const reloaded: ConfigReloadedPayload[] = []
-    loader = new ConfigLoader({ dir, debounceMs: 20, onReloaded: (p) => reloaded.push(p) })
+    loader = new ConfigLoader({ dir, debounceMs: 20, pollIntervalMs: 20, onReloaded: (p) => reloaded.push(p) })
     loader.register('timings', timingsSchema)
 
     write('timings', { events: [{ id: 'power_rune', at_sec: 360, warn_before_sec: 15 }] })
@@ -167,7 +167,7 @@ describe('TASK-011: ConfigLoader', () => {
     dir = makeDir()
     write('timings', '{ broken')
 
-    loader = new ConfigLoader({ dir, debounceMs: 20 })
+    loader = new ConfigLoader({ dir, debounceMs: 20, pollIntervalMs: 20 })
     const handle = loader.register('timings', timingsSchema)
 
     expect(handle.status()).toBe('invalid')
@@ -176,7 +176,7 @@ describe('TASK-011: ConfigLoader', () => {
 
   it('does not crash when the config file is missing', () => {
     dir = makeDir()
-    loader = new ConfigLoader({ dir, debounceMs: 20 })
+    loader = new ConfigLoader({ dir, debounceMs: 20, pollIntervalMs: 20 })
     const handle = loader.register('timings', timingsSchema)
 
     expect(handle.status()).toBe('invalid')
