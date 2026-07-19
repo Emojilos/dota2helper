@@ -1,0 +1,269 @@
+{
+	"provider": {
+		"name": "Dota 2",
+		"appid": 570,
+		"version": 48,
+		"timestamp": 1784486156
+	},
+	"map": {
+		"name": "start",
+		"matchid": "8904503190",
+		"game_time": 70,
+		"clock_time": -3,
+		"daytime": false,
+		"nightstalker_night": false,
+		"radiant_score": 0,
+		"dire_score": 0,
+		"game_state": "DOTA_GAMERULES_STATE_HERO_SELECTION",
+		"paused": false,
+		"win_team": "none",
+		"customgamename": "",
+		"ward_purchase_cooldown": 0
+	},
+	"player": {
+		"steamid": "76561199276562538",
+		"accountid": "1316296810",
+		"name": "Emoji",
+		"activity": "playing",
+		"kills": 0,
+		"deaths": 0,
+		"assists": 0,
+		"last_hits": 0,
+		"denies": 0,
+		"kill_streak": 0,
+		"commands_issued": 0,
+		"kill_list": {
+
+		},
+		"team_name": "radiant",
+		"player_slot": 1,
+		"team_slot": 1,
+		"gold": 600,
+		"gold_reliable": 0,
+		"gold_unreliable": 600,
+		"gold_from_hero_kills": 0,
+		"gold_from_creep_kills": 0,
+		"gold_from_summon_kills": 0,
+		"gold_from_income": 0,
+		"gold_from_shared": 0,
+		"gpm": 0,
+		"xpm": 0
+	},
+	"hero": {
+		"id": 0
+	},
+	"abilities": {
+
+	},
+	"items": {
+
+	},
+	"draft": {
+
+	},
+	"buildings": {
+		"radiant": {
+
+		}
+	},
+	"events": [
+
+	]
+	,
+	"wearables": {
+
+	},
+	"league": {
+		"selection_priority": {
+			"rules": "manual",
+			"previous_priority_team_id": 0,
+			"current_priority_team_id": 0,
+			"priority_team_choice": "invalid",
+			"non_priority_team_choice": "invalid",
+			"used_coin_toss": false
+		},
+		"league_id": 0,
+		"match_id": "8904503190"
+	},
+	"couriers": {
+
+	},
+	"neutralitems": {
+
+	},
+	"roshan": {
+
+	},
+	"minimap": {
+		"o0": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o1": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o2": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o3": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o4": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o5": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o6": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o7": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o8": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o9": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o10": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o11": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o12": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o13": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o14": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o15": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o16": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 0,
+			"yaw": 0,
+			"unitname": "",
+			"visionrange": 0
+		},
+		"o17": {
+			"xpos": 0,
+			"ypos": 0,
+			"image": "minimap_plaincircle",
+			"team": 2,
+			"yaw": 0,
+			"unitname": "npc_dota_hero_dark_willow",
+			"visionrange": 0
+		}
+	},
+	"previously": {
+		"map": {
+			"game_time": 69
+		}
+	},
+	"auth": {
+		"token": "midmind-capture"
+	}
+}

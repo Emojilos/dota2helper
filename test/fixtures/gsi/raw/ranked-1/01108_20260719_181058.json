@@ -1,0 +1,90 @@
+{
+	"provider": {
+		"name": "Dota 2",
+		"appid": 570,
+		"version": 48,
+		"timestamp": 1784484658
+	},
+	"player": {
+
+	},
+	"draft": {
+
+	},
+	"events": [
+
+	]
+	,
+	"league": {
+
+	},
+	"couriers": {
+
+	},
+	"neutralitems": {
+
+	},
+	"roshan": {
+
+	},
+	"previously": {
+		"map": true,
+		"player": {
+			"steamid": "76561199276562538",
+			"accountid": "1316296810",
+			"name": "Emoji",
+			"activity": "playing",
+			"kills": 0,
+			"deaths": 0,
+			"assists": 0,
+			"last_hits": 0,
+			"denies": 0,
+			"kill_streak": 0,
+			"commands_issued": 0,
+			"kill_list": {
+
+			},
+			"team_name": "radiant",
+			"player_slot": 2,
+			"team_slot": 0,
+			"gold": 600,
+			"gold_reliable": 0,
+			"gold_unreliable": 600,
+			"gold_from_hero_kills": 0,
+			"gold_from_creep_kills": 0,
+			"gold_from_summon_kills": 0,
+			"gold_from_income": 0,
+			"gold_from_shared": 0,
+			"gpm": 0,
+			"xpm": 0
+		},
+		"hero": true,
+		"abilities": true,
+		"items": true,
+		"buildings": true,
+		"events": {
+			"event": {
+				"game_time": 15,
+				"event_type": "generic_event",
+				"data": "{\"type\":\"CHAT_MESSAGE_DISCONNECT\",\"value\":0,\"playerid1\":1,\"playerid2\":-1,\"time\":-70.2666702}"
+			}
+		},
+		"wearables": true,
+		"league": {
+			"selection_priority": {
+				"rules": "manual",
+				"previous_priority_team_id": 0,
+				"current_priority_team_id": 0,
+				"priority_team_choice": "invalid",
+				"non_priority_team_choice": "invalid",
+				"used_coin_toss": false
+			},
+			"league_id": 0,
+			"match_id": "8904469526"
+		},
+		"minimap": true
+	},
+	"auth": {
+		"token": "midmind-capture"
+	}
+}

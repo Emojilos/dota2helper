@@ -1,0 +1,103 @@
+{
+	"provider": {
+		"name": "Dota 2",
+		"appid": 570,
+		"version": 48,
+		"timestamp": 1784489245
+	},
+	"player": {
+
+	},
+	"draft": {
+
+	},
+	"events": [
+
+	]
+	,
+	"league": {
+
+	},
+	"couriers": {
+
+	},
+	"neutralitems": {
+
+	},
+	"roshan": {
+
+	},
+	"previously": {
+		"map": true,
+		"player": {
+			"steamid": "76561199276562538",
+			"accountid": "1316296810",
+			"name": "Emoji",
+			"activity": "playing",
+			"kills": 9,
+			"deaths": 13,
+			"assists": 12,
+			"last_hits": 356,
+			"denies": 9,
+			"kill_streak": 0,
+			"commands_issued": 15963,
+			"kill_list": {
+				"victimid_6": 4,
+				"victimid_7": 3,
+				"victimid_8": 2
+			},
+			"team_name": "radiant",
+			"player_slot": 1,
+			"team_slot": 1,
+			"gold": 1496,
+			"gold_reliable": 1106,
+			"gold_unreliable": 390,
+			"gold_from_hero_kills": 7175,
+			"gold_from_creep_kills": 8361,
+			"gold_from_summon_kills": 105,
+			"gold_from_income": 4662,
+			"gold_from_shared": 4756,
+			"gpm": 570,
+			"xpm": 1083
+		},
+		"hero": true,
+		"abilities": true,
+		"items": true,
+		"buildings": true,
+		"events": {
+			"event": {
+				"game_time": 3151,
+				"event_type": "chat_message",
+				"player_id": 1,
+				"channel_type": 11,
+				"message": "gg ez mid game life",
+				"game_time": 3151,
+				"event_type": "generic_event",
+				"data": "{\"type\":\"CHAT_MESSAGE_DISCONNECT\",\"value\":0,\"playerid1\":6,\"playerid2\":-1,\"time\":2911.16675}",
+				"game_time": 3146,
+				"event_type": "tip",
+				"sender_player_id": 1,
+				"receiver_player_id": 8,
+				"tip_amount": 50,
+				"game_time": 3141,
+				"event_type": "generic_event",
+				"data": "{\"type\":\"CHAT_MESSAGE_HERO_KILL\",\"value\":496,\"playerid1\":3,\"playerid2\":8,\"playerid3\":-1,\"playerid4\":-1,\"playerid5\":-1,\"playerid6\":-1,\"value2\":406,\"value3\":2,\"time\":2907.2334}",
+				"game_time": 3125,
+				"event_type": "generic_event",
+				"data": "{\"type\":\"CHAT_MESSAGE_STREAK_KILL\",\"value\":808,\"playerid1\":9,\"playerid2\":8,\"playerid3\":1,\"playerid4\":1,\"playerid5\":0,\"playerid6\":-1,\"value2\":0,\"value3\":4294967295,\"time\":2890.40015}",
+				"game_time": 3125,
+				"event_type": "generic_event",
+				"data": "{\"type\":\"CHAT_MESSAGE_HERO_KILL\",\"value\":808,\"playerid1\":1,\"playerid2\":9,\"playerid3\":-1,\"playerid4\":-1,\"playerid5\":-1,\"playerid6\":-1,\"value2\":459,\"value3\":1,\"time\":2890.40015}"
+			}
+		},
+		"wearables": true,
+		"league": {
+			"league_id": 0,
+			"match_id": "8904503190"
+		},
+		"minimap": true
+	},
+	"auth": {
+		"token": "midmind-capture"
+	}
+}

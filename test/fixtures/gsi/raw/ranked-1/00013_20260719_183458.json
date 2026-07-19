@@ -1,0 +1,49 @@
+{
+	"provider": {
+		"name": "Dota 2",
+		"appid": 570,
+		"version": 48,
+		"timestamp": 1784486098
+	},
+	"player": {
+
+	},
+	"draft": {
+
+	},
+	"events": [
+
+	]
+	,
+	"league": {
+		"selection_priority": {
+			"rules": "manual",
+			"previous_priority_team_id": 0,
+			"current_priority_team_id": 0,
+			"priority_team_choice": "invalid",
+			"non_priority_team_choice": "invalid",
+			"used_coin_toss": false
+		},
+		"league_id": 0,
+		"match_id": "8904503190"
+	},
+	"couriers": {
+
+	},
+	"neutralitems": {
+
+	},
+	"roshan": {
+
+	},
+	"added": {
+		"league": {
+			"selection_priority": true,
+			"league_id": true,
+			"match_id": true
+		}
+	},
+	"auth": {
+		"token": "midmind-capture"
+	}
+}
