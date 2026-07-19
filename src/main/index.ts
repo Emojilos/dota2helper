@@ -541,6 +541,9 @@ function startHotkeys(): void {
     },
     onToggleClickThrough: () => {
       const interactive = overlayWindow?.toggleInteractive()
+      if (interactive !== undefined) {
+        setOverlayPlaceholderState(interactive)
+      }
       console.log(`[hotkeys] overlay click-through toggled -> interactive=${interactive}`)
     },
     logger: (message) => console.log(`[hotkeys] ${message}`)
@@ -598,17 +601,34 @@ function logGsiInstallerPreview(port: number): void {
 /**
  * Поднимает базовое overlay-окно (TASK-008): always-on-top/click-through
  * поверх игры, без контента-потребителя (тот появится в TASK-014/015/037,
- * как отдельные инстансы OverlayWindow). Пока рисует статичный placeholder
- * ("MidMind overlay ready") через data:-URL — не тянуть renderer-роут ради
- * теста механики окна. Хоткей toggle click-through — startHotkeys.
+ * как отдельные инстансы OverlayWindow). Пока рисует placeholder через
+ * data:-URL — не тянуть renderer-роут ради теста механики окна. Placeholder
+ * отражает текущее состояние интерактивности: setIgnoreMouseEvents сам по
+ * себе визуально никак не проявляется, и без индикации F8-toggle невозможно
+ * проверить глазами при живом гейте. Хоткей toggle click-through —
+ * startHotkeys, он же перерисовывает placeholder после переключения.
  */
+function overlayPlaceholderHtml(interactive: boolean): string {
+  const state = interactive
+    ? 'INTERACTIVE — окно ловит клики (F8: вернуть click-through)'
+    : 'click-through — клики проходят сквозь окно (F8: сделать кликабельным)'
+  const accent = interactive ? '#f0a832' : '#4caf7d'
+  return (
+    '<html><body style="margin:0;font:14px sans-serif;color:#e6e6e6;' +
+    `background:rgba(10,12,16,0.85);padding:12px;border-radius:8px;border-left:4px solid ${accent};">` +
+    `MidMind overlay: ${state}</body></html>`
+  )
+}
+
+function setOverlayPlaceholderState(interactive: boolean): void {
+  void overlayWindow?.loadURL(
+    `data:text/html;charset=utf-8,${encodeURIComponent(overlayPlaceholderHtml(interactive))}`
+  )
+}
+
 function startOverlayWindow(): void {
   overlayWindow = new OverlayWindow({ width: 320, height: 120, x: 24, y: 24 })
-  const html =
-    '<html><body style="margin:0;font:14px sans-serif;color:#e6e6e6;' +
-    'background:rgba(10,12,16,0.85);padding:12px;border-radius:8px;">' +
-    'MidMind overlay ready (click-through)</body></html>'
-  void overlayWindow.loadURL(`data:text/html,${encodeURIComponent(html)}`)
+  setOverlayPlaceholderState(false)
   overlayWindow.show()
 }
 
