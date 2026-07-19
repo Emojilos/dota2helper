@@ -20,6 +20,17 @@ export type Verbosity = z.infer<typeof VerbositySchema>
 export const DraftRankingModeSchema = z.enum(['meta', 'personal'])
 export type DraftRankingMode = z.infer<typeof DraftRankingModeSchema>
 
+/** Позиция окна оверлея на экране (TASK-014), в пикселях экранных координат. */
+export const OverlayPositionSchema = z.object({
+  x: z.number(),
+  y: z.number()
+})
+export type OverlayPosition = z.infer<typeof OverlayPositionSchema>
+
+/** Запомненные позиции оверлей-окон, ключ — id окна (напр. 'compactPanel', TASK-014). */
+export const OverlayPositionsSchema = z.record(z.string(), OverlayPositionSchema)
+export type OverlayPositions = z.infer<typeof OverlayPositionsSchema>
+
 export const AppSettingsSchema = z.object({
   /** привязанный Steam ID (64-bit) либо null */
   steamId: z.string().nullable(),
@@ -33,7 +44,9 @@ export const AppSettingsSchema = z.object({
   draftRankingMode: DraftRankingModeSchema,
   silentMode: z.boolean(),
   /** автозапуск приложения вместе с системой (TASK-046), выкл по умолчанию */
-  autoLaunch: z.boolean()
+  autoLaunch: z.boolean(),
+  /** запомненные позиции оверлей-окон (TASK-014), пусто пока ни одно не перетаскивали */
+  overlayPositions: OverlayPositionsSchema
 })
 export type AppSettings = z.infer<typeof AppSettingsSchema>
 
@@ -46,5 +59,6 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
   hotkeyClickThroughToggle: 'F8',
   draftRankingMode: 'meta',
   silentMode: false,
-  autoLaunch: false
+  autoLaunch: false,
+  overlayPositions: {}
 }

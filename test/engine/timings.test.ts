@@ -13,6 +13,7 @@ import { resolve } from 'node:path'
 import {
   dueTimingAlerts,
   upcomingTimingEvents,
+  selectCompactPanelTimers,
   type TimingContext
 } from '@engine/timings'
 import { TimingsConfigSchema, type TimingEvent } from '@shared/schemas/timings'
@@ -174,6 +175,31 @@ describe('upcomingTimingEvents', () => {
   it('исключает события без будущих наступлений (все fixed-времена прошли) и buyback', () => {
     const events = [fixedEvent('water', [120], 20), buybackEvent('buyback_ready')]
     expect(upcomingTimingEvents(events, 500)).toHaveLength(0)
+  })
+})
+
+describe('selectCompactPanelTimers (F5 компактная панель, TASK-014)', () => {
+  it('nextEvent — самое раннее из upcoming; nextRune — самое раннее, чей id содержит "rune"', () => {
+    const events = [
+      fixedEvent('camp_stack', [53], 10),
+      intervalEvent('water_runes', 120, 120, 20),
+      intervalEvent('power_runes', 360, 360, 30)
+    ]
+    const upcoming = upcomingTimingEvents(events, 30)
+    // ближайшее событие вообще — camp_stack (53), ближайшая руна — water_runes (120)
+    const timers = selectCompactPanelTimers(upcoming)
+    expect(timers.nextEvent).toEqual({ labelRu: 'camp_stack', secondsUntil: 23 })
+    expect(timers.nextRune).toEqual({ labelRu: 'water_runes', secondsUntil: 90 })
+  })
+
+  it('возвращает null для обоих полей, если upcoming пуст', () => {
+    expect(selectCompactPanelTimers([])).toEqual({ nextEvent: null, nextRune: null })
+  })
+
+  it('nextRune — null, если среди upcoming нет событий с "rune" в id', () => {
+    const events = [fixedEvent('camp_stack', [53], 10), fixedEvent('tormentor', [1200], 0)]
+    const upcoming = upcomingTimingEvents(events, 30)
+    expect(selectCompactPanelTimers(upcoming).nextRune).toBeNull()
   })
 })
 

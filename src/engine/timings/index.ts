@@ -113,6 +113,29 @@ export function upcomingTimingEvents(
   return upcoming
 }
 
+/** Компактная сводка одного таймера для панели F5 (без internal occurrenceSec/eventId). */
+export interface CompactPanelTimer {
+  labelRu: string
+  secondsUntil: number
+}
+
+/** Таймеры компактной панели (F5 режим 1, TASK-014): ближайшее событие вообще
+ * и отдельно ближайшая руна (id события содержит 'rune' — water/power/bounty_runes,
+ * см. content/timings.json). Ожидает уже отсортированный upcomingTimingEvents(). */
+export interface CompactPanelTimers {
+  nextEvent: CompactPanelTimer | null
+  nextRune: CompactPanelTimer | null
+}
+
+export function selectCompactPanelTimers(upcoming: readonly UpcomingTimingEvent[]): CompactPanelTimers {
+  const nextEvent = upcoming[0] ?? null
+  const nextRune = upcoming.find((event) => event.eventId.includes('rune')) ?? null
+  return {
+    nextEvent: nextEvent ? { labelRu: nextEvent.labelRu, secondsUntil: nextEvent.secondsUntil } : null,
+    nextRune: nextRune ? { labelRu: nextRune.labelRu, secondsUntil: nextRune.secondsUntil } : null
+  }
+}
+
 function toAlert(event: TimingEvent, occurrenceSec: number): TimingAlert {
   return {
     eventId: event.id,

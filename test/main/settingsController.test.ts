@@ -41,7 +41,8 @@ describe('SettingsController', () => {
       hotkeyClickThroughToggle: 'F8',
       draftRankingMode: 'meta',
       silentMode: false,
-      autoLaunch: false
+      autoLaunch: false,
+      overlayPositions: {}
     })
     expect(onApplied).not.toHaveBeenCalled()
   })

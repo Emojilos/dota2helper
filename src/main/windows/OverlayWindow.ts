@@ -81,6 +81,20 @@ export class OverlayWindow {
     return this.window.loadURL(url)
   }
 
+  /** Пробрасывает BrowserWindow.loadFile (напр. с ?window=compact-panel через options.query, TASK-014). */
+  loadFile(filePath: string, options?: Electron.LoadFileOptions): Promise<void> {
+    return this.window.loadFile(filePath, options)
+  }
+
+  /** Подписка на перемещение окна (TASK-014: перетаскивание компактной панели, персист позиции). */
+  onMoved(listener: () => void): void {
+    this.window.on('moved', listener)
+  }
+
+  getPosition(): [number, number] {
+    return this.window.getPosition() as [number, number]
+  }
+
   get browserWindow(): BrowserWindow {
     return this.window
   }

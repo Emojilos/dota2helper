@@ -21,6 +21,7 @@ function makeSettings(overrides: Partial<AppSettings> = {}): AppSettings {
     draftRankingMode: 'meta',
     silentMode: false,
     autoLaunch: false,
+    overlayPositions: {},
     ...overrides
   }
 }

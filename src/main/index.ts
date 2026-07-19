@@ -6,6 +6,14 @@ import { GsiServer } from './gsi'
 import { ConfigLoader, mirrorContentDir, type ConfigHandle } from './config'
 import { TimingScheduler } from './timings'
 import { TimingsConfigSchema, type TimingsConfig } from '@shared/schemas/timings'
+import { upcomingTimingEvents, selectCompactPanelTimers } from '@engine/timings'
+import {
+  COMPACT_PANEL_WINDOW_ID,
+  DEFAULT_COMPACT_PANEL_WIDGET_IDS,
+  COMPACT_PANEL_DEFAULT_POSITION,
+  COMPACT_PANEL_WIDTH,
+  compactPanelHeight
+} from '@shared/overlay/compactPanel'
 import { broadcast, registerSettingsHandlers, createSettingsController, type SettingsController } from './ipc'
 import { AdviceScheduler, AdviceGate } from './advice'
 import { HotkeyManager, createHotkeyBackends } from './hotkeys'
@@ -62,6 +70,7 @@ let dataService: DataService | null = null
 let settingsController: SettingsController | null = null
 let hotkeyManager: HotkeyManager | null = null
 let overlayWindow: OverlayWindow | null = null
+let compactPanelWindow: OverlayWindow | null = null
 let autoLaunchManager: AutoLaunchManager | null = null
 let cacheWarmer: CacheWarmer | null = null
 let lanePlanBuilder: LanePlanBuilder | null = null
@@ -154,6 +163,31 @@ function startTimingScheduler(): void {
     }
   })
   timingScheduler.start()
+}
+
+/**
+ * Пушит таймеры компактной панели (F5 режим 1, TASK-014: `compactPanel:timers`)
+ * на каждый тик GSI: nextEvent/nextRune считает чистая selectCompactPanelTimers
+ * (engine/timings) над тем же timings.json, что уже читает TimingScheduler —
+ * без второго расписания (INV4). Renderer сам engine/timings не импортирует
+ * (INV1), получает только готовые labelRu/secondsUntil. Требует уже поднятых
+ * gsiServer (startGsiServer) и timingsConfigHandle (устанавливается внутри
+ * startTimingScheduler — вызывать после неё).
+ */
+function startTimingsBroadcast(): void {
+  if (!gsiServer || !timingsConfigHandle) {
+    return
+  }
+  const timings = timingsConfigHandle
+  gsiServer.store.subscribe((state) => {
+    const clockTimeSec = state.map?.clockTime ?? null
+    if (clockTimeSec === null) {
+      return
+    }
+    const events = timings.get()?.events ?? []
+    const upcoming = upcomingTimingEvents(events, clockTimeSec)
+    broadcast('compactPanel:timers', selectCompactPanelTimers(upcoming))
+  })
 }
 
 /**
@@ -549,6 +583,10 @@ function startHotkeys(): void {
       const interactive = overlayWindow?.toggleInteractive()
       if (interactive !== undefined) {
         setOverlayPlaceholderState(interactive)
+        // Компактная панель (TASK-014) переключается синхронно с базовым
+        // overlayWindow: один хоткей — один переключатель "режим взаимодействия
+        // с оверлеем" для всех текущих окон, а не по окну на окно.
+        compactPanelWindow?.setInteractive(interactive)
       }
       console.log(`[hotkeys] overlay click-through toggled -> interactive=${interactive}`)
     },
@@ -639,6 +677,72 @@ function startOverlayWindow(): void {
 }
 
 /**
+ * Загружает реальный renderer-контент компактной панели (TASK-014) в
+ * OverlayWindow-инстанс — тот же бандл, что и основное окно настроек
+ * (createWindow), но с `?window=compact-panel`: main.tsx по этому параметру
+ * выбирает CompactPanel вместо App. В отличие от startOverlayWindow (TASK-008,
+ * placeholder через data:-URL — механика окна без реального UI), здесь нужен
+ * настоящий React-роут.
+ */
+function loadCompactPanelContent(win: OverlayWindow): void {
+  const query = { window: 'compact-panel' }
+  if (process.env['ELECTRON_RENDERER_URL']) {
+    const qs = new URLSearchParams(query).toString()
+    void win.loadURL(`${process.env['ELECTRON_RENDERER_URL']}?${qs}`)
+  } else {
+    void win.loadFile(join(__dirname, '../renderer/index.html'), { query })
+  }
+}
+
+/**
+ * Поднимает компактную панель F5 режим 1 (TASK-014): свой инстанс
+ * OverlayWindow (по топологии из комментария startOverlayWindow — каждый
+ * режим оверлея получает отдельное окно). Дефолтная позиция — верхний левый
+ * угол ниже топ-бара счёта (раздел 6 PRD, зоны свободные от HUD), если
+ * пользователь ещё ни разу не передвигал панель
+ * (AppSettings.overlayPositions[COMPACT_PANEL_WINDOW_ID] отсутствует).
+ * Высота считается из числа дефолтных виджетов (compactPanelHeight) —
+ * «панель адаптируется к набору виджетов»; сам набор пока фиксирован
+ * (DEFAULT_COMPACT_PANEL_WIDGET_IDS), полный конструктор — TASK-016/017.
+ *
+ * Перетаскивание доступно в интерактивном режиме (F8, см. onToggleClickThrough
+ * в startHotkeys — переключает эту панель вместе с базовым overlayWindow);
+ * сам drag — нативный, через `-webkit-app-region: drag` в CompactPanel.tsx.
+ * Итоговую позицию персистим на событие 'moved', дебаунсированное на 200мс
+ * тишины после последнего сдвига — иначе живое перетаскивание писало бы в
+ * БД на каждый промежуточный пиксель.
+ *
+ * Требует уже поднятого settingsController (startSettings).
+ */
+function startCompactPanelWindow(): void {
+  if (!settingsController) {
+    return
+  }
+  const savedPosition = settingsController.get().overlayPositions[COMPACT_PANEL_WINDOW_ID]
+  const position = savedPosition ?? COMPACT_PANEL_DEFAULT_POSITION
+  const height = compactPanelHeight(DEFAULT_COMPACT_PANEL_WIDGET_IDS.length)
+
+  const win = new OverlayWindow({ width: COMPACT_PANEL_WIDTH, height, x: position.x, y: position.y })
+  compactPanelWindow = win
+  loadCompactPanelContent(win)
+  win.show()
+
+  let moveDebounce: ReturnType<typeof setTimeout> | null = null
+  win.onMoved(() => {
+    if (moveDebounce) {
+      clearTimeout(moveDebounce)
+    }
+    moveDebounce = setTimeout(() => {
+      const [x, y] = win.getPosition()
+      const current = settingsController?.get().overlayPositions ?? {}
+      settingsController?.apply({
+        overlayPositions: { ...current, [COMPACT_PANEL_WINDOW_ID]: { x, y } }
+      })
+    }, 200)
+  })
+}
+
+/**
  * Создаёт основное окно приложения (настройки/статус). Прозрачное безрамочное
  * окно с React-рендерером; preload поднят с contextIsolation/nodeIntegration/
  * sandbox по CLAUDE.md §6 (TASK-007). Базовое overlay-окно поверх игры
@@ -678,6 +782,7 @@ app.whenReady().then(() => {
   startOverlayWindow()
   startDatabase()
   startSettings()
+  startCompactPanelWindow()
   startHotkeys()
   startConfigLoader()
   void startGsiServer()
@@ -689,6 +794,7 @@ app.whenReady().then(() => {
   startMatchupKnowledgeConfig()
   startAdviceGate()
   startTimingScheduler()
+  startTimingsBroadcast()
   startStratzClient()
   startDataService()
   startPatchWatcher()

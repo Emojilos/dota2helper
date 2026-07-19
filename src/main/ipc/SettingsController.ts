@@ -1,8 +1,9 @@
 /**
  * Единая точка мутации настроек (TASK-018). AppSettings — проекция
  * персистентного UserProfile (см. shared/schemas/userProfile.ts); здесь
- * отбираем только её поля, остальные (overlayPositions/notificationsConfig/
- * widgetsConfig/timestamps) — забота будущих задач (TASK-014/016).
+ * отбираем только её поля, остальные (notificationsConfig/widgetsConfig/
+ * timestamps) — забота будущих задач (TASK-016/017/019). overlayPositions
+ * (TASK-014) — часть AppSettings, проецируется как есть.
  *
  * Любая мутация настроек — из renderer (settings:set) или из main (напр.
  * хоткей тихого режима из HotkeyManager) — идёт через apply(), чтобы
@@ -33,7 +34,8 @@ function toAppSettings(profile: UserProfile): AppSettings {
     hotkeyClickThroughToggle: profile.hotkeyClickThroughToggle,
     draftRankingMode: profile.draftRankingMode,
     silentMode: profile.silentMode,
-    autoLaunch: profile.autoLaunch
+    autoLaunch: profile.autoLaunch,
+    overlayPositions: profile.overlayPositions
   })
 }
 

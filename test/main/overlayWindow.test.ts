@@ -12,6 +12,9 @@ const setAlwaysOnTop = vi.fn()
 const setVisibleOnAllWorkspaces = vi.fn()
 const showInactive = vi.fn()
 const loadURL = vi.fn()
+const loadFile = vi.fn()
+const on = vi.fn()
+const getPosition = vi.fn(() => [24, 110])
 
 let lastOptions: Record<string, unknown> | undefined
 
@@ -21,6 +24,9 @@ class MockBrowserWindow {
   setVisibleOnAllWorkspaces = setVisibleOnAllWorkspaces
   showInactive = showInactive
   loadURL = loadURL
+  loadFile = loadFile
+  on = on
+  getPosition = getPosition
 
   constructor(options: Record<string, unknown>) {
     lastOptions = options
@@ -38,6 +44,9 @@ describe('OverlayWindow', () => {
     setVisibleOnAllWorkspaces.mockClear()
     showInactive.mockClear()
     loadURL.mockClear()
+    loadFile.mockClear()
+    on.mockClear()
+    getPosition.mockClear()
     lastOptions = undefined
   })
 
@@ -87,5 +96,24 @@ describe('OverlayWindow', () => {
 
     expect(overlay.toggleInteractive()).toBe(true)
     expect(overlay.toggleInteractive()).toBe(false)
+  })
+
+  it('loadFile() forwards path+options to BrowserWindow.loadFile (TASK-014: ?window=compact-panel)', async () => {
+    const { OverlayWindow } = await import('@main/windows/OverlayWindow')
+    const overlay = new OverlayWindow({ width: 220, height: 100 })
+
+    void overlay.loadFile('/app/renderer/index.html', { query: { window: 'compact-panel' } })
+
+    expect(loadFile).toHaveBeenCalledWith('/app/renderer/index.html', { query: { window: 'compact-panel' } })
+  })
+
+  it('onMoved()/getPosition() forward to the underlying BrowserWindow (TASK-014: persist drag position)', async () => {
+    const { OverlayWindow } = await import('@main/windows/OverlayWindow')
+    const overlay = new OverlayWindow({ width: 220, height: 100 })
+    const listener = vi.fn()
+
+    overlay.onMoved(listener)
+    expect(on).toHaveBeenCalledWith('moved', listener)
+    expect(overlay.getPosition()).toEqual([24, 110])
   })
 })

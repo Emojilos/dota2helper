@@ -34,6 +34,23 @@ export interface CacheWarmerProgressPayload {
   status: 'ok' | 'no-data' | 'error'
 }
 
+/** Один таймер для компактной панели F5 (TASK-014): подпись + секунды до наступления. */
+export interface CompactPanelTimerPayload {
+  labelRu: string
+  secondsUntil: number
+}
+
+/**
+ * Таймеры дефолтных виджетов компактной панели (TASK-014): ближайшее
+ * событие вообще и отдельно ближайшая руна. Считается в main из
+ * timings.json чистой функцией engine/timings.selectCompactPanelTimers —
+ * renderer её не импортирует (INV1), только рисует готовые числа.
+ */
+export interface CompactPanelTimersPayload {
+  nextEvent: CompactPanelTimerPayload | null
+  nextRune: CompactPanelTimerPayload | null
+}
+
 /** main -> renderer: имя канала -> тип payload. */
 export interface IpcPushChannels {
   'gameState:update': GameState
@@ -66,6 +83,8 @@ export interface IpcPushChannels {
    * прошлопатчевые числа, пока CacheWarmer/DataService не перегреют его).
    */
   'patch:changed': { patch: string }
+  /** Таймеры компактной панели (TASK-014) — пушится на каждый тик GSI (≤2 Гц, как gameState:update). */
+  'compactPanel:timers': CompactPanelTimersPayload
 }
 
 /** renderer -> main: имя канала -> { request, response }. */
@@ -92,7 +111,8 @@ export const IPC_CHANNELS = {
   settingsSet: 'settings:set',
   cacheWarmerProgress: 'cacheWarmer:progress',
   steamIdDetected: 'steamId:detected',
-  patchChanged: 'patch:changed'
+  patchChanged: 'patch:changed',
+  compactPanelTimers: 'compactPanel:timers'
 } as const
 
 /**
