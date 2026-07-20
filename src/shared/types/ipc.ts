@@ -12,6 +12,7 @@
 import type { GameState } from '../schemas/gameState'
 import type { Advice, DraftCandidate } from '../schemas/advice'
 import type { AppSettings } from '../schemas/settings'
+import type { DraftContext, DraftManualAction } from '../schemas/draft'
 
 /** Статус горячей перезагрузки конфига (TASK-011). */
 export interface ConfigReloadedPayload {
@@ -85,12 +86,31 @@ export interface IpcPushChannels {
   'patch:changed': { patch: string }
   /** Таймеры компактной панели (TASK-014) — пушится на каждый тик GSI (≤2 Гц, как gameState:update). */
   'compactPanel:timers': CompactPanelTimersPayload
+  /**
+   * F1 детект драфта (TASK-027): актуальный DraftContext — рассылается ТОЛЬКО
+   * при реальном изменении (стадия/собственный герой из GSI ИЛИ ручной ввод
+   * пиков через draftContext:applyManualAction), не на каждый GSI-тик, см.
+   * DraftContextManager (src/main/draft). Панель драфта должна появиться
+   * ≤2 сек после входа в HERO_SELECTION (раздел F1 PRD) — это push, а не
+   * poll, задержка целиком определяется частотой GSI (~2 Гц).
+   */
+  'draftContext:update': DraftContext
 }
 
 /** renderer -> main: имя канала -> { request, response }. */
 export interface IpcInvokeChannels {
   'settings:get': { request: void; response: AppSettings }
   'settings:set': { request: Partial<AppSettings>; response: AppSettings }
+  /** F1 (TASK-027): текущий DraftContext — тот же приём, что settings:get, для окна, открытого/перезагруженного уже после начала драфта. */
+  'draftContext:get': { request: void; response: DraftContext }
+  /**
+   * F1 ручной ввод пиков (TASK-027): GSI не отдаёт пики команд игроку
+   * (docs/gsi-fields.md, TASK-009) — единственный источник enemyHeroIds/
+   * allyHeroIds/enemyMidHeroId. Отвечает актуальным DraftContext (тем же, что
+   * придёт следующим draftContext:update — избавляет renderer от гонки
+   * между ответом invoke и push).
+   */
+  'draftContext:applyManualAction': { request: DraftManualAction; response: DraftContext }
 }
 
 export type IpcPushChannel = keyof IpcPushChannels
@@ -112,7 +132,10 @@ export const IPC_CHANNELS = {
   cacheWarmerProgress: 'cacheWarmer:progress',
   steamIdDetected: 'steamId:detected',
   patchChanged: 'patch:changed',
-  compactPanelTimers: 'compactPanel:timers'
+  compactPanelTimers: 'compactPanel:timers',
+  draftContextUpdate: 'draftContext:update',
+  draftContextGet: 'draftContext:get',
+  draftContextApplyManualAction: 'draftContext:applyManualAction'
 } as const
 
 /**

@@ -19,7 +19,14 @@ import {
   NOTIFICATIONS_HEIGHT,
   NOTIFICATIONS_POSITION
 } from '@shared/overlay/notifications'
-import { broadcast, registerSettingsHandlers, createSettingsController, type SettingsController } from './ipc'
+import { DRAFT_PANEL_WIDTH, DRAFT_PANEL_HEIGHT, DRAFT_PANEL_POSITION } from '@shared/overlay/draftPanel'
+import {
+  broadcast,
+  registerSettingsHandlers,
+  registerDraftHandlers,
+  createSettingsController,
+  type SettingsController
+} from './ipc'
 import { AdviceScheduler, AdviceGate } from './advice'
 import { HotkeyManager, createHotkeyBackends } from './hotkeys'
 import { OverlayWindow } from './windows'
@@ -51,6 +58,7 @@ import {
 } from './gsiInstall'
 import { SteamIdDetector } from './steam'
 import { MatchCompletionDetector, MatchHistoryStore } from './matchHistory'
+import { DraftContextManager } from './draft'
 
 /**
  * Shared-токен GSI. Секреты — только через окружение (см. CLAUDE.md §5):
@@ -84,6 +92,7 @@ let matchHistoryStore: MatchHistoryStore | null = null
 let matchCompletionDetector: MatchCompletionDetector | null = null
 let appStateStore: AppStateStore | null = null
 let patchWatcher: PatchWatcher | null = null
+let draftContextManager: DraftContextManager | null = null
 
 /**
  * Поднимает config-loader (TASK-011): в проде зеркалит встроенный content/ в
@@ -324,6 +333,37 @@ function startSteamIdDetection(): void {
 }
 
 /**
+ * Поднимает F1 детект драфта (TASK-027): подписывает DraftContextManager на
+ * поток GSI — стадия драфта из map.gameState (HERO_SELECTION → picking →
+ * finalized) и собственный герой (hero.id становится известен ещё на стадии
+ * HERO_SELECTION, до конца пика). GSI НЕ отдаёт пики команд игроку ни в одной
+ * из трёх захваченных сессий (docs/gsi-fields.md, открытый вопрос #1 TASK-009
+ * закрыт) — enemyHeroIds/allyHeroIds/enemyMidHeroId наполняются ТОЛЬКО ручным
+ * вводом через invoke-канал draftContext:applyManualAction
+ * (registerDraftHandlers). onChange пушит draftContext:update renderer'у
+ * ТОЛЬКО при реальном изменении контекста (см. DraftContextManager.setContext) —
+ * не на каждый GSI-тик (~2 Гц). getEnemyMidHeroId() становится реальным
+ * источником для MatchCompletionDetector (TASK-033, startMatchHistory) вместо
+ * захардкоженного null — см. её комментарий. Требует уже поднятого gsiServer
+ * (startGsiServer), вызывать ДО startMatchHistory.
+ */
+function startDraftContext(): void {
+  if (!gsiServer) {
+    return
+  }
+  draftContextManager = new DraftContextManager({
+    onChange: (context) => {
+      console.log(
+        `[draft] stage=${context.stage} ownHero=${context.ownHeroId ?? 'unknown'} enemies=[${context.enemyHeroIds}] allies=[${context.allyHeroIds}] enemyMid=${context.enemyMidHeroId ?? 'unset'}`
+      )
+      broadcast('draftContext:update', context)
+    }
+  })
+  gsiServer.store.subscribe((state) => draftContextManager?.onGameState(state))
+  registerDraftHandlers(draftContextManager)
+}
+
+/**
  * Создаёт STRATZ GraphQL-клиент (TASK-021), если STRATZ_API_TOKEN задан в
  * окружении (см. .env.example). Отсутствие токена — не ошибка: приложение
  * продолжает работать, STRATZ-фичи станут доступны через DataService-фасад
@@ -420,11 +460,12 @@ function startCacheWarmer(): void {
  * DataService.getHeroMatchups. Требует уже собранного dataService
  * (startDataService).
  *
- * Реального триггера (финализация пиков) пока нет — детект драфта TASK-027
- * ещё pending, поэтому build() здесь никем не вызывается; инстанс готов для
- * будущего потребителя (расширенная панель TASK-037, deps на этот таск),
- * тот же паттерн отложенного wiring, что startAdviceGate для
- * enemyMidHeroId (см. её комментарий).
+ * Реального триггера (финализация пиков) пока нет: источник enemyMidHeroId
+ * теперь есть (DraftContextManager.getEnemyMidHeroId(), TASK-027, ручной
+ * ввод — GSI пики команд не отдаёт), но вызывать build() на переход в
+ * stage='finalized' и показывать результат пока некому — расширенная панель
+ * (TASK-037, deps на TASK-008/036) ещё не создана; инстанс готов для этого
+ * будущего потребителя.
  */
 function startLanePlanBuilder(): void {
   if (!dataService || !heroProfilesConfigHandle || !matchupKnowledgeConfigHandle) {
@@ -436,7 +477,7 @@ function startLanePlanBuilder(): void {
     () => matchupKnowledgeConfigHandle?.get() ?? null,
     { logger: (message) => console.log(message) }
   )
-  console.log(`[lane-plan] LanePlanBuilder ready: ${lanePlanBuilder !== null} (no finalize-pick trigger yet — TASK-027)`)
+  console.log(`[lane-plan] LanePlanBuilder ready: ${lanePlanBuilder !== null} (finalize-pick trigger awaits TASK-037)`)
 }
 
 /**
@@ -447,10 +488,11 @@ function startLanePlanBuilder(): void {
  * (matches_count/winrate текущего героя) для привязанного профиля — без
  * привязанного Steam ID пул героев не обновляется (нет строки, которую можно
  * было бы освежить), но история матча всё равно записывается. enemyMidHeroId
- * пока всегда null — реальный источник появится вместе с детектом драфта
- * (TASK-027), см. комментарий MatchCompletionDetector. Требует уже поднятых
- * database (startDatabase) и gsiServer (startGsiServer); settingsController
- * опционален (может быть ещё не поднят/профиль не привязан).
+ * берётся из DraftContextManager.getEnemyMidHeroId() (TASK-027, ручной ввод —
+ * GSI пики команд не отдаёт) — null, пока пользователь не задал мидера
+ * вручную. Требует уже поднятых database (startDatabase) и gsiServer
+ * (startGsiServer); settingsController опционален (может быть ещё не
+ * поднят/профиль не привязан); вызывать ПОСЛЕ startDraftContext.
  */
 function startMatchHistory(): void {
   if (!database || !gsiServer) {
@@ -460,7 +502,7 @@ function startMatchHistory(): void {
   const heroPoolStore = new HeroPoolCacheStore(database)
 
   matchCompletionDetector = new MatchCompletionDetector({
-    getEnemyMidHeroId: () => null,
+    getEnemyMidHeroId: () => draftContextManager?.getEnemyMidHeroId() ?? null,
     logger: (message) => console.log(message),
     onMatchCompleted: (summary) => {
       matchHistoryStore?.write(summary)
@@ -787,6 +829,45 @@ function startNotificationsWindow(): void {
 }
 
 /**
+ * Загружает реальный renderer-контент панели драфта (TASK-027) — тот же
+ * бандл, что и остальные окна, с `?window=draft-panel` (main.tsx выбирает
+ * DraftPanel). См. комментарий loadCompactPanelContent — тот же приём.
+ */
+function loadDraftPanelContent(win: OverlayWindow): void {
+  const query = { window: 'draft-panel' }
+  if (process.env['ELECTRON_RENDERER_URL']) {
+    const qs = new URLSearchParams(query).toString()
+    void win.loadURL(`${process.env['ELECTRON_RENDERER_URL']}?${qs}`)
+  } else {
+    void win.loadFile(join(__dirname, '../renderer/index.html'), { query })
+  }
+}
+
+/**
+ * Поднимает панель драфта F1 (TASK-027): свой инстанс OverlayWindow с
+ * позицией из src/shared/overlay/draftPanel.ts (правый верхний угол — не
+ * пересекается с компактной панелью TASK-014/уведомлениями TASK-015).
+ * В отличие от обоих — интерактивна ВСЕГДА, а не только в режиме F8 (нужны
+ * клики по кнопкам ручного ввода пиков), и НЕ участвует в
+ * onToggleClickThrough (F8 трогает только click-through-по-умолчанию окна).
+ * Контент подписывается на draftContext:get/draftContext:update сам
+ * (DraftPanel.tsx) — здесь только механика окна. Требует уже поднятого
+ * draftContextManager (startDraftContext), но не блокируется его отсутствием —
+ * окно показывает EMPTY_DRAFT_CONTEXT, пока main не пришлёт первое обновление.
+ */
+function startDraftPanelWindow(): void {
+  const win = new OverlayWindow({
+    width: DRAFT_PANEL_WIDTH,
+    height: DRAFT_PANEL_HEIGHT,
+    x: DRAFT_PANEL_POSITION.x,
+    y: DRAFT_PANEL_POSITION.y
+  })
+  win.setInteractive(true)
+  loadDraftPanelContent(win)
+  win.show()
+}
+
+/**
  * Создаёт основное окно приложения (настройки/статус). Прозрачное безрамочное
  * окно с React-рендерером; preload поднят с contextIsolation/nodeIntegration/
  * sandbox по CLAUDE.md §6 (TASK-007). Базовое overlay-окно поверх игры
@@ -828,10 +909,12 @@ app.whenReady().then(() => {
   startSettings()
   startCompactPanelWindow()
   startNotificationsWindow()
+  startDraftPanelWindow()
   startHotkeys()
   startConfigLoader()
   void startGsiServer()
   startSteamIdDetection()
+  startDraftContext()
   startMatchHistory()
   startAdviceScheduler()
   startRulesConfig()

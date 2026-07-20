@@ -1,0 +1,20 @@
+/**
+ * Константы окна панели драфта F1 (TASK-027). Общие для main (создание окна)
+ * и renderer (рендер) — живут в shared, тот же приём, что
+ * overlay/compactPanel.ts и overlay/notifications.ts (INV1: renderer не тянет
+ * main/engine напрямую, но shared-константы читать можно).
+ *
+ * В отличие от компактной панели (TASK-014) окно НЕ перетаскивается и не
+ * участвует в overlayPositions — оно нужно только на время драфта
+ * (idle/finalized — контент минимален), позиционирование под конкретный HUD
+ * (не перекрывать сетку выбора героев) требует живой калибровки на
+ * Windows-машине владельца (см. CLAUDE.md §1), как и остальные overlay-окна.
+ * Дефолт — верхний правый угол, подальше от компактной панели (левый верхний,
+ * TASK-014) и зоны уведомлений (центр-низ, TASK-015).
+ *
+ * INV2: модуль чист (только константы, без electron/react).
+ */
+
+export const DRAFT_PANEL_WIDTH = 280
+export const DRAFT_PANEL_HEIGHT = 260
+export const DRAFT_PANEL_POSITION = { x: 1920 - DRAFT_PANEL_WIDTH - 24, y: 160 }
