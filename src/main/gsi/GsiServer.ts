@@ -10,6 +10,11 @@
  *    если токен отсутствует/неверен);
  *  - парсить raw → GameState (parseGameState, TASK-004);
  *  - класть результат в in-memory GameStateStore (источник правды main);
+ *  - параллельно санитизировать тот же raw-пакет в WidgetGsiSnapshot
+ *    (pickWidgetSnapshot, TASK-016) и класть в RawGsiSnapshotStore — конструктору
+ *    виджетов F5 нужны поля шире типизированного GameState (aghanims_scepter,
+ *    talent_N, debuff-флаги и т.п.), см. src/shared/schemas/gsiFieldCatalog.ts;
+ *    оба стора обновляются В ОДНОМ flush(), чтобы не разъехаться по частоте;
  *  - коалесцировать поток уведомлений подписчиков до ≤2 Гц (leading + trailing),
  *    при этом getLatest() всегда возвращает самый свежий пакет.
  *
@@ -19,8 +24,11 @@
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http'
 import { timingSafeEqual } from 'node:crypto'
 import { parseGameState } from '@shared/gsi/parseGameState'
+import { pickWidgetSnapshot } from '@shared/gsi/pickWidgetSnapshot'
 import type { GameState } from '@shared/schemas/gameState'
+import type { WidgetGsiSnapshot } from '@shared/schemas/gsiRawSnapshot'
 import { GameStateStore } from './GameStateStore'
+import { RawGsiSnapshotStore } from './RawGsiSnapshotStore'
 
 const DEFAULT_PORT = 3000
 const DEFAULT_HOST = '127.0.0.1'
@@ -34,6 +42,8 @@ export interface GsiServerOptions {
   authToken: string
   /** Куда складывать состояние-правду. По умолчанию создаётся новый стор. */
   store?: GameStateStore
+  /** Куда складывать санитизированный срез для конструктора виджетов (TASK-016). По умолчанию создаётся новый стор. */
+  rawStore?: RawGsiSnapshotStore
   /** Стартовый порт (по умолчанию 3000); при занятости пробуются следующие. */
   port?: number
   /** Интерфейс прослушивания. По умолчанию только loopback 127.0.0.1 (INV3). */
@@ -51,6 +61,8 @@ export interface GsiServerOptions {
 export class GsiServer {
   /** Источник правды main — доступен потребителям (IPC-мост TASK-007). */
   readonly store: GameStateStore
+  /** Санитизированный срез сырого пакета для конструктора виджетов (TASK-016). */
+  readonly rawStore: RawGsiSnapshotStore
 
   private readonly authToken: string
   private readonly host: string
@@ -63,6 +75,7 @@ export class GsiServer {
   private server: Server | null = null
   private boundPort: number | null = null
   private latest: GameState | null = null
+  private latestRaw: WidgetGsiSnapshot | null = null
 
   // Состояние троттлинга (leading + trailing) для потока уведомлений.
   private lastFlush = 0
@@ -74,6 +87,7 @@ export class GsiServer {
     }
     this.authToken = options.authToken
     this.store = options.store ?? new GameStateStore()
+    this.rawStore = options.rawStore ?? new RawGsiSnapshotStore()
     this.host = options.host ?? DEFAULT_HOST
     this.startPort = options.port ?? DEFAULT_PORT
     this.coalesceMs = options.coalesceMs ?? DEFAULT_COALESCE_MS
@@ -213,6 +227,7 @@ export class GsiServer {
       }
 
       this.latest = state
+      this.latestRaw = pickWidgetSnapshot(payload)
       this.scheduleFlush()
       this.respond(res, 200, 'OK')
     })
@@ -253,6 +268,9 @@ export class GsiServer {
     this.lastFlush = now
     if (this.latest) {
       this.store.set(this.latest)
+    }
+    if (this.latestRaw) {
+      this.rawStore.set(this.latestRaw)
     }
   }
 

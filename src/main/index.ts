@@ -24,9 +24,11 @@ import {
   broadcast,
   registerSettingsHandlers,
   registerDraftHandlers,
+  registerGsiFieldCatalogHandlers,
   createSettingsController,
   type SettingsController
 } from './ipc'
+import { GsiFieldCatalogConfigSchema, type GsiFieldCatalogConfig } from '@shared/schemas/gsiFieldCatalog'
 import { AdviceScheduler, AdviceGate } from './advice'
 import { HotkeyManager, createHotkeyBackends } from './hotkeys'
 import { OverlayWindow } from './windows'
@@ -76,6 +78,7 @@ let rulesConfigHandle: ConfigHandle<RulesConfig> | null = null
 let heroProfilesConfigHandle: ConfigHandle<HeroProfilesConfig> | null = null
 let matchupKnowledgeConfigHandle: ConfigHandle<MatchupKnowledgeConfig> | null = null
 let metaMidHeroesConfigHandle: ConfigHandle<MetaMidHeroesConfig> | null = null
+let gsiFieldCatalogConfigHandle: ConfigHandle<GsiFieldCatalogConfig> | null = null
 let unsubscribeAdviceGateFacts: (() => void) | null = null
 let stratzClient: StratzClient | null = null
 let database: DatabaseInstance | null = null
@@ -203,6 +206,13 @@ function startTimingsBroadcast(): void {
     const events = timings.get()?.events ?? []
     const upcoming = upcomingTimingEvents(events, clockTimeSec)
     broadcast('compactPanel:timers', selectCompactPanelTimers(upcoming))
+    // F5 конструктор виджетов (TASK-016): те же upcoming-события целиком, без
+    // схлопывания в nextEvent/nextRune — именованным пресетам (rune-timer/
+    // stack-counter) нужен произвольный eventId, не только 'ближайшее из всех'.
+    broadcast(
+      'timings:upcoming',
+      upcoming.map(({ eventId, labelRu, secondsUntil }) => ({ eventId, labelRu, secondsUntil }))
+    )
   })
 }
 
@@ -438,6 +448,25 @@ function startMetaMidHeroesConfig(): void {
     return
   }
   metaMidHeroesConfigHandle = configLoader.register('meta-mid-heroes', MetaMidHeroesConfigSchema)
+}
+
+/**
+ * Регистрирует gsi-field-catalog.json через ConfigLoader (F5, TASK-016):
+ * каталог сырых GSI-полей для конструктора виджетов (fieldPath/labelRu/
+ * category/format/preset, TASK-009). Правка/добавление поля подхватывается
+ * hot-reload'ом без пересборки (INV4) — renderer узнаёт об этом из уже
+ * существующего 'config:reloaded' (name='gsi-field-catalog') и перезапрашивает
+ * актуальную версию через invoke-канал gsiFieldCatalog:get
+ * (registerGsiFieldCatalogHandlers). Требует уже поднятого configLoader.
+ */
+function startGsiFieldCatalogConfig(): void {
+  if (!configLoader) {
+    return
+  }
+  gsiFieldCatalogConfigHandle = configLoader.register('gsi-field-catalog', GsiFieldCatalogConfigSchema)
+  registerGsiFieldCatalogHandlers(gsiFieldCatalogConfigHandle)
+  const config = gsiFieldCatalogConfigHandle.get()
+  console.log(`[gsi-field-catalog] gsi-field-catalog.json ready (${config?.fields.length ?? 0} field(s))`)
 }
 
 /**
@@ -721,6 +750,12 @@ async function startGsiServer(): Promise<void> {
     )
     broadcast('gameState:update', state)
   })
+  // F5 конструктор виджетов (TASK-016): санитизированный срез сырого пакета
+  // (см. doc-комментарий GsiServer) — отдельный стор, но тот же flush(), что
+  // и store.set(), поэтому оба push-канала идут в lockstep на одной частоте.
+  gsiServer.rawStore.subscribe((snapshot) => {
+    broadcast('gsiRaw:update', snapshot)
+  })
   try {
     const port = await gsiServer.start()
     logGsiInstallerPreview(port)
@@ -991,6 +1026,7 @@ app.whenReady().then(() => {
   startDataService()
   startPatchWatcher()
   startMetaMidHeroesConfig()
+  startGsiFieldCatalogConfig()
   startCacheWarmer()
   startDraftService()
   startLanePlanBuilder()

@@ -6,6 +6,7 @@ import { useSettingsStore } from './store/settingsStore'
 import { useSteamIdDetectionStore } from './store/steamIdStore'
 import { usePatchStore } from './store/patchStore'
 import { useConfigHealthStore } from './store/configHealthStore'
+import { WidgetGallery } from './widgets/WidgetGallery'
 
 /**
  * TASK-030 (F6): баннер подтверждения автообнаруженного Steam ID + ручной
@@ -209,6 +210,7 @@ function App(): JSX.Element {
         <SteamIdSection />
         <PatchBanner />
         <ConfigHealthBanner />
+        <WidgetGallery />
       </div>
     </div>
   )

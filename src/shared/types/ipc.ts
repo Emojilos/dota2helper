@@ -13,6 +13,8 @@ import type { GameState } from '../schemas/gameState'
 import type { Advice, DraftCandidate } from '../schemas/advice'
 import type { AppSettings } from '../schemas/settings'
 import type { DraftContext, DraftManualAction } from '../schemas/draft'
+import type { WidgetGsiSnapshot } from '../schemas/gsiRawSnapshot'
+import type { GsiFieldCatalogConfig } from '../schemas/gsiFieldCatalog'
 import type { DataSource } from './dataResult'
 
 /** Статус горячей перезагрузки конфига (TASK-011). */
@@ -51,6 +53,20 @@ export interface CompactPanelTimerPayload {
 export interface CompactPanelTimersPayload {
   nextEvent: CompactPanelTimerPayload | null
   nextRune: CompactPanelTimerPayload | null
+}
+
+/**
+ * Одно ближайшее наступление тайминг-события (F5 конструктор виджетов,
+ * TASK-016): та же engine/timings.upcomingTimingEvents(), что уже считает
+ * compactPanel:timers, но БЕЗ схлопывания в nextEvent/nextRune — полный список,
+ * чтобы именованные пресеты реестра виджетов (rune-timer/stack-counter) могли
+ * найти своё событие по eventId (напр. 'camp_stack'), не будучи жёстко
+ * привязанными к двум полям компактной панели.
+ */
+export interface TimingUpcomingEventPayload {
+  eventId: string
+  labelRu: string
+  secondsUntil: number
 }
 
 /**
@@ -116,6 +132,25 @@ export interface IpcPushChannels {
    * poll, задержка целиком определяется частотой GSI (~2 Гц).
    */
   'draftContext:update': DraftContext
+  /**
+   * F5 конструктор виджетов (TASK-016): санитизированный срез сырого GSI-пакета
+   * (map/player/hero/abilities/items, БЕЗ auth/provider — см. pickWidgetSnapshot,
+   * src/shared/gsi/) для WidgetRegistry. Нужен в дополнение к gameState:update,
+   * потому что каталог (gsi-field-catalog.json) шире типизированного GameState
+   * (aghanims_scepter, talent_N, debuff-флаги и т.п.) — расширение каталога НЕ
+   * должно требовать правки GameState/parseGameState (INV4). Пушится в lockstep
+   * с gameState:update (тот же flush в GsiServer, TASK-005), с той же частотой ≤2 Гц.
+   */
+  'gsiRaw:update': WidgetGsiSnapshot
+  /**
+   * F5 конструктор виджетов (TASK-016): полный отсортированный список ближайших
+   * наступлений ВСЕХ тайминг-событий (см. TimingUpcomingEventPayload) — та же
+   * engine/timings.upcomingTimingEvents(), что уже питает compactPanel:timers,
+   * без схлопывания в 2 поля. Используется именованными пресетами реестра
+   * виджетов (rune-timer/stack-counter), которым нужен произвольный eventId, а
+   * не только 'ближайшее' и 'ближайшая руна'.
+   */
+  'timings:upcoming': TimingUpcomingEventPayload[]
 }
 
 /** renderer -> main: имя канала -> { request, response }. */
@@ -132,6 +167,16 @@ export interface IpcInvokeChannels {
    * между ответом invoke и push).
    */
   'draftContext:applyManualAction': { request: DraftManualAction; response: DraftContext }
+  /**
+   * F5 конструктор виджетов (TASK-016): полный каталог gsi-field-catalog.json
+   * (fieldPath/labelRu/category/format/preset, TASK-009) — WidgetRegistry строит
+   * по нему список доступных сырых полей. Invoke, а не push: каталог меняется
+   * редко (правка контента, не поток GSI); при hot-reload (TASK-011) renderer
+   * узнаёт об этом из УЖЕ существующего 'config:reloaded' (name='gsi-field-catalog')
+   * и перезапрашивает актуальную версию этим же каналом — отдельного push-канала
+   * специально под каталог не заводим, чтобы не дублировать confirm-механику TASK-048.
+   */
+  'gsiFieldCatalog:get': { request: void; response: GsiFieldCatalogConfig }
 }
 
 export type IpcPushChannel = keyof IpcPushChannels
@@ -156,7 +201,10 @@ export const IPC_CHANNELS = {
   compactPanelTimers: 'compactPanel:timers',
   draftContextUpdate: 'draftContext:update',
   draftContextGet: 'draftContext:get',
-  draftContextApplyManualAction: 'draftContext:applyManualAction'
+  draftContextApplyManualAction: 'draftContext:applyManualAction',
+  gsiRawUpdate: 'gsiRaw:update',
+  timingsUpcoming: 'timings:upcoming',
+  gsiFieldCatalogGet: 'gsiFieldCatalog:get'
 } as const
 
 /**
