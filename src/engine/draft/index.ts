@@ -13,6 +13,8 @@
  * INV2: модуль чист (только shared-типы, без electron/react/sqlite/сеть).
  */
 import { EMPTY_DRAFT_CONTEXT, type DraftContext, type DraftManualAction, type DraftStage } from '@shared/schemas/draft'
+import type { MatchupData } from '@shared/schemas/stratzDto'
+import type { DraftCandidate } from '@shared/schemas/advice'
 
 export const HERO_SELECTION_GAME_STATE = 'DOTA_GAMERULES_STATE_HERO_SELECTION'
 const WAIT_FOR_PLAYERS_GAME_STATE = 'DOTA_GAMERULES_STATE_WAIT_FOR_PLAYERS_TO_LOAD'
@@ -134,4 +136,127 @@ export function applyDraftManualAction(
     case 'reset':
       return { ...EMPTY_DRAFT_CONTEXT, updatedAtMs: nowMs }
   }
+}
+
+/**
+ * F1 скоринг кандидатов на пик (TASK-028): чистые функции над матчап-данными
+ * (@shared/schemas/stratzDto) и открытыми пиками из DraftContext — формула
+ * раздела F1 PRD:
+ *
+ *   score = w1*counterScore + w2*synergyScore + w3*personalWinrate
+ *
+ * counterScore — взвешенное среднее винрейтов кандидата relation='vs' против
+ * каждого ОТКРЫТОГО вражеского пика (вражеский мидер ×2, остальные враги ×1);
+ * synergyScore — среднее винрейтов relation='with' с каждым открытым
+ * союзником (×1, без удвоения). Откуда берутся сами матчап-данные (STRATZ/
+ * OpenDota/кэш) и кто в пуле кандидатов — забота main (DraftService,
+ * src/main/draft) через DataService-фасад (INV5); этот модуль ничего не
+ * запрашивает и не знает об источниках (INV2).
+ */
+
+export interface DraftScoringWeights {
+  /** w1 — вес counterScore. */
+  counter: number
+  /** w2 — вес synergyScore. */
+  synergy: number
+  /** w3 — вес personalWinrate. В Meta-режиме всегда 0 (см. metaScoringWeights). */
+  personal: number
+}
+
+/** Дефолтные веса раздела F1 PRD (0.5/0.4/0.1) — используются в Personal-режиме как есть. */
+export const DEFAULT_DRAFT_SCORING_WEIGHTS: DraftScoringWeights = {
+  counter: 0.5,
+  synergy: 0.4,
+  personal: 0.1
+}
+
+/** Meta-режим (раздел F1 PRD): те же counter/synergy веса, но w3 обнулён — personalWinrate не влияет на ранжирование. */
+export function metaScoringWeights(weights: DraftScoringWeights = DEFAULT_DRAFT_SCORING_WEIGHTS): DraftScoringWeights {
+  return { ...weights, personal: 0 }
+}
+
+/** Матчап-данные и личная статистика ОДНОГО кандидата на пик — вход скоринга. */
+export interface DraftCandidateData {
+  heroId: number
+  heroName: string
+  /** Матчапы кандидата 'vs'/'with' против произвольных героев — фильтруются по открытым пикам внутри scoreDraftCandidate. */
+  matchups: MatchupData[]
+  /** null — нет привязанного Steam ID или нет данных по герою в пуле игрока. */
+  personalWinrate: number | null
+}
+
+/** Открытые пики текущего драфта, нужные скорингу (подмножество DraftContext). */
+export interface OpenDraftPicks {
+  enemyHeroIds: number[]
+  enemyMidHeroId: number | null
+  allyHeroIds: number[]
+}
+
+/** Нейтральное значение при отсутствии матчап-данных против открытых пиков — не топит кандидата ниже реально слабых. */
+const NEUTRAL_WINRATE = 0.5
+
+function weightedAverageWinrate(
+  matchups: MatchupData[],
+  relation: MatchupData['relation'],
+  heroIds: number[],
+  weightFor: (heroId: number) => number
+): { average: number; sampleSize: number } {
+  let weightedSum = 0
+  let totalWeight = 0
+  let sampleSize = 0
+
+  for (const heroId of heroIds) {
+    const matchup = matchups.find((m) => m.relation === relation && m.otherHeroId === heroId)
+    if (!matchup) {
+      continue
+    }
+    const weight = weightFor(heroId)
+    weightedSum += matchup.winrate * weight
+    totalWeight += weight
+    sampleSize += matchup.sampleSize
+  }
+
+  if (totalWeight === 0) {
+    return { average: NEUTRAL_WINRATE, sampleSize: 0 }
+  }
+  return { average: weightedSum / totalWeight, sampleSize }
+}
+
+export interface ScoreDraftCandidateParams {
+  candidate: DraftCandidateData
+  picks: OpenDraftPicks
+  weights: DraftScoringWeights
+}
+
+/** Считает counterScore/synergyScore/итоговый score для ОДНОГО кандидата по формуле F1 PRD. */
+export function scoreDraftCandidate(params: ScoreDraftCandidateParams): DraftCandidate {
+  const { candidate, picks, weights } = params
+
+  const counter = weightedAverageWinrate(candidate.matchups, 'vs', picks.enemyHeroIds, (heroId) =>
+    heroId === picks.enemyMidHeroId ? 2 : 1
+  )
+  const synergy = weightedAverageWinrate(candidate.matchups, 'with', picks.allyHeroIds, () => 1)
+  const personalContribution = candidate.personalWinrate ?? 0
+
+  const score =
+    weights.counter * counter.average + weights.synergy * synergy.average + weights.personal * personalContribution
+
+  return {
+    heroId: candidate.heroId,
+    heroName: candidate.heroName,
+    score,
+    counterScore: counter.average,
+    synergyScore: synergy.average,
+    personalWinrate: candidate.personalWinrate,
+    sampleSize: counter.sampleSize + synergy.sampleSize
+  }
+}
+
+/** Ранжирует всех кандидатов по формуле F1 PRD, по убыванию итогового score. */
+export function rankDraftCandidates(
+  candidates: DraftCandidateData[],
+  picks: OpenDraftPicks,
+  weights: DraftScoringWeights
+): DraftCandidate[] {
+  return candidates.map((candidate) => scoreDraftCandidate({ candidate, picks, weights })).sort((a, b) => b.score - a.score)
 }

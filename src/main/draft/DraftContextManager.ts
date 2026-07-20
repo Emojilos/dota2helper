@@ -13,6 +13,13 @@
  * будущего LanePlanBuilder-триггера (TASK-037): реальный источник
  * enemyMidHeroId вместо захардкоженного null (см. main/index.ts).
  *
+ * subscribe() (TASK-028) — второй, независимый от options.onChange канал
+ * уведомлений: DraftContextManager конструируется рано (startDraftContext,
+ * до dataService/configLoader), а DraftService (скоринг кандидатов) собирается
+ * позже, когда данные готовы (startDraftService) — subscribe() позволяет
+ * подписаться постфактум, не пересоздавая менеджер и не теряя options.onChange
+ * (который остаётся первым подписчиком, зарегистрированным в конструкторе).
+ *
  * INV1: живёт в main; сам класс не импортирует electron — тестируется
  * юнит-тестами как чистый класс (тот же приём, что MatchCompletionDetector/
  * SteamIdDetector).
@@ -28,12 +35,20 @@ export interface DraftContextManagerOptions {
 
 export class DraftContextManager {
   private context: DraftContext = EMPTY_DRAFT_CONTEXT
-  private readonly onChange: (context: DraftContext) => void
+  private readonly listeners = new Set<(context: DraftContext) => void>()
   private readonly now: () => number
 
   constructor(options: DraftContextManagerOptions = {}) {
-    this.onChange = options.onChange ?? ((): void => {})
+    if (options.onChange) {
+      this.listeners.add(options.onChange)
+    }
     this.now = options.now ?? Date.now
+  }
+
+  /** Подписывает дополнительного слушателя изменений контекста. Возвращает функцию отписки. */
+  subscribe(listener: (context: DraftContext) => void): () => void {
+    this.listeners.add(listener)
+    return () => this.listeners.delete(listener)
   }
 
   get(): DraftContext {
@@ -63,6 +78,8 @@ export class DraftContextManager {
       return
     }
     this.context = next
-    this.onChange(next)
+    for (const listener of this.listeners) {
+      listener(next)
+    }
   }
 }

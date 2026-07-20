@@ -7,8 +7,19 @@
  * мидера (GSI не отдаёт пики команд игроку — docs/gsi-fields.md, TASK-009).
  */
 import { describe, expect, it } from 'vitest'
-import { applyDraftManualAction, deriveDraftStage, updateDraftContextFromGameState } from '@engine/draft'
+import {
+  applyDraftManualAction,
+  deriveDraftStage,
+  updateDraftContextFromGameState,
+  scoreDraftCandidate,
+  rankDraftCandidates,
+  metaScoringWeights,
+  DEFAULT_DRAFT_SCORING_WEIGHTS,
+  type DraftCandidateData,
+  type OpenDraftPicks
+} from '@engine/draft'
 import { EMPTY_DRAFT_CONTEXT, type DraftContext } from '@shared/schemas/draft'
+import type { MatchupData } from '@shared/schemas/stratzDto'
 
 const HERO_SELECTION = 'DOTA_GAMERULES_STATE_HERO_SELECTION'
 const WAIT_FOR_PLAYERS = 'DOTA_GAMERULES_STATE_WAIT_FOR_PLAYERS_TO_LOAD'
@@ -118,5 +129,87 @@ describe('applyDraftManualAction — ручной ввод пиков (GSI не 
     const dirty: DraftContext = { ...EMPTY_DRAFT_CONTEXT, allyHeroIds: [1, 2], stage: 'finalized' }
     const reset = applyDraftManualAction(dirty, { type: 'reset' }, 5000)
     expect(reset).toEqual({ ...EMPTY_DRAFT_CONTEXT, updatedAtMs: 5000 })
+  })
+})
+
+function matchup(partial: Partial<MatchupData> & Pick<MatchupData, 'otherHeroId' | 'relation' | 'winrate'>): MatchupData {
+  return { heroId: 1, sampleSize: 100, patch: '7.39', rankBracket: 'ARCHON_TO_ANCIENT', ...partial }
+}
+
+describe('scoreDraftCandidate', () => {
+  const picks: OpenDraftPicks = { enemyHeroIds: [17, 11], enemyMidHeroId: 17, allyHeroIds: [8] }
+
+  it('считает counterScore как взвешенное среднее (мидер ×2) и synergyScore как среднее with-матчапов', () => {
+    const candidate: DraftCandidateData = {
+      heroId: 1,
+      heroName: 'Hero 1',
+      matchups: [
+        matchup({ otherHeroId: 17, relation: 'vs', winrate: 0.6, sampleSize: 100 }),
+        matchup({ otherHeroId: 11, relation: 'vs', winrate: 0.4, sampleSize: 50 }),
+        matchup({ otherHeroId: 8, relation: 'with', winrate: 0.55, sampleSize: 80 })
+      ],
+      personalWinrate: null
+    }
+
+    const result = scoreDraftCandidate({ candidate, picks, weights: DEFAULT_DRAFT_SCORING_WEIGHTS })
+
+    // (0.6*2 + 0.4*1) / 3 = 0.5333...
+    expect(result.counterScore).toBeCloseTo((0.6 * 2 + 0.4 * 1) / 3, 6)
+    expect(result.synergyScore).toBeCloseTo(0.55, 6)
+    expect(result.sampleSize).toBe(100 + 50 + 80)
+    // score = 0.5*counter + 0.4*synergy + 0.1*0 (personalWinrate null -> 0 вклад)
+    expect(result.score).toBeCloseTo(0.5 * result.counterScore + 0.4 * result.synergyScore, 6)
+    expect(result.personalWinrate).toBeNull()
+  })
+
+  it('без матчап-данных против открытых пиков возвращает нейтральные 0.5', () => {
+    const candidate: DraftCandidateData = { heroId: 2, heroName: 'Hero 2', matchups: [], personalWinrate: null }
+    const result = scoreDraftCandidate({ candidate, picks, weights: DEFAULT_DRAFT_SCORING_WEIGHTS })
+    expect(result.counterScore).toBe(0.5)
+    expect(result.synergyScore).toBe(0.5)
+    expect(result.sampleSize).toBe(0)
+  })
+
+  it('metaScoringWeights обнуляет вклад personalWinrate независимо от его значения', () => {
+    const candidate: DraftCandidateData = { heroId: 3, heroName: 'Hero 3', matchups: [], personalWinrate: 0.9 }
+    const meta = scoreDraftCandidate({ candidate, picks, weights: metaScoringWeights() })
+    const personal = scoreDraftCandidate({ candidate, picks, weights: DEFAULT_DRAFT_SCORING_WEIGHTS })
+
+    expect(meta.score).toBeCloseTo(0.5 * 0.5 + 0.4 * 0.5, 6) // без вклада personalWinrate
+    expect(personal.score).toBeCloseTo(0.5 * 0.5 + 0.4 * 0.5 + 0.1 * 0.9, 6)
+    expect(personal.score).toBeGreaterThan(meta.score)
+  })
+})
+
+describe('rankDraftCandidates', () => {
+  const picks: OpenDraftPicks = { enemyHeroIds: [17], enemyMidHeroId: 17, allyHeroIds: [] }
+
+  const strongCounter: DraftCandidateData = {
+    heroId: 1,
+    heroName: 'Strong',
+    matchups: [matchup({ otherHeroId: 17, relation: 'vs', winrate: 0.65, sampleSize: 100 })],
+    personalWinrate: null
+  }
+  const weakCounter: DraftCandidateData = {
+    heroId: 2,
+    heroName: 'Weak',
+    matchups: [matchup({ otherHeroId: 17, relation: 'vs', winrate: 0.35, sampleSize: 100 })],
+    personalWinrate: null
+  }
+
+  it('сортирует кандидатов по убыванию итогового score', () => {
+    const ranked = rankDraftCandidates([weakCounter, strongCounter], picks, DEFAULT_DRAFT_SCORING_WEIGHTS)
+    expect(ranked.map((c) => c.heroId)).toEqual([1, 2])
+  })
+
+  it('изменение весов предсказуемо меняет ранжирование (перевес на personalWinrate переворачивает порядок)', () => {
+    const withPersonal: DraftCandidateData = { ...weakCounter, personalWinrate: 1 }
+    const heavyPersonalWeights = { counter: 0.1, synergy: 0.1, personal: 0.8 }
+
+    const ranked = rankDraftCandidates([strongCounter, withPersonal], picks, heavyPersonalWeights)
+    expect(ranked[0]?.heroId).toBe(2)
+
+    const rankedDefault = rankDraftCandidates([strongCounter, withPersonal], picks, DEFAULT_DRAFT_SCORING_WEIGHTS)
+    expect(rankedDefault[0]?.heroId).toBe(1)
   })
 })

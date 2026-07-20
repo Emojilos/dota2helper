@@ -52,12 +52,24 @@ export interface CompactPanelTimersPayload {
   nextRune: CompactPanelTimerPayload | null
 }
 
+/**
+ * F1 ранжирование кандидатов на пик (TASK-028): Meta и Personal считаются
+ * ЗА ОДИН вызов DraftService.computeRankings над одним и тем же набором
+ * матчап-данных — оба массива приходят вместе, чтобы будущий переключатель
+ * Meta/Personal (TASK-029) работал мгновенно, без повторного запроса.
+ */
+export interface DraftRankingsPayload {
+  meta: DraftCandidate[]
+  personal: DraftCandidate[]
+}
+
 /** main -> renderer: имя канала -> тип payload. */
 export interface IpcPushChannels {
   'gameState:update': GameState
   'advice:push': Advice
   'config:reloaded': ConfigReloadedPayload
-  'draft:update': DraftCandidate[]
+  /** Рассылается на каждое изменение DraftContext, пока stage='picking' (TASK-028) — не чаще ручных действий пользователя. */
+  'draft:update': DraftRankingsPayload
   /**
    * Авторитетная проекция настроек (TASK-018). main — единственный источник
    * правды: рассылается во все окна после любой мутации (invoke settings:set

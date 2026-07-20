@@ -43,7 +43,7 @@ import {
 } from './data'
 import { PatchWatcher } from './patch'
 import { steamId64ToAccountId } from '@shared/steam/parseSteamId64'
-import { MetaMidHeroesConfigSchema } from '@shared/schemas/metaMidHeroes'
+import { MetaMidHeroesConfigSchema, type MetaMidHeroesConfig } from '@shared/schemas/metaMidHeroes'
 import { RulesConfigSchema, type RulesConfig } from '@shared/schemas/rules'
 import { HeroProfilesConfigSchema, type HeroProfilesConfig } from '@shared/schemas/heroProfiles'
 import { MatchupKnowledgeConfigSchema, type MatchupKnowledgeConfig } from '@shared/schemas/matchupKnowledge'
@@ -58,7 +58,7 @@ import {
 } from './gsiInstall'
 import { SteamIdDetector } from './steam'
 import { MatchCompletionDetector, MatchHistoryStore } from './matchHistory'
-import { DraftContextManager } from './draft'
+import { DraftContextManager, DraftService } from './draft'
 
 /**
  * Shared-токен GSI. Секреты — только через окружение (см. CLAUDE.md §5):
@@ -75,6 +75,7 @@ let timingsConfigHandle: ConfigHandle<TimingsConfig> | null = null
 let rulesConfigHandle: ConfigHandle<RulesConfig> | null = null
 let heroProfilesConfigHandle: ConfigHandle<HeroProfilesConfig> | null = null
 let matchupKnowledgeConfigHandle: ConfigHandle<MatchupKnowledgeConfig> | null = null
+let metaMidHeroesConfigHandle: ConfigHandle<MetaMidHeroesConfig> | null = null
 let unsubscribeAdviceGateFacts: (() => void) | null = null
 let stratzClient: StratzClient | null = null
 let database: DatabaseInstance | null = null
@@ -93,6 +94,7 @@ let matchCompletionDetector: MatchCompletionDetector | null = null
 let appStateStore: AppStateStore | null = null
 let patchWatcher: PatchWatcher | null = null
 let draftContextManager: DraftContextManager | null = null
+let draftService: DraftService | null = null
 
 /**
  * Поднимает config-loader (TASK-011): в проде зеркалит встроенный content/ в
@@ -424,19 +426,34 @@ function startPatchWatcher(): void {
 }
 
 /**
- * Запускает фоновый прогрев кэша матчапов (CacheWarmer, TASK-025): греет
- * MatchupCacheStore по списку топ-мид-героев меты (content/meta-mid-heroes.json,
- * TASK-011 hot-reload) через уже собранный DataService (STRATZ→OpenDota→cache,
- * TASK-026), чтобы первый скрининг драфта не ждал сети. Требует configLoader и
- * dataService. Вызывается БЕЗ await — прогрев не блокирует запуск/показ окна;
- * ошибки отдельных героев не прерывают его (см. CacheWarmer.run()).
+ * Регистрирует content/meta-mid-heroes.json (TASK-011 hot-reload) — список
+ * топ-мид-героев меты + scope (patch/rankBracket), общий для CacheWarmer
+ * (TASK-025, startCacheWarmer) и DraftService (TASK-028, startDraftService:
+ * пул кандидатов на пик). Регистрируется ОДИН раз здесь, а не в каждом
+ * потребителе — ConfigLoader.register() бросает при повторной регистрации
+ * того же имени. Требует уже поднятого configLoader.
  */
-function startCacheWarmer(): void {
-  if (!configLoader || !dataService) {
+function startMetaMidHeroesConfig(): void {
+  if (!configLoader) {
     return
   }
-  const meta = configLoader.register('meta-mid-heroes', MetaMidHeroesConfigSchema)
-  const config = meta.get()
+  metaMidHeroesConfigHandle = configLoader.register('meta-mid-heroes', MetaMidHeroesConfigSchema)
+}
+
+/**
+ * Запускает фоновый прогрев кэша матчапов (CacheWarmer, TASK-025): греет
+ * MatchupCacheStore по списку топ-мид-героев меты (metaMidHeroesConfigHandle,
+ * startMetaMidHeroesConfig) через уже собранный DataService (STRATZ→OpenDota→cache,
+ * TASK-026), чтобы первый скрининг драфта не ждал сети. Требует
+ * metaMidHeroesConfigHandle и dataService. Вызывается БЕЗ await — прогрев не
+ * блокирует запуск/показ окна; ошибки отдельных героев не прерывают его (см.
+ * CacheWarmer.run()).
+ */
+function startCacheWarmer(): void {
+  if (!metaMidHeroesConfigHandle || !dataService) {
+    return
+  }
+  const config = metaMidHeroesConfigHandle.get()
   if (!config) {
     console.log('[cache-warmer] meta-mid-heroes.json invalid or missing — warmer not started')
     return
@@ -449,6 +466,53 @@ function startCacheWarmer(): void {
     logger: (message) => console.log(message)
   })
   void cacheWarmer.run()
+}
+
+/**
+ * Собирает DraftService (F1, TASK-028): скоринг кандидатов на пик по формуле
+ * раздела F1 PRD (score = w1*counter + w2*synergy + w3*personal, engine/draft).
+ * Пул кандидатов — тот же content/meta-mid-heroes.json, что греет CacheWarmer
+ * (metaMidHeroesConfigHandle, startMetaMidHeroesConfig) — поэтому матчапы
+ * почти всегда уже в SQLite-кэше к моменту реального драфта. heroName пока
+ * заглушка `Hero <id>` — единого каталога id→имя героя ещё нет (см. находку
+ * TASK-027 в progress.txt); UI-задача TASK-029 сможет заменить геттер, когда
+ * каталог появится, без изменений в DraftService.
+ *
+ * Подписывается на draftContextManager.subscribe() (не options.onChange —
+ * тот уже занят логом+draftContext:update, см. startDraftContext) и на
+ * КАЖДОЕ изменение контекста ПОКА stage='picking' пересчитывает оба
+ * ранжирования и пушит их в draft:update (TASK-028 test step 3: "≤2 сек
+ * после нового пика" — задержка целиком определяется тем, что матчапы уже в
+ * кэше, а не сетью). steamAccountId берётся из settingsController на момент
+ * пересчёта (может быть null — тогда personalWinrate=null у всех кандидатов).
+ *
+ * Требует уже поднятых dataService, metaMidHeroesConfigHandle и
+ * draftContextManager (startDataService/startMetaMidHeroesConfig/startDraftContext).
+ */
+function startDraftService(): void {
+  if (!dataService || !metaMidHeroesConfigHandle || !draftContextManager) {
+    return
+  }
+  draftService = new DraftService(
+    dataService,
+    () => {
+      const config = metaMidHeroesConfigHandle?.get()
+      return config ? { heroIds: config.heroIds, scope: { patch: config.patch, rankBracket: config.rankBracket } } : null
+    },
+    (heroId) => `Hero ${heroId}`,
+    { logger: (message) => console.log(message) }
+  )
+  draftContextManager.subscribe((context) => {
+    if (context.stage !== 'picking' || !draftService) {
+      return
+    }
+    const steamId64 = settingsController?.get().steamId
+    const steamAccountId = steamId64 ? steamId64ToAccountId(steamId64) : null
+    void draftService.computeRankings(context, steamAccountId).then((rankings) => {
+      console.log(`[draft-service] recomputed rankings (meta=${rankings.meta.length}, personal=${rankings.personal.length})`)
+      broadcast('draft:update', rankings)
+    })
+  })
 }
 
 /**
@@ -926,7 +990,9 @@ app.whenReady().then(() => {
   startStratzClient()
   startDataService()
   startPatchWatcher()
+  startMetaMidHeroesConfig()
   startCacheWarmer()
+  startDraftService()
   startLanePlanBuilder()
 
   app.on('activate', () => {

@@ -130,7 +130,11 @@ Path-алиасы (electron.vite.config.ts + tsconfig): `@main`, `@preload`, `@r
 (`contextIsolation: true`, `nodeIntegration: false`, `sandbox: true` — TASK-007).
 
 - **push-каналы (main → renderer):** `gameState:update`, `advice:push`,
-  `config:reloaded`, `draft:update`, `settings:update` (TASK-018 — авторитетная
+  `config:reloaded`, `draft:update` (TASK-028 — F1: `{meta, personal}`, ОБА
+  ранжирования `DraftCandidate[]` за один пуш — переключатель в будущей
+  панели (TASK-029) сможет показывать любое мгновенно, без повторного запроса;
+  рассылается на каждое изменение `DraftContext`, пока `stage='picking'`, см.
+  `DraftService`, `src/main/draft/`), `settings:update` (TASK-018 — авторитетная
   проекция `AppSettings`; main рассылает её во все окна после ЛЮБОЙ мутации
   настроек, из renderer (`settings:set`) или из main (хоткей тихого режима),
   включая инициатора — renderer-стор не различает источник), `cacheWarmer:progress`
@@ -280,6 +284,60 @@ Windows-машины владельца, как и остальные overlay-о
 отдаётся dev-сервером Vite без ошибок. Живой прогон (позиционирование не
 перекрывает сетку выбора героя, клики по кнопкам поверх реальной Dota) — ждёт
 Windows-машины владельца.
+
+### Скоринг кандидатов на пик (F1, TASK-028)
+
+Формула раздела F1 PRD — чистые функции `engine/draft`
+(`scoreDraftCandidate`/`rankDraftCandidates`):
+
+```
+score = w1*counterScore + w2*synergyScore + w3*personalWinrate
+```
+
+`counterScore` — взвешенное среднее винрейтов кандидата `relation='vs'` против
+каждого ОТКРЫТОГО вражеского пика (`enemyMidHeroId` — вес ×2, остальные враги
+×1); `synergyScore` — среднее винрейтов `relation='with'` с каждым открытым
+союзником (×1). Герой без матчап-данных против конкретного открытого пика даёт
+нейтральные 0.5 (не 0 — отсутствие данных не должно топить кандидата ниже
+реально слабых). Дефолтные веса — `DEFAULT_DRAFT_SCORING_WEIGHTS` (0.5/0.4/0.1,
+Personal-режим); `metaScoringWeights()` обнуляет w3 (Meta-режим — `personalWinrate`
+не участвует). Оба веса — аргументы, движок не хранит состояния и не читает
+конфиг сам (INV2).
+
+Main-оркестратор — `DraftService` (`src/main/draft/DraftService.ts`):
+пул кандидатов — тот же `content/meta-mid-heroes.json` (топ-40 мид-героев
+меты), что греет `CacheWarmer` (TASK-025) при старте — поэтому
+`DataService.getHeroMatchups` на реальном драфте почти всегда попадает в
+SQLite-кэш, а не в сеть (регистрация конфига вынесена в отдельную
+`startMetaMidHeroesConfig()`, общую для `CacheWarmer` и `DraftService` —
+`ConfigLoader.register()` бросает при повторной регистрации одного имени).
+Уже занятые в текущем драфте герои (свой/союзники/враги) исключаются из
+кандидатов. Личная статистика — `DataService.getHeroPool` (TASK-031), только
+если Steam ID привязан; без привязки `personalWinrate=null` у всех кандидатов.
+`computeRankings()` считает Meta И Personal ЗА ОДИН вызов над одним и тем же
+набором данных — `draft:update` пушит оба массива вместе (см. раздел 6),
+переключатель в будущей панели (TASK-029) сможет показывать любой мгновенно.
+Отказ `getHeroMatchups` для одного героя (`Promise.allSettled`) не прерывает
+построение остальных кандидатов.
+
+`DraftContextManager.subscribe()` (второй, независимый от `options.onChange`
+канал уведомлений — тот уже занят логом+`draftContext:update`) пересчитывает
+рейтинги на КАЖДОЕ изменение `DraftContext`, пока `stage='picking'`.
+`heroName` пока заглушка `Hero <id>` — единого каталога id→имя героя ещё нет
+(та же находка, что в TASK-027 про ручной ввод пиков) — follow-up для
+владельца, TASK-029 сможет заменить геттер без изменений в `DraftService`.
+
+Проверено на dev-Mac: `npm run dev` (с `MIDMIND_GSI_TOKEN` совпадающим с
+токеном фикстуры, иначе GSI-сервер отвечает 401) + `curl` того же
+HERO_SELECTION-пакета — лог показывает `[draft] stage=picking ownHero=25 ...`
+сразу за ним `[draft-service] recomputed rankings (meta=39, personal=39)`
+(39 = 40 кандидатов меты минус уже пикнутый свой герой); без `STRATZ_API_TOKEN`
+матчапы шли через OpenDota-фолбэк (INV5) — весь прогон занял ~30с (сеть,
+холодный кэш), что ожидаемо для первого прогона до `CacheWarmer`. Живой замер
+задержки «≤2 сек после нового пика» на прогретом кэше — ждёт Windows-машины
+владельца (как и остальные живые гейты, см. раздел 1); юнит-тесты
+(`test/engine/draft.test.ts`, `test/main/draftService.test.ts`) покрывают
+формулу и оркестрацию изолированно от сети.
 
 ---
 
