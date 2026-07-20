@@ -14,7 +14,7 @@
  */
 import { EMPTY_DRAFT_CONTEXT, type DraftContext, type DraftManualAction, type DraftStage } from '@shared/schemas/draft'
 import type { MatchupData } from '@shared/schemas/stratzDto'
-import type { DraftCandidate } from '@shared/schemas/advice'
+import type { DraftCandidate, DraftMatchupBreakdownEntry } from '@shared/schemas/advice'
 
 export const HERO_SELECTION_GAME_STATE = 'DOTA_GAMERULES_STATE_HERO_SELECTION'
 const WAIT_FOR_PLAYERS_GAME_STATE = 'DOTA_GAMERULES_STATE_WAIT_FOR_PLAYERS_TO_LOAD'
@@ -200,26 +200,30 @@ function weightedAverageWinrate(
   relation: MatchupData['relation'],
   heroIds: number[],
   weightFor: (heroId: number) => number
-): { average: number; sampleSize: number } {
+): { average: number; sampleSize: number; breakdown: DraftMatchupBreakdownEntry[] } {
   let weightedSum = 0
   let totalWeight = 0
   let sampleSize = 0
+  const breakdown: DraftMatchupBreakdownEntry[] = []
 
   for (const heroId of heroIds) {
     const matchup = matchups.find((m) => m.relation === relation && m.otherHeroId === heroId)
     if (!matchup) {
+      // Открытый пик без матчап-данных — виден в разбивке как sampleSize=0 (TASK-029), а не пропускается молча.
+      breakdown.push({ heroId, winrate: NEUTRAL_WINRATE, sampleSize: 0 })
       continue
     }
     const weight = weightFor(heroId)
     weightedSum += matchup.winrate * weight
     totalWeight += weight
     sampleSize += matchup.sampleSize
+    breakdown.push({ heroId, winrate: matchup.winrate, sampleSize: matchup.sampleSize })
   }
 
   if (totalWeight === 0) {
-    return { average: NEUTRAL_WINRATE, sampleSize: 0 }
+    return { average: NEUTRAL_WINRATE, sampleSize: 0, breakdown }
   }
-  return { average: weightedSum / totalWeight, sampleSize }
+  return { average: weightedSum / totalWeight, sampleSize, breakdown }
 }
 
 export interface ScoreDraftCandidateParams {
@@ -248,7 +252,9 @@ export function scoreDraftCandidate(params: ScoreDraftCandidateParams): DraftCan
     counterScore: counter.average,
     synergyScore: synergy.average,
     personalWinrate: candidate.personalWinrate,
-    sampleSize: counter.sampleSize + synergy.sampleSize
+    sampleSize: counter.sampleSize + synergy.sampleSize,
+    vsBreakdown: counter.breakdown,
+    withBreakdown: synergy.breakdown
   }
 }
 

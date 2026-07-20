@@ -12,9 +12,14 @@
  * Дефолт — верхний правый угол, подальше от компактной панели (левый верхний,
  * TASK-014) и зоны уведомлений (центр-низ, TASK-015).
  *
+ * Размер увеличен под список кандидатов на пик (TASK-029, draft:update) —
+ * ручной ввод пиков занимает верх панели, список кандидатов со скроллом
+ * занимает низ; итоговые координаты всё равно ждут калибровки на реальном
+ * HUD (Windows-машина владельца, см. CLAUDE.md §1).
+ *
  * INV2: модуль чист (только константы, без electron/react).
  */
 
-export const DRAFT_PANEL_WIDTH = 280
-export const DRAFT_PANEL_HEIGHT = 260
+export const DRAFT_PANEL_WIDTH = 320
+export const DRAFT_PANEL_HEIGHT = 480
 export const DRAFT_PANEL_POSITION = { x: 1920 - DRAFT_PANEL_WIDTH - 24, y: 160 }

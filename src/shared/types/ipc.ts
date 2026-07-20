@@ -13,6 +13,7 @@ import type { GameState } from '../schemas/gameState'
 import type { Advice, DraftCandidate } from '../schemas/advice'
 import type { AppSettings } from '../schemas/settings'
 import type { DraftContext, DraftManualAction } from '../schemas/draft'
+import type { DataSource } from './dataResult'
 
 /** Статус горячей перезагрузки конфига (TASK-011). */
 export interface ConfigReloadedPayload {
@@ -57,10 +58,18 @@ export interface CompactPanelTimersPayload {
  * ЗА ОДИН вызов DraftService.computeRankings над одним и тем же набором
  * матчап-данных — оба массива приходят вместе, чтобы будущий переключатель
  * Meta/Personal (TASK-029) работал мгновенно, без повторного запроса.
+ *
+ * dataSource/dataStale (TASK-029) — агрегированная метка давности/источника
+ * матчап-данных, использованных для ЭТОГО набора ранжирований (INV5, лестница
+ * деградации STRATZ → OpenDota → SQLite stale-кэш): 'mixed', если кандидаты
+ * получили данные из разных источников, 'none' — если ни один не получил
+ * данных вовсе. Панель драфта показывает её как единую пометку давности.
  */
 export interface DraftRankingsPayload {
   meta: DraftCandidate[]
   personal: DraftCandidate[]
+  dataSource: DataSource | 'mixed' | 'none'
+  dataStale: boolean
 }
 
 /** main -> renderer: имя канала -> тип payload. */

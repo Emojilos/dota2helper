@@ -27,7 +27,7 @@
  * же приём, что LanePlanDataSource/CacheWarmerDataSource.
  */
 import type { StratzQueryScope } from '@shared/types/stratz'
-import type { DataResult } from '@shared/types/dataResult'
+import type { DataResult, DataSource } from '@shared/types/dataResult'
 import type { MatchupData, HeroPoolEntry } from '@shared/schemas/stratzDto'
 import type { DraftCandidate } from '@shared/schemas/advice'
 import type { DraftContext } from '@shared/schemas/draft'
@@ -53,6 +53,17 @@ export interface DraftCandidatePool {
 export interface DraftRankings {
   meta: DraftCandidate[]
   personal: DraftCandidate[]
+  /**
+   * Метка давности/источника матчап-данных, использованных для расчёта ЭТОГО
+   * набора ранжирований (TASK-029 acceptance: "при недоступности STRATZ
+   * показывается кэш с пометкой давности"). Агрегат по всем успешно
+   * запрошенным кандидатам — 'mixed', если герои получили данные из разных
+   * источников (напр. часть уже в кэше, часть только что из STRATZ), 'none',
+   * если ни один кандидат не получил данных вовсе. `stale=true`, если ХОТЯ БЫ
+   * один кандидат отдал протухший SQLite-кэш (DataService, INV5).
+   */
+  dataSource: DataSource | 'mixed' | 'none'
+  dataStale: boolean
 }
 
 export interface DraftServiceOptions {
@@ -81,7 +92,7 @@ export class DraftService {
   async computeRankings(context: DraftContext, steamAccountId: number | null): Promise<DraftRankings> {
     const pool = this.getCandidatePool()
     if (!pool) {
-      return { meta: [], personal: [] }
+      return { meta: [], personal: [], dataSource: 'none', dataStale: false }
     }
 
     const taken = new Set<number>([
@@ -91,7 +102,7 @@ export class DraftService {
     ])
     const candidateHeroIds = pool.heroIds.filter((heroId) => !taken.has(heroId))
 
-    const [matchupsByHero, personalByHero] = await Promise.all([
+    const [{ matchupsByHero, dataSource, dataStale }, personalByHero] = await Promise.all([
       this.fetchMatchups(candidateHeroIds, pool.scope),
       this.fetchPersonalWinrates(steamAccountId)
     ])
@@ -111,15 +122,22 @@ export class DraftService {
 
     return {
       meta: rankDraftCandidates(candidates, picks, metaScoringWeights()),
-      personal: rankDraftCandidates(candidates, picks, DEFAULT_DRAFT_SCORING_WEIGHTS)
+      personal: rankDraftCandidates(candidates, picks, DEFAULT_DRAFT_SCORING_WEIGHTS),
+      dataSource,
+      dataStale
     }
   }
 
-  private async fetchMatchups(heroIds: number[], scope: StratzQueryScope): Promise<Map<number, MatchupData[]>> {
+  private async fetchMatchups(
+    heroIds: number[],
+    scope: StratzQueryScope
+  ): Promise<{ matchupsByHero: Map<number, MatchupData[]>; dataSource: DataSource | 'mixed' | 'none'; dataStale: boolean }> {
     const settled = await Promise.allSettled(
       heroIds.map(async (heroId) => [heroId, await this.dataSource.getHeroMatchups(heroId, scope)] as const)
     )
     const map = new Map<number, MatchupData[]>()
+    const sourcesSeen = new Set<DataSource>()
+    let stale = false
     for (const result of settled) {
       if (result.status !== 'fulfilled') {
         this.logger(`[draft-service] getHeroMatchups rejected: ${String(result.reason)}`)
@@ -128,9 +146,15 @@ export class DraftService {
       const [heroId, data] = result.value
       if (data.status === 'ok') {
         map.set(heroId, data.data)
+        sourcesSeen.add(data.source)
+        if (data.stale) {
+          stale = true
+        }
       }
     }
-    return map
+    const dataSource: DataSource | 'mixed' | 'none' =
+      sourcesSeen.size === 0 ? 'none' : sourcesSeen.size === 1 ? [...sourcesSeen][0] : 'mixed'
+    return { matchupsByHero: map, dataSource, dataStale: stale }
   }
 
   private async fetchPersonalWinrates(steamAccountId: number | null): Promise<Map<number, number>> {

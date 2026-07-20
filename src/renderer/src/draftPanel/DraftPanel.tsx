@@ -1,6 +1,10 @@
 import { useEffect, useState, type JSX } from 'react'
 import type { DraftContext, DraftManualAction } from '@shared/schemas/draft'
 import { EMPTY_DRAFT_CONTEXT } from '@shared/schemas/draft'
+import type { DraftCandidate } from '@shared/schemas/advice'
+import type { DraftRankingsPayload } from '@shared/types/ipc'
+import type { DraftRankingMode } from '@shared/schemas/settings'
+import { useSettingsStore } from '../store/settingsStore'
 
 /**
  * Панель драфта F1 (TASK-027): показывает автоопределённую стадию драфта и
@@ -21,6 +25,16 @@ import { EMPTY_DRAFT_CONTEXT } from '@shared/schemas/draft'
  * полю. Ввод героев — по числовому ID (hero.id из GSI/OpenDota/STRATZ);
  * человекочитаемый список имён — TASK-016 (каталог GSI-полей уже покрывает
  * своего героя, но не готовый справочник ID→имя для ВСЕХ героев).
+ *
+ * TASK-029 добавляет список кандидатов на пик: подписка на push-канал
+ * draft:update (DraftService.computeRankings, TASK-028 — оба ранжирования,
+ * Meta и Personal, приходят вместе за один пуш) и переключатель режима,
+ * который читает/пишет ЕДИНЫЙ источник правды — AppSettings.draftRankingMode
+ * (settingsStore, TASK-018) — а не локальный React-state, поэтому режим
+ * переживает перезапуск панели и остаётся синхронным с остальными окнами.
+ * Переключение мгновенно: оба массива уже посчитаны в main, выбор режима —
+ * чистый рендер без похода за данными. dataSource/dataStale — агрегированная
+ * метка давности (INV5) по всем кандидатам этого пуша.
  */
 
 const STAGE_LABELS_RU: Record<DraftContext['stage'], string> = {
@@ -84,13 +98,155 @@ function HeroIdForm({ onSubmit }: { onSubmit: (heroId: number) => void }): JSX.E
   )
 }
 
+function formatPercent(winrate: number): string {
+  return `${Math.round(winrate * 100)}%`
+}
+
+const DATA_SOURCE_LABELS_RU: Record<DraftRankingsPayload['dataSource'], string> = {
+  stratz: 'STRATZ',
+  opendota: 'OpenDota',
+  cache: 'кэш',
+  mixed: 'смешанный источник',
+  none: 'нет данных'
+}
+
+function DataFreshnessBadge({ rankings }: { rankings: DraftRankingsPayload }): JSX.Element | null {
+  if (rankings.dataSource === 'none') {
+    return <span className="text-[10px] text-red-400">нет данных по матчапам</span>
+  }
+  if (!rankings.dataStale) {
+    return null
+  }
+  return (
+    <span className="text-[10px] text-amber-300">
+      устаревший кэш ({DATA_SOURCE_LABELS_RU[rankings.dataSource]})
+    </span>
+  )
+}
+
+function BreakdownList({ label, entries }: { label: string; entries: DraftCandidate['vsBreakdown'] }): JSX.Element {
+  return (
+    <div className="flex flex-col gap-0.5">
+      <span className="text-[10px] uppercase tracking-wide text-slate-500">{label}</span>
+      {entries.length === 0 ? (
+        <span className="text-[11px] text-slate-500">—</span>
+      ) : (
+        entries.map((entry) => (
+          <span key={entry.heroId} className="text-[11px] text-slate-300">
+            #{entry.heroId}: {formatPercent(entry.winrate)}
+            {entry.sampleSize > 0 ? ` (n=${entry.sampleSize})` : ' (нет данных)'}
+          </span>
+        ))
+      )}
+    </div>
+  )
+}
+
+function CandidateRow({
+  rank,
+  candidate,
+  expanded,
+  onToggle
+}: {
+  rank: number
+  candidate: DraftCandidate
+  expanded: boolean
+  onToggle: () => void
+}): JSX.Element {
+  return (
+    <div className="rounded border border-white/10 bg-white/5">
+      <button
+        type="button"
+        onClick={onToggle}
+        className="flex w-full items-center justify-between gap-2 px-2 py-1 text-left text-xs hover:bg-white/5"
+      >
+        <span className="text-slate-400">{rank}.</span>
+        <span className="flex-1 truncate text-slate-100">{candidate.heroName}</span>
+        <span className="font-semibold text-emerald-300">{formatPercent(candidate.score)}</span>
+      </button>
+      {expanded && (
+        <div className="flex flex-col gap-1.5 border-t border-white/10 px-2 py-1.5">
+          <BreakdownList label="Counter (vs)" entries={candidate.vsBreakdown} />
+          <BreakdownList label="Synergy (with)" entries={candidate.withBreakdown} />
+          <span className="text-[11px] text-slate-400">
+            Личный винрейт: {candidate.personalWinrate === null ? '— (Steam ID не привязан)' : formatPercent(candidate.personalWinrate)}
+          </span>
+          <span className="text-[10px] text-slate-500">Всего наблюдений: {candidate.sampleSize}</span>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function DraftCandidateList({ rankings }: { rankings: DraftRankingsPayload | null }): JSX.Element {
+  const settings = useSettingsStore((state) => state.settings)
+  const setSettings = useSettingsStore((state) => state.setSettings)
+  const [expandedHeroId, setExpandedHeroId] = useState<number | null>(null)
+
+  useEffect(() => {
+    useSettingsStore.getState().init()
+  }, [])
+
+  const mode: DraftRankingMode = settings?.draftRankingMode ?? 'meta'
+  const candidates = rankings ? (mode === 'meta' ? rankings.meta : rankings.personal) : []
+
+  function setMode(next: DraftRankingMode): void {
+    void setSettings({ draftRankingMode: next })
+  }
+
+  return (
+    <div className="flex min-h-0 flex-1 flex-col gap-1.5">
+      <div className="flex items-center justify-between">
+        <div className="flex gap-1 text-[11px]">
+          <button
+            type="button"
+            onClick={() => setMode('meta')}
+            className={`rounded px-2 py-0.5 ${mode === 'meta' ? 'bg-amber-300/20 text-amber-200' : 'text-slate-400 hover:text-slate-200'}`}
+          >
+            Meta
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode('personal')}
+            className={`rounded px-2 py-0.5 ${mode === 'personal' ? 'bg-amber-300/20 text-amber-200' : 'text-slate-400 hover:text-slate-200'}`}
+          >
+            Personal
+          </button>
+        </div>
+        {rankings && <DataFreshnessBadge rankings={rankings} />}
+      </div>
+
+      <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
+        {candidates.length === 0 ? (
+          <span className="text-[11px] text-slate-500">Кандидаты появятся во время пика</span>
+        ) : (
+          candidates.map((candidate, index) => (
+            <CandidateRow
+              key={candidate.heroId}
+              rank={index + 1}
+              candidate={candidate}
+              expanded={expandedHeroId === candidate.heroId}
+              onToggle={() => setExpandedHeroId(expandedHeroId === candidate.heroId ? null : candidate.heroId)}
+            />
+          ))
+        )}
+      </div>
+    </div>
+  )
+}
+
 function DraftPanel(): JSX.Element {
   const [context, setContext] = useState<DraftContext>(EMPTY_DRAFT_CONTEXT)
+  const [rankings, setRankings] = useState<DraftRankingsPayload | null>(null)
 
   useEffect(() => {
     window.midmind.invoke('draftContext:get', undefined).then(setContext).catch(console.error)
-    const unsubscribe = window.midmind.on('draftContext:update', setContext)
-    return unsubscribe
+    const unsubscribeContext = window.midmind.on('draftContext:update', setContext)
+    const unsubscribeRankings = window.midmind.on('draft:update', setRankings)
+    return () => {
+      unsubscribeContext()
+      unsubscribeRankings()
+    }
   }, [])
 
   function dispatch(action: DraftManualAction): void {
@@ -98,7 +254,7 @@ function DraftPanel(): JSX.Element {
   }
 
   return (
-    <div className="flex h-screen w-screen flex-col gap-2 rounded-lg border border-white/10 bg-[rgba(10,12,16,0.85)] p-3 text-slate-100">
+    <div className="flex h-screen w-screen min-h-0 flex-col gap-2 rounded-lg border border-white/10 bg-[rgba(10,12,16,0.85)] p-3 text-slate-100">
       <div className="flex items-center justify-between text-xs">
         <span className="font-semibold">{STAGE_LABELS_RU[context.stage]}</span>
         <span className="text-slate-400">Ты: {context.ownHeroId ?? '—'}</span>
@@ -131,6 +287,8 @@ function DraftPanel(): JSX.Element {
         </div>
         <HeroIdForm onSubmit={(heroId) => dispatch({ type: 'addEnemy', heroId })} />
       </div>
+
+      <DraftCandidateList rankings={rankings} />
     </div>
   )
 }

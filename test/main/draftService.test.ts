@@ -113,6 +113,64 @@ describe('DraftService.computeRankings', () => {
     expect(rankings.meta.map((c) => c.heroId).sort()).toEqual([1, 2])
   })
 
+  it('dataSource/dataStale агрегируются по всем успешно полученным матчапам (TASK-029)', async () => {
+    const dataSource: DraftServiceDataSource = {
+      getHeroMatchups: vi.fn(async (heroId: number) => {
+        if (heroId === 1) {
+          return { status: 'ok', data: [], source: 'stratz', fetchedAt: '2026-01-01T00:00:00.000Z', stale: false } as DataResult<
+            MatchupData[]
+          >
+        }
+        return { status: 'ok', data: [], source: 'cache', fetchedAt: '2025-01-01T00:00:00.000Z', stale: true } as DataResult<
+          MatchupData[]
+        >
+      }),
+      getHeroPool: vi.fn(async () => noData<HeroPoolEntry[]>())
+    }
+    const service = new DraftService(dataSource, () => ({ heroIds: [1, 2], scope: SCOPE }), (heroId) => `Hero ${heroId}`)
+
+    const rankings = await service.computeRankings(EMPTY_DRAFT_CONTEXT, null)
+
+    expect(rankings.dataSource).toBe('mixed')
+    expect(rankings.dataStale).toBe(true)
+  })
+
+  it('dataSource=none, если ни один кандидат не получил данных', async () => {
+    const dataSource: DraftServiceDataSource = {
+      getHeroMatchups: vi.fn(async () => noData<MatchupData[]>()),
+      getHeroPool: vi.fn(async () => noData<HeroPoolEntry[]>())
+    }
+    const service = new DraftService(dataSource, () => ({ heroIds: [1], scope: SCOPE }), (heroId) => `Hero ${heroId}`)
+
+    const rankings = await service.computeRankings(EMPTY_DRAFT_CONTEXT, null)
+
+    expect(rankings.dataSource).toBe('none')
+    expect(rankings.dataStale).toBe(false)
+  })
+
+  it('кандидат несёт разбивку vsBreakdown/withBreakdown по каждому открытому пику', async () => {
+    const dataSource: DraftServiceDataSource = {
+      getHeroMatchups: vi.fn(async (heroId: number) => {
+        if (heroId === 10) {
+          return ok<MatchupData[]>([
+            matchup({ heroId: 10, otherHeroId: 17, relation: 'vs', winrate: 0.7, sampleSize: 40 }),
+            matchup({ heroId: 10, otherHeroId: 8, relation: 'with', winrate: 0.6, sampleSize: 30 })
+          ])
+        }
+        return ok<MatchupData[]>([])
+      }),
+      getHeroPool: vi.fn(async () => noData<HeroPoolEntry[]>())
+    }
+    const service = new DraftService(dataSource, () => ({ heroIds: [10], scope: SCOPE }), (heroId) => `Hero ${heroId}`)
+    const context: DraftContext = { ...EMPTY_DRAFT_CONTEXT, enemyHeroIds: [17], enemyMidHeroId: 17, allyHeroIds: [8] }
+
+    const rankings = await service.computeRankings(context, null)
+
+    const candidate = rankings.meta[0]!
+    expect(candidate.vsBreakdown).toEqual([{ heroId: 17, winrate: 0.7, sampleSize: 40 }])
+    expect(candidate.withBreakdown).toEqual([{ heroId: 8, winrate: 0.6, sampleSize: 30 }])
+  })
+
   it('без сконфигурированного пула кандидатов возвращает пустые ранжирования', async () => {
     const dataSource: DraftServiceDataSource = {
       getHeroMatchups: vi.fn(),
@@ -122,7 +180,7 @@ describe('DraftService.computeRankings', () => {
 
     const rankings = await service.computeRankings(EMPTY_DRAFT_CONTEXT, null)
 
-    expect(rankings).toEqual({ meta: [], personal: [] })
+    expect(rankings).toEqual({ meta: [], personal: [], dataSource: 'none', dataStale: false })
     expect(dataSource.getHeroMatchups).not.toHaveBeenCalled()
   })
 })
