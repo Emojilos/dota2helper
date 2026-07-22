@@ -1,7 +1,12 @@
-import { useEffect, useState, type CSSProperties, type JSX } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties, type JSX } from 'react'
 import type { GameState } from '@shared/schemas/gameState'
 import type { CompactPanelTimersPayload } from '@shared/types/ipc'
 import { DEFAULT_COMPACT_PANEL_WIDGET_IDS, type CompactPanelWidgetId } from '@shared/overlay/compactPanel'
+import { rawFieldWidgetId } from '@shared/widgets/widgetId'
+import { mergeWidgetsConfig, knownWidgetIds } from '@shared/widgets/widgetsConfigOps'
+import { useSettingsStore } from '../store/settingsStore'
+import { useGsiFieldCatalog } from '../widgets/useGsiFieldCatalog'
+import { renderWidget } from '../widgets/WidgetRegistry'
 
 /**
  * Компактная панель F5 режим 1 (TASK-014): постоянный оверлей в углу экрана с
@@ -9,6 +14,14 @@ import { DEFAULT_COMPACT_PANEL_WIDGET_IDS, type CompactPanelWidgetId } from '@sh
  * игры, индикатор ближайшей руны. «Тупая» проекция (INV1): весь расчёт
  * (nextEvent/nextRune) уже сделан в main (engine/timings.selectCompactPanelTimers,
  * push-канал compactPanel:timers), здесь только форматирование под display.
+ *
+ * Дефолтные 3 виджета фиксированы (не входят в конструктор, TASK-016/017);
+ * ПОСЛЕ них панель дополнительно рендерит виджеты, включённые пользователем в
+ * конструкторе (TASK-017, AppSettings.widgetsConfig) — через WidgetRegistry,
+ * тот же реестр, что показывает превью-галерея (WidgetGallery) и меню
+ * конструктора (WidgetConstructor) в окне настроек. mergeWidgetsConfig
+ * отбрасывает id, которых больше нет в каталоге (см. widgetsConfigOps) —
+ * панель никогда не пытается отрендерить виджет несуществующего поля.
  *
  * Перетаскивание — нативное, через -webkit-app-region:drag на всём контейнере
  * (внутри нет кликабельных элементов, конфликтовать не с чем); работает только
@@ -57,6 +70,13 @@ function Widget({ label, value }: { label: string; value: string }): JSX.Element
 function CompactPanel(): JSX.Element {
   const [gameState, setGameState] = useState<GameState | null>(null)
   const [timers, setTimers] = useState<CompactPanelTimersPayload>({ nextEvent: null, nextRune: null })
+  const settings = useSettingsStore((state) => state.settings)
+  const initSettings = useSettingsStore((state) => state.init)
+  const catalog = useGsiFieldCatalog()
+
+  useEffect(() => {
+    initSettings()
+  }, [initSettings])
 
   useEffect(() => {
     const unsubscribeGameState = window.midmind.on('gameState:update', setGameState)
@@ -66,6 +86,15 @@ function CompactPanel(): JSX.Element {
       unsubscribeTimers()
     }
   }, [])
+
+  const knownIds = useMemo(
+    () => knownWidgetIds(catalog.fields.map((field) => rawFieldWidgetId(field.fieldPath))),
+    [catalog.fields]
+  )
+  const extraWidgetIds = useMemo(
+    () => mergeWidgetsConfig(settings?.widgetsConfig ?? [], knownIds).filter((entry) => entry.enabled),
+    [settings, knownIds]
+  )
 
   const widgetContent: Record<CompactPanelWidgetId, JSX.Element> = {
     nextEvent: (
@@ -91,6 +120,7 @@ function CompactPanel(): JSX.Element {
       className="h-screen w-screen overflow-hidden divide-y divide-white/5 rounded-lg border border-white/10 bg-[rgba(10,12,16,0.85)] text-slate-100"
     >
       {DEFAULT_COMPACT_PANEL_WIDGET_IDS.map((id) => widgetContent[id])}
+      {extraWidgetIds.map((entry) => renderWidget(entry.id, catalog.fields))}
     </div>
   )
 }

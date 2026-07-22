@@ -22,6 +22,7 @@ function makeSettings(overrides: Partial<AppSettings> = {}): AppSettings {
     silentMode: false,
     autoLaunch: false,
     overlayPositions: {},
+    widgetsConfig: [],
     ...overrides
   }
 }

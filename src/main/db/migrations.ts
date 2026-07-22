@@ -109,6 +109,12 @@ const migrations: Migration[] = [
     up: `
       ALTER TABLE user_profile ADD COLUMN hotkey_click_through_toggle TEXT NOT NULL DEFAULT 'F8';
     `
+  },
+  {
+    id: '0007_widgets_config_array',
+    up: `
+      UPDATE user_profile SET widgets_config = '[]' WHERE widgets_config = '{}';
+    `
   }
 ]
 

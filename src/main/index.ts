@@ -29,6 +29,7 @@ import {
   type SettingsController
 } from './ipc'
 import { GsiFieldCatalogConfigSchema, type GsiFieldCatalogConfig } from '@shared/schemas/gsiFieldCatalog'
+import type { AppSettings } from '@shared/schemas/settings'
 import { AdviceScheduler, AdviceGate } from './advice'
 import { HotkeyManager, createHotkeyBackends } from './hotkeys'
 import { OverlayWindow } from './windows'
@@ -659,6 +660,7 @@ function startSettings(): void {
     broadcast('settings:update', settings)
     hotkeyManager?.reconcile(settings)
     autoLaunchManager?.reconcile(settings.autoLaunch)
+    resizeCompactPanelWindow(settings)
     if (settings.steamId && settings.steamId !== previousSteamId) {
       syncHeroPool(settings.steamId)
     }
@@ -847,9 +849,13 @@ function loadCompactPanelContent(win: OverlayWindow): void {
  * угол ниже топ-бара счёта (раздел 6 PRD, зоны свободные от HUD), если
  * пользователь ещё ни разу не передвигал панель
  * (AppSettings.overlayPositions[COMPACT_PANEL_WINDOW_ID] отсутствует).
- * Высота считается из числа дефолтных виджетов (compactPanelHeight) —
- * «панель адаптируется к набору виджетов»; сам набор пока фиксирован
- * (DEFAULT_COMPACT_PANEL_WIDGET_IDS), полный конструктор — TASK-016/017.
+ * Высота считается из числа виджетов (compactPanelHeight, compactPanelWidgetCount)
+ * — «панель адаптируется к набору виджетов»: 3 фиксированных дефолтных
+ * (DEFAULT_COMPACT_PANEL_WIDGET_IDS) + все включённые в конструкторе
+ * (AppSettings.widgetsConfig, TASK-017); resizeCompactPanelWindow пересчитывает
+ * и живьём ресайзит окно на каждую мутацию настроек (onApplied в startSettings),
+ * а не только при создании — иначе включение виджета в конструкторе обрезало
+ * бы контент высотой окна до перезапуска.
  *
  * Перетаскивание доступно в интерактивном режиме (F8, см. onToggleClickThrough
  * в startHotkeys — переключает эту панель вместе с базовым overlayWindow);
@@ -860,13 +866,31 @@ function loadCompactPanelContent(win: OverlayWindow): void {
  *
  * Требует уже поднятого settingsController (startSettings).
  */
+/**
+ * Число виджетов панели (TASK-017): фиксированные 3 дефолтных + все ВКЛЮЧЁННЫЕ
+ * записи widgets_config (конструктор). Не сверяется с текущим каталогом
+ * (gsi-field-catalog) — устаревший id просто рендерится пустым местом в
+ * CompactPanel.tsx (renderWidget возвращает null), это не ломает подсчёт,
+ * только может завысить высоту на редком переходном кадре после удаления
+ * поля из каталога.
+ */
+function compactPanelWidgetCount(settings: AppSettings): number {
+  return DEFAULT_COMPACT_PANEL_WIDGET_IDS.length + settings.widgetsConfig.filter((entry) => entry.enabled).length
+}
+
+/** Живой ресайз компактной панели (TASK-017) на изменение widgets_config — без пересоздания окна/потери позиции. */
+function resizeCompactPanelWindow(settings: AppSettings): void {
+  compactPanelWindow?.setSize(COMPACT_PANEL_WIDTH, compactPanelHeight(compactPanelWidgetCount(settings)))
+}
+
 function startCompactPanelWindow(): void {
   if (!settingsController) {
     return
   }
-  const savedPosition = settingsController.get().overlayPositions[COMPACT_PANEL_WINDOW_ID]
+  const initialSettings = settingsController.get()
+  const savedPosition = initialSettings.overlayPositions[COMPACT_PANEL_WINDOW_ID]
   const position = savedPosition ?? COMPACT_PANEL_DEFAULT_POSITION
-  const height = compactPanelHeight(DEFAULT_COMPACT_PANEL_WIDGET_IDS.length)
+  const height = compactPanelHeight(compactPanelWidgetCount(initialSettings))
 
   const win = new OverlayWindow({ width: COMPACT_PANEL_WIDTH, height, x: position.x, y: position.y })
   compactPanelWindow = win

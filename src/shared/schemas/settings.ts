@@ -11,6 +11,7 @@
  * INV2: модуль чист (только zod).
  */
 import { z } from 'zod'
+import { WidgetsConfigSchema, DEFAULT_WIDGETS_CONFIG } from './widgetsConfig'
 
 /** Уровень многословности подсказок (раздел 6 PRD). */
 export const VerbositySchema = z.enum(['minimal', 'experienced', 'verbose'])
@@ -46,7 +47,9 @@ export const AppSettingsSchema = z.object({
   /** автозапуск приложения вместе с системой (TASK-046), выкл по умолчанию */
   autoLaunch: z.boolean(),
   /** запомненные позиции оверлей-окон (TASK-014), пусто пока ни одно не перетаскивали */
-  overlayPositions: OverlayPositionsSchema
+  overlayPositions: OverlayPositionsSchema,
+  /** набор/порядок виджетов конструктора F5 (TASK-017), пусто пока не настроен */
+  widgetsConfig: WidgetsConfigSchema
 })
 export type AppSettings = z.infer<typeof AppSettingsSchema>
 
@@ -60,5 +63,6 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
   draftRankingMode: 'meta',
   silentMode: false,
   autoLaunch: false,
-  overlayPositions: {}
+  overlayPositions: {},
+  widgetsConfig: DEFAULT_WIDGETS_CONFIG
 }
