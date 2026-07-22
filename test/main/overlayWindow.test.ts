@@ -11,6 +11,7 @@ const setIgnoreMouseEvents = vi.fn()
 const setAlwaysOnTop = vi.fn()
 const setVisibleOnAllWorkspaces = vi.fn()
 const showInactive = vi.fn()
+const hide = vi.fn()
 const loadURL = vi.fn()
 const loadFile = vi.fn()
 const on = vi.fn()
@@ -23,6 +24,7 @@ class MockBrowserWindow {
   setAlwaysOnTop = setAlwaysOnTop
   setVisibleOnAllWorkspaces = setVisibleOnAllWorkspaces
   showInactive = showInactive
+  hide = hide
   loadURL = loadURL
   loadFile = loadFile
   on = on
@@ -43,6 +45,7 @@ describe('OverlayWindow', () => {
     setAlwaysOnTop.mockClear()
     setVisibleOnAllWorkspaces.mockClear()
     showInactive.mockClear()
+    hide.mockClear()
     loadURL.mockClear()
     loadFile.mockClear()
     on.mockClear()
@@ -105,6 +108,18 @@ describe('OverlayWindow', () => {
     void overlay.loadFile('/app/renderer/index.html', { query: { window: 'compact-panel' } })
 
     expect(loadFile).toHaveBeenCalledWith('/app/renderer/index.html', { query: { window: 'compact-panel' } })
+  })
+
+  it('hide() hides the underlying BrowserWindow; a later show() re-applies always-on-top/showInactive (TASK-019: silent mode)', async () => {
+    const { OverlayWindow } = await import('@main/windows/OverlayWindow')
+    const overlay = new OverlayWindow({ width: 320, height: 120 })
+
+    overlay.hide()
+    expect(hide).toHaveBeenCalledTimes(1)
+
+    overlay.show()
+    expect(setAlwaysOnTop).toHaveBeenCalledWith(true, 'screen-saver')
+    expect(showInactive).toHaveBeenCalled()
   })
 
   it('onMoved()/getPosition() forward to the underlying BrowserWindow (TASK-014: persist drag position)', async () => {

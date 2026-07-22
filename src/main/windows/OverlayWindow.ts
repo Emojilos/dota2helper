@@ -61,6 +61,11 @@ export class OverlayWindow {
     this.window.showInactive()
   }
 
+  /** Скрывает окно целиком (тихий режим F5, TASK-019) — в отличие от click-through (клики сквозь окно), здесь оверлей не рисуется вовсе. show() возвращает его обратно в прежней позиции/размере. */
+  hide(): void {
+    this.window.hide()
+  }
+
   /** true — окно кликабельно (интерактивно); false — клики проходят в игру (click-through). */
   setInteractive(interactive: boolean): void {
     this.interactive = interactive

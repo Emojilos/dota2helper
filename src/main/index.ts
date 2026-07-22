@@ -31,6 +31,7 @@ import {
 import { GsiFieldCatalogConfigSchema, type GsiFieldCatalogConfig } from '@shared/schemas/gsiFieldCatalog'
 import type { AppSettings } from '@shared/schemas/settings'
 import { AdviceScheduler, AdviceGate } from './advice'
+import type { Advice } from '@shared/schemas/advice'
 import { HotkeyManager, createHotkeyBackends } from './hotkeys'
 import { OverlayWindow } from './windows'
 import { AutoLaunchManager } from './autolaunch'
@@ -89,6 +90,8 @@ let settingsController: SettingsController | null = null
 let hotkeyManager: HotkeyManager | null = null
 let overlayWindow: OverlayWindow | null = null
 let compactPanelWindow: OverlayWindow | null = null
+let notificationsWindow: OverlayWindow | null = null
+let draftPanelWindow: OverlayWindow | null = null
 let autoLaunchManager: AutoLaunchManager | null = null
 let cacheWarmer: CacheWarmer | null = null
 let lanePlanBuilder: LanePlanBuilder | null = null
@@ -146,6 +149,20 @@ function startAdviceScheduler(): void {
 }
 
 /**
+ * Тихий режим F5 (TASK-019): новые уведомления НЕ показываются, пока оверлей
+ * скрыт — подавляются целиком (не ставятся в очередь), иначе они разом
+ * посыпались бы в момент выхода из тихого режима. Единая точка входа для
+ * обоих источников Advice (F3/TimingScheduler и F4/AdviceGate), чтобы
+ * проверка не дублировалась в двух местах.
+ */
+function enqueueAdviceUnlessSilenced(advice: Advice): void {
+  if (settingsController?.get().silentMode) {
+    return
+  }
+  adviceScheduler?.enqueue(advice)
+}
+
+/**
  * Поднимает планировщик тайминговых напоминалок F3 (TASK-012): регистрирует
  * timings.json через ConfigLoader (hot-reload) и подписывает чистый движок
  * engine/timings на поток GSI из GameStateStore. Требует уже поднятых
@@ -179,7 +196,7 @@ function startTimingScheduler(): void {
         return
       }
       console.log(`[timings] ${advice.ruleId}: ${advice.message}`)
-      adviceScheduler?.enqueue(advice)
+      enqueueAdviceUnlessSilenced(advice)
     }
   })
   timingScheduler.start()
@@ -300,7 +317,7 @@ function startAdviceGate(): void {
   adviceGate = new AdviceGate({
     emit: (advice) => {
       console.log(`[advice-gate] ${advice.ruleId}: ${advice.message}`)
-      adviceScheduler?.enqueue(advice)
+      enqueueAdviceUnlessSilenced(advice)
     }
   })
   unsubscribeAdviceGateFacts = gsiServer.store.subscribe((state) => {
@@ -661,12 +678,39 @@ function startSettings(): void {
     hotkeyManager?.reconcile(settings)
     autoLaunchManager?.reconcile(settings.autoLaunch)
     resizeCompactPanelWindow(settings)
+    applySilentMode(settings.silentMode)
     if (settings.steamId && settings.steamId !== previousSteamId) {
       syncHeroPool(settings.steamId)
     }
     previousSteamId = settings.steamId
   })
   registerSettingsHandlers(settingsController)
+}
+
+/**
+ * Тихий режим F5 (TASK-019): один хоткей/toggle скрывает или показывает СРАЗУ
+ * все элементы оверлея — базовое placeholder-окно (TASK-008), компактную
+ * панель (TASK-014), уведомления (TASK-015) и панель драфта (TASK-027).
+ * Расширенная панель (TASK-037) ещё не существует — попадёт в этот же список,
+ * когда появится её start-функция. hide()/show() не трогают click-through/
+ * позицию — при повторном show() окно возвращается в прежнем состоянии.
+ * Вызывается и из onApplied (реакция на смену настройки — хоткей ИЛИ будущий
+ * UI-переключатель), и один раз при старте, чтобы применить сохранённое между
+ * сессиями состояние к только что созданным окнам (onApplied реагирует только
+ * на МУТАЦИИ настроек, а не на их первоначальную загрузку).
+ */
+function applySilentMode(silentMode: boolean): void {
+  const overlayWindows = [overlayWindow, compactPanelWindow, notificationsWindow, draftPanelWindow]
+  for (const win of overlayWindows) {
+    if (!win) {
+      continue
+    }
+    if (silentMode) {
+      win.hide()
+    } else {
+      win.show()
+    }
+  }
 }
 
 /**
@@ -694,8 +738,10 @@ function syncHeroPool(steamId64: string): void {
 /**
  * Поднимает регистрацию глобальных хоткеев (TASK-018): F9 (расширенная
  * панель — окна ещё нет, TASK-014/037, handler пока просто логирует
- * срабатывание как шов для будущего подписчика), тихий режим (реально
- * флипает persisted silentMode через settingsController.apply) и toggle
+ * срабатывание как шов для будущего подписчика), тихий режим (флипает
+ * persisted silentMode через settingsController.apply — onApplied дальше сам
+ * скрывает/показывает все overlay-окна и подавляет новые уведомления,
+ * см. applySilentMode/enqueueAdviceUnlessSilenced, TASK-019) и toggle
  * click-through (TASK-008, F8 по умолчанию) — переключает интерактивность
  * базового overlay-окна (startOverlayWindow). Механизм — платформенные
  * бэкенды createHotkeyBackends: на win32 uiohook (globalShortcut не
@@ -947,6 +993,7 @@ function startNotificationsWindow(): void {
     x: NOTIFICATIONS_POSITION.x,
     y: NOTIFICATIONS_POSITION.y
   })
+  notificationsWindow = win
   loadNotificationsContent(win)
   win.show()
 }
@@ -985,6 +1032,7 @@ function startDraftPanelWindow(): void {
     x: DRAFT_PANEL_POSITION.x,
     y: DRAFT_PANEL_POSITION.y
   })
+  draftPanelWindow = win
   win.setInteractive(true)
   loadDraftPanelContent(win)
   win.show()
@@ -1033,6 +1081,10 @@ app.whenReady().then(() => {
   startCompactPanelWindow()
   startNotificationsWindow()
   startDraftPanelWindow()
+  // applySilentMode(onApplied) реагирует только на будущие мутации настроек —
+  // применяем сохранённое между сессиями состояние к только что созданным
+  // окнам явно, один раз при старте (TASK-019).
+  applySilentMode(settingsController?.get().silentMode ?? false)
   startHotkeys()
   startConfigLoader()
   void startGsiServer()
