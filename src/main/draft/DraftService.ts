@@ -70,6 +70,14 @@ export interface DraftServiceOptions {
   logger?: (message: string) => void
 }
 
+/**
+ * Порог раздела F6 PRD ("≥10 матчей за последние N патчей") — personalWinrate
+ * героя учитывается в Personal-скоринге, только если игрок реально успел его
+ * наиграть; иначе шум малой выборки (напр. 2/2 побед) не должен двигать
+ * ранжирование сильнее статистики меты (TASK-032).
+ */
+const MIN_PERSONAL_SAMPLE_MATCHES = 10
+
 export class DraftService {
   private readonly logger: (message: string) => void
 
@@ -87,7 +95,9 @@ export class DraftService {
    * DraftContext. steamAccountId — 32-bit account id для DataService.getHeroPool
    * (null, если Steam ID не привязан — тогда personalWinrate будет null у всех
    * кандидатов, Personal-ранжирование совпадёт с Meta с точностью до нулевого
-   * вклада w3).
+   * вклада w3). Герои с matchesCount < MIN_PERSONAL_SAMPLE_MATCHES тоже
+   * получают personalWinrate=null (TASK-032) — недостаточно наиграно, чтобы
+   * личная статистика перевешивала мету.
    */
   async computeRankings(context: DraftContext, steamAccountId: number | null): Promise<DraftRankings> {
     const pool = this.getCandidatePool()
@@ -166,7 +176,11 @@ export class DraftService {
       if (result.status !== 'ok') {
         return new Map()
       }
-      return new Map(result.data.map((entry) => [entry.heroId, entry.winrate]))
+      return new Map(
+        result.data
+          .filter((entry) => entry.matchesCount >= MIN_PERSONAL_SAMPLE_MATCHES)
+          .map((entry) => [entry.heroId, entry.winrate])
+      )
     } catch (error) {
       this.logger(`[draft-service] getHeroPool failed for account ${steamAccountId}: ${String(error)}`)
       return new Map()

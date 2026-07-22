@@ -59,6 +59,27 @@ describe('DraftService.computeRankings', () => {
     expect(personalHero5.score).toBeGreaterThan(metaHero5.score) // но не влияет на score в Meta
   })
 
+  it('герой с matchesCount < 10 не получает personalWinrate — малая выборка не должна двигать ранжирование (TASK-032)', async () => {
+    const dataSource: DraftServiceDataSource = {
+      getHeroMatchups: vi.fn(async () => ok<MatchupData[]>([])),
+      getHeroPool: vi.fn(async () =>
+        ok<HeroPoolEntry[]>([
+          { heroId: 5, matchesCount: 9, winrate: 1, lastSyncedAtMs: 0 },
+          { heroId: 6, matchesCount: 10, winrate: 1, lastSyncedAtMs: 0 }
+        ])
+      )
+    }
+    const service = new DraftService(dataSource, () => ({ heroIds: [5, 6], scope: SCOPE }), (heroId) => `Hero ${heroId}`)
+
+    const rankings = await service.computeRankings(EMPTY_DRAFT_CONTEXT, 111)
+
+    const hero5 = rankings.personal.find((c) => c.heroId === 5)!
+    const hero6 = rankings.personal.find((c) => c.heroId === 6)!
+    expect(hero5.personalWinrate).toBeNull() // 9 матчей — ниже порога MIN_PERSONAL_SAMPLE_MATCHES
+    expect(hero6.personalWinrate).toBe(1) // 10 матчей — порог достигнут, учитывается
+    expect(hero6.score).toBeGreaterThan(hero5.score)
+  })
+
   it('без привязанного Steam ID (steamAccountId=null) getHeroPool не вызывается, personalWinrate=null', async () => {
     const getHeroPool = vi.fn(async () => ok<HeroPoolEntry[]>([{ heroId: 5, matchesCount: 20, winrate: 0.9, lastSyncedAtMs: 0 }]))
     const dataSource: DraftServiceDataSource = {
