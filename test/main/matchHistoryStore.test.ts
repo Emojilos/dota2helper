@@ -80,4 +80,30 @@ describe('MatchHistoryStore', () => {
     expect(store.listRecent(10).map((row) => row.matchId)).toEqual(['b', 'c', 'a'])
     db.close()
   })
+
+  describe('personalMatchupRecord (TASK-037)', () => {
+    it('returns sampleSize=0 for a pair never played', () => {
+      const db = createDb()
+      const store = new MatchHistoryStore(db)
+
+      expect(store.personalMatchupRecord(74, 26)).toEqual({ wins: 0, losses: 0, sampleSize: 0 })
+      db.close()
+    })
+
+    it('counts wins/losses only for the exact (heroId, enemyMidHeroId) pair', () => {
+      const db = createDb()
+      const store = new MatchHistoryStore(db)
+
+      store.write(summary({ matchId: 'a', heroId: 74, enemyMidHeroId: 26, result: 'win' }))
+      store.write(summary({ matchId: 'b', heroId: 74, enemyMidHeroId: 26, result: 'loss' }))
+      store.write(summary({ matchId: 'c', heroId: 74, enemyMidHeroId: 26, result: 'win' }))
+      // Другой герой — не должен попасть в счёт.
+      store.write(summary({ matchId: 'd', heroId: 1, enemyMidHeroId: 26, result: 'win' }))
+      // Тот же герой, другой вражеский мидер — тоже не должен попасть.
+      store.write(summary({ matchId: 'e', heroId: 74, enemyMidHeroId: 99, result: 'win' }))
+
+      expect(store.personalMatchupRecord(74, 26)).toEqual({ wins: 2, losses: 1, sampleSize: 3 })
+      db.close()
+    })
+  })
 })

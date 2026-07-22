@@ -15,6 +15,7 @@ import type { AppSettings } from '../schemas/settings'
 import type { DraftContext, DraftManualAction } from '../schemas/draft'
 import type { WidgetGsiSnapshot } from '../schemas/gsiRawSnapshot'
 import type { GsiFieldCatalogConfig } from '../schemas/gsiFieldCatalog'
+import type { LanePlan } from '../schemas/lanePlan'
 import type { DataSource } from './dataResult'
 
 /** Статус горячей перезагрузки конфига (TASK-011). */
@@ -151,6 +152,17 @@ export interface IpcPushChannels {
    * не только 'ближайшее' и 'ближайшая руна'.
    */
   'timings:upcoming': TimingUpcomingEventPayload[]
+  /**
+   * F5 режим 3 (TASK-037): план на лайн для текущей пары (свой герой ×
+   * вражеский мидер), собранный LanePlanBuilder (TASK-036) — билд, карточка
+   * матчапа, тайминги, личная статистика этой пары. Рассылается на переход
+   * DraftContext в stage='finalized' (main/index.ts, startLanePlanBuilder
+   * подписывается на draftContextManager.subscribe()); null — до первой
+   * финализации пиков в сессии игры ИЛИ после сброса DraftContext на 'idle'
+   * (новый матч — старый план устарел). Расширенная панель (expandedPanelWindow)
+   * — единственный текущий подписчик.
+   */
+  'lanePlan:update': LanePlan | null
 }
 
 /** renderer -> main: имя канала -> { request, response }. */
@@ -177,6 +189,13 @@ export interface IpcInvokeChannels {
    * специально под каталог не заводим, чтобы не дублировать confirm-механику TASK-048.
    */
   'gsiFieldCatalog:get': { request: void; response: GsiFieldCatalogConfig }
+  /**
+   * F5 режим 3 (TASK-037): последний собранный LanePlan — тот же приём, что
+   * draftContext:get, для окна, открытого (F9) уже ПОСЛЕ финализации пиков
+   * (не обязательно сразу же — не хотим гонки между push и первым рендером).
+   * null, если план ещё не собирался в этой сессии.
+   */
+  'lanePlan:get': { request: void; response: LanePlan | null }
 }
 
 export type IpcPushChannel = keyof IpcPushChannels
@@ -204,7 +223,9 @@ export const IPC_CHANNELS = {
   draftContextApplyManualAction: 'draftContext:applyManualAction',
   gsiRawUpdate: 'gsiRaw:update',
   timingsUpcoming: 'timings:upcoming',
-  gsiFieldCatalogGet: 'gsiFieldCatalog:get'
+  gsiFieldCatalogGet: 'gsiFieldCatalog:get',
+  lanePlanUpdate: 'lanePlan:update',
+  lanePlanGet: 'lanePlan:get'
 } as const
 
 /**

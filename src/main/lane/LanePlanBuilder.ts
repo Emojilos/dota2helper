@@ -32,8 +32,15 @@
  * (Promise.all) и после них делает только синхронную локальную композицию
  * (конфиги уже в памяти через ConfigLoader). Верхняя граница задержки
  * целиком определяется STRATZ/OpenDota HTTP-запросами внутри DataService, не
- * логикой этого модуля — измерить живьём нечем, пока нет триггера
- * финализации пиков (TASK-027, ещё pending), см. progress.txt.
+ * логикой этого модуля. Реальный триггер — draftContextManager.subscribe()
+ * в main/index.ts (startLanePlanBuilder, TASK-037): вызывает build() на
+ * переход DraftContext в stage='finalized' и рассылает результат в
+ * expanded-панель через push-канал lanePlan:update.
+ *
+ * LanePlan/LanePlanTimingPoint/LanePlanTimingKind/PersonalMatchupRecord живут
+ * в shared (src/shared/schemas/lanePlan.ts, TASK-037) — LanePlan пересекает
+ * границу IPC (lanePlan:update/lanePlan:get), поэтому не может быть локальным
+ * типом main-модуля (тот же приём, что DraftContext).
  */
 import type { StratzQueryScope } from '@shared/types/stratz'
 import type { DataResult } from '@shared/types/dataResult'
@@ -44,6 +51,9 @@ import {
   type MatchupKnowledgeConfig,
   type MatchupKnowledgeEntry
 } from '@shared/schemas/matchupKnowledge'
+import type { LanePlan, LanePlanTimingPoint, PersonalMatchupRecord } from '@shared/schemas/lanePlan'
+
+export type { LanePlanTimingKind, LanePlanTimingPoint, LanePlan, PersonalMatchupRecord } from '@shared/schemas/lanePlan'
 
 /** Узкий срез DataService, нужный билдеру — легко подменяется фейком в тестах. */
 export interface LanePlanDataSource {
@@ -51,29 +61,8 @@ export interface LanePlanDataSource {
   getHeroMatchups(heroId: number, scope: StratzQueryScope): Promise<DataResult<MatchupData[]>>
 }
 
-export type LanePlanTimingKind = 'power_spike' | 'kill_window' | 'level6'
-
-export interface LanePlanTimingPoint {
-  kind: LanePlanTimingKind
-  side: 'my' | 'enemy'
-  /** Уровень героя (power_spike/kill_window) либо секунды игрового времени (level6). */
-  value: number
-  /** Тезис с позиции своего героя — заполнен ТОЛЬКО когда пара есть в matchup-knowledge (power_spike/kill_window из карточки, не из статистического fallback). */
-  note?: string
-}
-
-export interface LanePlan {
-  myHeroId: number
-  enemyHeroId: number
-  build: DataResult<BuildData | null>
-  matchup: DataResult<MatchupData | null>
-  /** Карточка матчапа с позиции myHeroId, если пара есть в базе знаний — иначе null (статистический fallback). */
-  knowledge: MatchupKnowledgeEntry | null
-  hasKnowledge: boolean
-  timingPlan: LanePlanTimingPoint[]
-  myHeroProfile: HeroProfile | null
-  enemyHeroProfile: HeroProfile | null
-}
+/** Личная статистика матчапа (TASK-037) — MatchHistoryStore.personalMatchupRecord, узкий геттер вместо всего стора (тот же приём, что getHeroProfiles/getMatchupKnowledge). Опционален — тесты и вызовы без Steam ID просто получают personalMatchup=null. */
+export type GetPersonalMatchup = (heroId: number, enemyHeroId: number) => PersonalMatchupRecord | null
 
 export interface LanePlanBuilderOptions {
   logger?: (message: string) => void
@@ -86,6 +75,7 @@ export class LanePlanBuilder {
     private readonly dataSource: LanePlanDataSource,
     private readonly getHeroProfiles: () => HeroProfilesConfig | null,
     private readonly getMatchupKnowledge: () => MatchupKnowledgeConfig | null,
+    private readonly getPersonalMatchup: GetPersonalMatchup = () => null,
     options: LanePlanBuilderOptions = {}
   ) {
     this.logger = options.logger ?? ((): void => {})
@@ -120,7 +110,8 @@ export class LanePlanBuilder {
       hasKnowledge: knowledge !== null,
       timingPlan: buildTimingPlan(myHeroProfile, enemyHeroProfile, knowledge),
       myHeroProfile,
-      enemyHeroProfile
+      enemyHeroProfile,
+      personalMatchup: this.getPersonalMatchup(myHeroId, enemyHeroId)
     }
   }
 

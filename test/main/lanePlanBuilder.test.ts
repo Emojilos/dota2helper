@@ -207,4 +207,27 @@ describe('LanePlanBuilder', () => {
     expect(plan.hasKnowledge).toBe(false)
     expect(plan.timingPlan).toEqual([])
   })
+
+  it('defaults personalMatchup to null when no getPersonalMatchup getter is provided (TASK-037)', async () => {
+    const source = makeSource()
+    const builder = new LanePlanBuilder(source, () => HERO_PROFILES, () => MATCHUP_KNOWLEDGE)
+
+    const plan = await builder.build(STORM_ID, VIPER_ID, SCOPE)
+
+    expect(plan.personalMatchup).toBeNull()
+  })
+
+  it('passes myHeroId/enemyHeroId through to the injected getPersonalMatchup getter (TASK-037)', async () => {
+    const source = makeSource()
+    const builder = new LanePlanBuilder(
+      source,
+      () => HERO_PROFILES,
+      () => MATCHUP_KNOWLEDGE,
+      (heroId, enemyHeroId) => ({ wins: heroId, losses: enemyHeroId, sampleSize: heroId + enemyHeroId })
+    )
+
+    const plan = await builder.build(STORM_ID, VIPER_ID, SCOPE)
+
+    expect(plan.personalMatchup).toEqual({ wins: STORM_ID, losses: VIPER_ID, sampleSize: STORM_ID + VIPER_ID })
+  })
 })

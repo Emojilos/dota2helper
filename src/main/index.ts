@@ -20,11 +20,13 @@ import {
   NOTIFICATIONS_POSITION
 } from '@shared/overlay/notifications'
 import { DRAFT_PANEL_WIDTH, DRAFT_PANEL_HEIGHT, DRAFT_PANEL_POSITION } from '@shared/overlay/draftPanel'
+import { EXPANDED_PANEL_WIDTH, EXPANDED_PANEL_HEIGHT, EXPANDED_PANEL_POSITION } from '@shared/overlay/expandedPanel'
 import {
   broadcast,
   registerSettingsHandlers,
   registerDraftHandlers,
   registerGsiFieldCatalogHandlers,
+  registerLanePlanHandlers,
   createSettingsController,
   type SettingsController
 } from './ipc'
@@ -52,7 +54,7 @@ import { RulesConfigSchema, type RulesConfig } from '@shared/schemas/rules'
 import { HeroProfilesConfigSchema, type HeroProfilesConfig } from '@shared/schemas/heroProfiles'
 import { MatchupKnowledgeConfigSchema, type MatchupKnowledgeConfig } from '@shared/schemas/matchupKnowledge'
 import { buildFacts } from '@engine/facts'
-import { LanePlanBuilder } from './lane'
+import { LanePlanBuilder, type LanePlan } from './lane'
 import { openDatabase, runMigrations, UserProfileRepository, AppStateStore, type DatabaseInstance } from './db'
 import {
   buildGsiConfigContent,
@@ -92,6 +94,11 @@ let overlayWindow: OverlayWindow | null = null
 let compactPanelWindow: OverlayWindow | null = null
 let notificationsWindow: OverlayWindow | null = null
 let draftPanelWindow: OverlayWindow | null = null
+let expandedPanelWindow: OverlayWindow | null = null
+/** Открыта ли расширенная панель (F9) — независимо от тихого режима, см. applySilentMode/onToggleExpandedPanel (TASK-037). */
+let expandedPanelOpen = false
+/** Последний собранный LanePlan (TASK-037) — источник для invoke lanePlan:get (окно открылось уже после финализации пиков). */
+let lastLanePlan: LanePlan | null = null
 let autoLaunchManager: AutoLaunchManager | null = null
 let cacheWarmer: CacheWarmer | null = null
 let lanePlanBuilder: LanePlanBuilder | null = null
@@ -568,27 +575,53 @@ function startDraftService(): void {
  * DataService.getHeroBuilds, карточка матчапа из matchup-knowledge.json
  * (heroProfilesConfigHandle/matchupKnowledgeConfigHandle уже подняты
  * startHeroProfilesConfig/startMatchupKnowledgeConfig), винрейт пары из
- * DataService.getHeroMatchups. Требует уже собранного dataService
- * (startDataService).
+ * DataService.getHeroMatchups, личная статистика пары из
+ * MatchHistoryStore.personalMatchupRecord (TASK-037). Требует уже собранного
+ * dataService (startDataService) и draftContextManager (startDraftContext);
+ * matchHistoryStore опционален — без него personalMatchup всегда null (не
+ * блокирует сборку плана).
  *
- * Реального триггера (финализация пиков) пока нет: источник enemyMidHeroId
- * теперь есть (DraftContextManager.getEnemyMidHeroId(), TASK-027, ручной
- * ввод — GSI пики команд не отдаёт), но вызывать build() на переход в
- * stage='finalized' и показывать результат пока некому — расширенная панель
- * (TASK-037, deps на TASK-008/036) ещё не создана; инстанс готов для этого
- * будущего потребителя.
+ * Реальный триггер (TASK-037): подписка на draftContextManager.subscribe()
+ * (не options.onChange — тот уже занят логом+draftContext:update, см.
+ * startDraftContext; тот же приём, что startDraftService) вызывает build()
+ * на КАЖДЫЙ переход контекста в stage='finalized' с известными ownHeroId и
+ * enemyMidHeroId, и рассылает результат в 'lanePlan:update' — расширенная
+ * панель (startExpandedPanelWindow) её единственный текущий подписчик.
+ * Переход в stage='idle' (новый матч, DraftContextManager) сбрасывает
+ * lastLanePlan/рассылает null — старый план из прошлого матча не должен
+ * висеть в открытой панели. scope (patch/rankBracket) — тот же
+ * metaMidHeroesConfigHandle, что использует DraftService (startDraftService).
  */
 function startLanePlanBuilder(): void {
-  if (!dataService || !heroProfilesConfigHandle || !matchupKnowledgeConfigHandle) {
+  if (!dataService || !heroProfilesConfigHandle || !matchupKnowledgeConfigHandle || !draftContextManager) {
     return
   }
   lanePlanBuilder = new LanePlanBuilder(
     dataService,
     () => heroProfilesConfigHandle?.get() ?? null,
     () => matchupKnowledgeConfigHandle?.get() ?? null,
+    (heroId, enemyHeroId) => matchHistoryStore?.personalMatchupRecord(heroId, enemyHeroId) ?? null,
     { logger: (message) => console.log(message) }
   )
-  console.log(`[lane-plan] LanePlanBuilder ready: ${lanePlanBuilder !== null} (finalize-pick trigger awaits TASK-037)`)
+  console.log(`[lane-plan] LanePlanBuilder ready: ${lanePlanBuilder !== null}`)
+
+  draftContextManager.subscribe((context) => {
+    if (context.stage === 'idle') {
+      lastLanePlan = null
+      broadcast('lanePlan:update', null)
+      return
+    }
+    if (context.stage !== 'finalized' || context.ownHeroId === null || context.enemyMidHeroId === null) {
+      return
+    }
+    const metaConfig = metaMidHeroesConfigHandle?.get()
+    const scope = { patch: metaConfig?.patch ?? 'unknown', rankBracket: metaConfig?.rankBracket ?? 'unknown' }
+    void lanePlanBuilder?.build(context.ownHeroId, context.enemyMidHeroId, scope).then((plan) => {
+      lastLanePlan = plan
+      broadcast('lanePlan:update', plan)
+      console.log(`[lane-plan] built plan for hero ${plan.myHeroId} vs enemy mid ${plan.enemyHeroId}`)
+    })
+  })
 }
 
 /**
@@ -691,13 +724,21 @@ function startSettings(): void {
  * Тихий режим F5 (TASK-019): один хоткей/toggle скрывает или показывает СРАЗУ
  * все элементы оверлея — базовое placeholder-окно (TASK-008), компактную
  * панель (TASK-014), уведомления (TASK-015) и панель драфта (TASK-027).
- * Расширенная панель (TASK-037) ещё не существует — попадёт в этот же список,
- * когда появится её start-функция. hide()/show() не трогают click-through/
- * позицию — при повторном show() окно возвращается в прежнем состоянии.
- * Вызывается и из onApplied (реакция на смену настройки — хоткей ИЛИ будущий
- * UI-переключатель), и один раз при старте, чтобы применить сохранённое между
- * сессиями состояние к только что созданным окнам (onApplied реагирует только
- * на МУТАЦИИ настроек, а не на их первоначальную загрузку).
+ * hide()/show() не трогают click-through/позицию — при повторном show() окно
+ * возвращается в прежнем состоянии. Вызывается и из onApplied (реакция на
+ * смену настройки — хоткей ИЛИ будущий UI-переключатель), и один раз при
+ * старте, чтобы применить сохранённое между сессиями состояние к только что
+ * созданным окнам (onApplied реагирует только на МУТАЦИИ настроек, а не на
+ * их первоначальную загрузку).
+ *
+ * Расширенная панель (TASK-037) обрабатывается ОТДЕЛЬНО от четырёх остальных:
+ * у неё есть собственное открыто/закрыто-состояние (expandedPanelOpen,
+ * переключается F9, см. onToggleExpandedPanel в startHotkeys), не связанное
+ * с тихим режимом. Включение тихого режима скрывает панель, ДАЖЕ если она
+ * была открыта (тихий режим — «скрыть всё»); выключение возвращает её ТОЛЬКО
+ * если она была открыта до включения тихого режима — иначе un-silencing
+ * заново открывал бы панель, которую пользователь сам закрыл F9 ещё до
+ * входа в тихий режим.
  */
 function applySilentMode(silentMode: boolean): void {
   const overlayWindows = [overlayWindow, compactPanelWindow, notificationsWindow, draftPanelWindow]
@@ -709,6 +750,13 @@ function applySilentMode(silentMode: boolean): void {
       win.hide()
     } else {
       win.show()
+    }
+  }
+  if (expandedPanelWindow) {
+    if (silentMode) {
+      expandedPanelWindow.hide()
+    } else if (expandedPanelOpen) {
+      expandedPanelWindow.show()
     }
   }
 }
@@ -737,11 +785,11 @@ function syncHeroPool(steamId64: string): void {
 
 /**
  * Поднимает регистрацию глобальных хоткеев (TASK-018): F9 (расширенная
- * панель — окна ещё нет, TASK-014/037, handler пока просто логирует
- * срабатывание как шов для будущего подписчика), тихий режим (флипает
- * persisted silentMode через settingsController.apply — onApplied дальше сам
- * скрывает/показывает все overlay-окна и подавляет новые уведомления,
- * см. applySilentMode/enqueueAdviceUnlessSilenced, TASK-019) и toggle
+ * панель, TASK-037 — открывает/закрывает expandedPanelWindow, см.
+ * startExpandedPanelWindow), тихий режим (флипает persisted silentMode через
+ * settingsController.apply — onApplied дальше сам скрывает/показывает все
+ * overlay-окна и подавляет новые уведомления, см.
+ * applySilentMode/enqueueAdviceUnlessSilenced, TASK-019) и toggle
  * click-through (TASK-008, F8 по умолчанию) — переключает интерактивность
  * базового overlay-окна (startOverlayWindow). Механизм — платформенные
  * бэкенды createHotkeyBackends: на win32 uiohook (globalShortcut не
@@ -757,7 +805,24 @@ function startHotkeys(): void {
     backend: backends.backend,
     fallbackBackend: backends.fallbackBackend,
     onToggleExpandedPanel: () => {
-      console.log('[hotkeys] expanded panel toggle pressed — window not wired yet (TASK-014/037)')
+      if (!expandedPanelWindow) {
+        console.log('[hotkeys] expanded panel toggle pressed — window not created yet')
+        return
+      }
+      expandedPanelOpen = !expandedPanelOpen
+      // В тихом режиме окно физически скрыто (applySilentMode) — F9 только
+      // меняет логическое состояние open/closed, реальный show() придёт при
+      // выходе из тихого режима, если expandedPanelOpen всё ещё true.
+      if (settingsController?.get().silentMode) {
+        console.log(`[hotkeys] expanded panel toggled -> open=${expandedPanelOpen} (suppressed, silent mode active)`)
+        return
+      }
+      if (expandedPanelOpen) {
+        expandedPanelWindow.show()
+      } else {
+        expandedPanelWindow.hide()
+      }
+      console.log(`[hotkeys] expanded panel toggled -> open=${expandedPanelOpen}`)
     },
     onToggleSilentMode: () => {
       const current = settingsController?.get()
@@ -1039,6 +1104,48 @@ function startDraftPanelWindow(): void {
 }
 
 /**
+ * Загружает реальный renderer-контент расширенной панели (TASK-037) — тот же
+ * бандл, что и остальные окна, с `?window=expanded-panel` (main.tsx выбирает
+ * ExpandedPanel). См. комментарий loadCompactPanelContent — тот же приём.
+ */
+function loadExpandedPanelContent(win: OverlayWindow): void {
+  const query = { window: 'expanded-panel' }
+  if (process.env['ELECTRON_RENDERER_URL']) {
+    const qs = new URLSearchParams(query).toString()
+    void win.loadURL(`${process.env['ELECTRON_RENDERER_URL']}?${qs}`)
+  } else {
+    void win.loadFile(join(__dirname, '../renderer/index.html'), { query })
+  }
+}
+
+/**
+ * Поднимает расширенную панель F5 режим 3 (TASK-037): свой инстанс
+ * OverlayWindow, интерактивен ВСЕГДА (та же логика, что панель драфта,
+ * TASK-027 — план на лайн не требует кликов сейчас, но зарезервировано под
+ * будущие действия панели), позиция — src/shared/overlay/expandedPanel.ts
+ * (центр экрана, ждёт калибровки под реальный HUD, см. CLAUDE.md §1).
+ *
+ * В отличие от остальных overlay-окон создаётся СКРЫТЫМ (win.show() не
+ * вызывается здесь) — открывается/закрывается по F9 (onToggleExpandedPanel,
+ * startHotkeys), а не показывается сразу при старте приложения. Регистрирует
+ * invoke-обработчик lanePlan:get поверх замыкания над lastLanePlan — план
+ * приходит push'ем (lanePlan:update, startLanePlanBuilder), invoke нужен
+ * только окну, открытому уже после финализации пиков.
+ */
+function startExpandedPanelWindow(): void {
+  const win = new OverlayWindow({
+    width: EXPANDED_PANEL_WIDTH,
+    height: EXPANDED_PANEL_HEIGHT,
+    x: EXPANDED_PANEL_POSITION.x,
+    y: EXPANDED_PANEL_POSITION.y
+  })
+  expandedPanelWindow = win
+  win.setInteractive(true)
+  loadExpandedPanelContent(win)
+  registerLanePlanHandlers(() => lastLanePlan)
+}
+
+/**
  * Создаёт основное окно приложения (настройки/статус). Прозрачное безрамочное
  * окно с React-рендерером; preload поднят с contextIsolation/nodeIntegration/
  * sandbox по CLAUDE.md §6 (TASK-007). Базовое overlay-окно поверх игры
@@ -1081,6 +1188,7 @@ app.whenReady().then(() => {
   startCompactPanelWindow()
   startNotificationsWindow()
   startDraftPanelWindow()
+  startExpandedPanelWindow()
   // applySilentMode(onApplied) реагирует только на будущие мутации настроек —
   // применяем сохранённое между сессиями состояние к только что созданным
   // окнам явно, один раз при старте (TASK-019).

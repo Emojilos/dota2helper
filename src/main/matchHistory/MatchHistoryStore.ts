@@ -6,6 +6,7 @@
  * дублирует её.
  */
 import type { MatchSummary } from '@shared/schemas/stratzDto'
+import type { PersonalMatchupRecord } from '@shared/schemas/lanePlan'
 import type { DatabaseInstance } from '../db/openDatabase'
 
 interface MatchHistoryRow {
@@ -67,5 +68,24 @@ export class MatchHistoryStore {
       .prepare<[number], MatchHistoryRow>('SELECT * FROM match_history ORDER BY played_at DESC LIMIT ?')
       .all(limit)
     return rows.map(rowToMatchSummary)
+  }
+
+  /**
+   * Личная статистика конкретного матчапа (F2/F5, TASK-037): count побед/
+   * поражений на герое heroId против вражеского мидера enemyHeroId — тот же
+   * ключ (hero_id, enemy_mid_hero_id), что пишет TASK-033 при завершении
+   * матча. sampleSize=0, если совпадений нет (нет привязанного Steam ID,
+   * либо игрок никогда не играл этот матчап) — вызывающий (LanePlanBuilder)
+   * решает, как это показать, не эта функция.
+   */
+  personalMatchupRecord(heroId: number, enemyHeroId: number): PersonalMatchupRecord {
+    const rows = this.db
+      .prepare<[number, number], { result: string }>(
+        'SELECT result FROM match_history WHERE hero_id = ? AND enemy_mid_hero_id = ?'
+      )
+      .all(heroId, enemyHeroId)
+    const wins = rows.filter((row) => row.result === 'win').length
+    const losses = rows.filter((row) => row.result === 'loss').length
+    return { wins, losses, sampleSize: rows.length }
   }
 }
