@@ -15,6 +15,7 @@ import type { AppSettings } from '../schemas/settings'
 import type { DraftContext, DraftManualAction } from '../schemas/draft'
 import type { WidgetGsiSnapshot } from '../schemas/gsiRawSnapshot'
 import type { GsiFieldCatalogConfig } from '../schemas/gsiFieldCatalog'
+import type { BenchmarksConfig } from '../schemas/benchmarks'
 import type { LanePlan } from '../schemas/lanePlan'
 import type { DataSource } from './dataResult'
 
@@ -196,6 +197,16 @@ export interface IpcInvokeChannels {
    * null, если план ещё не собирался в этой сессии.
    */
   'lanePlan:get': { request: void; response: LanePlan | null }
+  /**
+   * F5 бенчмарк-виджеты (TASK-039): актуальный content/benchmarks.json
+   * (эталонные поминутные кривые LH/networth/XP, TASK-038) для сравнения
+   * с текущими показателями героя. Invoke по тому же приёму, что
+   * gsiFieldCatalog:get — конфиг меняется редко (правка контента/перегенерация
+   * инструментом при смене патча, не поток GSI); при hot-reload (TASK-011)
+   * renderer узнаёт об этом из УЖЕ существующего 'config:reloaded'
+   * (name='benchmarks') и перезапрашивает актуальную версию этим же каналом.
+   */
+  'benchmarks:get': { request: void; response: BenchmarksConfig }
 }
 
 export type IpcPushChannel = keyof IpcPushChannels
@@ -225,7 +236,8 @@ export const IPC_CHANNELS = {
   timingsUpcoming: 'timings:upcoming',
   gsiFieldCatalogGet: 'gsiFieldCatalog:get',
   lanePlanUpdate: 'lanePlan:update',
-  lanePlanGet: 'lanePlan:get'
+  lanePlanGet: 'lanePlan:get',
+  benchmarksGet: 'benchmarks:get'
 } as const
 
 /**

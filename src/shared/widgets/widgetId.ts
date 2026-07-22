@@ -13,6 +13,11 @@
  * тут не применим).
  *
  * INV2: модуль чист (без electron/react/fs/сети).
+ *
+ * benchmark-lh/benchmark-networth/benchmark-xp (TASK-039) — бенчмарк-виджеты
+ * live-сравнения LH/networth/XP с эталонными кривыми content/benchmarks.json
+ * (TASK-038); та же природа, что rune-timer/stack-counter — собственная логика
+ * сравнения, а не просто чтение одного поля по format.
  */
 
 const RAW_FIELD_WIDGET_PREFIX = 'field:'
@@ -27,7 +32,13 @@ export function parseRawFieldWidgetId(widgetId: string): string | null {
   return widgetId.startsWith(RAW_FIELD_WIDGET_PREFIX) ? widgetId.slice(RAW_FIELD_WIDGET_PREFIX.length) : null
 }
 
-export const WIDGET_PRESET_IDS = ['rune-timer', 'stack-counter'] as const
+export const WIDGET_PRESET_IDS = [
+  'rune-timer',
+  'stack-counter',
+  'benchmark-lh',
+  'benchmark-networth',
+  'benchmark-xp'
+] as const
 export type WidgetPresetId = (typeof WIDGET_PRESET_IDS)[number]
 
 export function isWidgetPresetId(widgetId: string): widgetId is WidgetPresetId {

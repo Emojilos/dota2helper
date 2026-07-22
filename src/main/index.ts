@@ -27,10 +27,12 @@ import {
   registerDraftHandlers,
   registerGsiFieldCatalogHandlers,
   registerLanePlanHandlers,
+  registerBenchmarksHandlers,
   createSettingsController,
   type SettingsController
 } from './ipc'
 import { GsiFieldCatalogConfigSchema, type GsiFieldCatalogConfig } from '@shared/schemas/gsiFieldCatalog'
+import { BenchmarksConfigSchema, type BenchmarksConfig } from '@shared/schemas/benchmarks'
 import type { AppSettings } from '@shared/schemas/settings'
 import { AdviceScheduler, AdviceGate } from './advice'
 import type { Advice } from '@shared/schemas/advice'
@@ -83,6 +85,7 @@ let heroProfilesConfigHandle: ConfigHandle<HeroProfilesConfig> | null = null
 let matchupKnowledgeConfigHandle: ConfigHandle<MatchupKnowledgeConfig> | null = null
 let metaMidHeroesConfigHandle: ConfigHandle<MetaMidHeroesConfig> | null = null
 let gsiFieldCatalogConfigHandle: ConfigHandle<GsiFieldCatalogConfig> | null = null
+let benchmarksConfigHandle: ConfigHandle<BenchmarksConfig> | null = null
 let unsubscribeAdviceGateFacts: (() => void) | null = null
 let stratzClient: StratzClient | null = null
 let database: DatabaseInstance | null = null
@@ -492,6 +495,25 @@ function startGsiFieldCatalogConfig(): void {
   registerGsiFieldCatalogHandlers(gsiFieldCatalogConfigHandle)
   const config = gsiFieldCatalogConfigHandle.get()
   console.log(`[gsi-field-catalog] gsi-field-catalog.json ready (${config?.fields.length ?? 0} field(s))`)
+}
+
+/**
+ * Регистрирует content/benchmarks.json через ConfigLoader (F5, TASK-039):
+ * эталонные поминутные кривые LH/networth/XP (TASK-038) для бенчмарк-
+ * виджетов конструктора. Правка/перегенерация файла (напр. после смены
+ * патча) подхватывается hot-reload'ом без пересборки (INV4) — renderer
+ * узнаёт об этом из уже существующего 'config:reloaded' (name='benchmarks')
+ * и перезапрашивает актуальную версию через invoke-канал benchmarks:get
+ * (registerBenchmarksHandlers). Требует уже поднятого configLoader.
+ */
+function startBenchmarksConfig(): void {
+  if (!configLoader) {
+    return
+  }
+  benchmarksConfigHandle = configLoader.register('benchmarks', BenchmarksConfigSchema)
+  registerBenchmarksHandlers(benchmarksConfigHandle)
+  const config = benchmarksConfigHandle.get()
+  console.log(`[benchmarks] benchmarks.json ready (${config?.length ?? 0} point(s))`)
 }
 
 /**
@@ -1211,6 +1233,7 @@ app.whenReady().then(() => {
   startPatchWatcher()
   startMetaMidHeroesConfig()
   startGsiFieldCatalogConfig()
+  startBenchmarksConfig()
   startCacheWarmer()
   startDraftService()
   startLanePlanBuilder()

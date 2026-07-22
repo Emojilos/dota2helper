@@ -5,3 +5,4 @@ export { createSettingsController, type SettingsController } from './SettingsCon
 export { registerDraftHandlers } from './registerDraftHandlers'
 export { registerGsiFieldCatalogHandlers } from './registerGsiFieldCatalogHandlers'
 export { registerLanePlanHandlers } from './registerLanePlanHandlers'
+export { registerBenchmarksHandlers } from './registerBenchmarksHandlers'

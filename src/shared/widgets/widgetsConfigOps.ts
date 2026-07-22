@@ -10,7 +10,10 @@ import { WIDGET_PRESET_IDS, type WidgetPresetId } from './widgetId'
 /** Русские подписи именованных пресетов — только для меню конструктора (сами виджеты берут фолбэк-лейбл из своих данных). */
 export const WIDGET_PRESET_LABELS_RU: Record<WidgetPresetId, string> = {
   'rune-timer': 'Ближайшая руна',
-  'stack-counter': 'Стак кемпа'
+  'stack-counter': 'Стак кемпа',
+  'benchmark-lh': 'Бенчмарк: добито',
+  'benchmark-networth': 'Бенчмарк: net worth',
+  'benchmark-xp': 'Бенчмарк: опыт'
 }
 
 /**
