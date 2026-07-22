@@ -7,6 +7,8 @@ import { describe, expect, it } from 'vitest'
 import {
   compactPanelHeight,
   DEFAULT_COMPACT_PANEL_WIDGET_IDS,
+  STANDARD_PANEL_WIDGET_IDS,
+  COMPACT_PANEL_PRESET_DEFAULT_WIDGET_IDS,
   COMPACT_PANEL_WINDOW_ID,
   COMPACT_PANEL_DEFAULT_POSITION
 } from '@shared/overlay/compactPanel'
@@ -32,5 +34,17 @@ describe('compact panel defaults', () => {
   it('id окна и дефолтная позиция определены', () => {
     expect(COMPACT_PANEL_WINDOW_ID).toBe('compactPanel')
     expect(COMPACT_PANEL_DEFAULT_POSITION).toEqual({ x: 24, y: 160 })
+  })
+})
+
+describe('TASK-040: пресет "вместо стандартной панели"', () => {
+  it('дефолтный набор пресета standardPanel повторяет KDA/LH-DN/GPM-XPM', () => {
+    expect(STANDARD_PANEL_WIDGET_IDS).toEqual(['kda', 'lh-dn', 'gpm-xpm'])
+  })
+
+  it('оба пресета дают одинаковое число дефолтных виджетов (высота панели не скачет при переключении)', () => {
+    expect(COMPACT_PANEL_PRESET_DEFAULT_WIDGET_IDS.default.length).toBe(
+      COMPACT_PANEL_PRESET_DEFAULT_WIDGET_IDS.standardPanel.length
+    )
   })
 })

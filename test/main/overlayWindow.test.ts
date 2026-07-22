@@ -16,6 +16,7 @@ const loadURL = vi.fn()
 const loadFile = vi.fn()
 const on = vi.fn()
 const getPosition = vi.fn(() => [24, 110])
+const setPosition = vi.fn()
 
 let lastOptions: Record<string, unknown> | undefined
 
@@ -29,6 +30,7 @@ class MockBrowserWindow {
   loadFile = loadFile
   on = on
   getPosition = getPosition
+  setPosition = setPosition
 
   constructor(options: Record<string, unknown>) {
     lastOptions = options
@@ -50,6 +52,7 @@ describe('OverlayWindow', () => {
     loadFile.mockClear()
     on.mockClear()
     getPosition.mockClear()
+    setPosition.mockClear()
     lastOptions = undefined
   })
 
@@ -130,5 +133,14 @@ describe('OverlayWindow', () => {
     overlay.onMoved(listener)
     expect(on).toHaveBeenCalledWith('moved', listener)
     expect(overlay.getPosition()).toEqual([24, 110])
+  })
+
+  it('setPosition() forwards to the underlying BrowserWindow (TASK-040: snap to preset base position)', async () => {
+    const { OverlayWindow } = await import('@main/windows/OverlayWindow')
+    const overlay = new OverlayWindow({ width: 220, height: 100 })
+
+    overlay.setPosition(0, 88)
+
+    expect(setPosition).toHaveBeenCalledWith(0, 88)
   })
 })

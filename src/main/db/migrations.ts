@@ -115,6 +115,12 @@ const migrations: Migration[] = [
     up: `
       UPDATE user_profile SET widgets_config = '[]' WHERE widgets_config = '{}';
     `
+  },
+  {
+    id: '0008_compact_panel_preset',
+    up: `
+      ALTER TABLE user_profile ADD COLUMN compact_panel_preset TEXT NOT NULL DEFAULT 'default';
+    `
   }
 ]
 

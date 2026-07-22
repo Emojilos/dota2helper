@@ -23,6 +23,7 @@ function makeSettings(overrides: Partial<AppSettings> = {}): AppSettings {
     autoLaunch: false,
     overlayPositions: {},
     widgetsConfig: [],
+    compactPanelPreset: 'default',
     ...overrides
   }
 }

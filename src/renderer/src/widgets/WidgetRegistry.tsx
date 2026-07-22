@@ -5,6 +5,7 @@ import { RawFieldWidget } from './RawFieldWidget'
 import { RuneTimerWidget } from './RuneTimerWidget'
 import { StackCounterWidget } from './StackCounterWidget'
 import { BenchmarkWidget } from './BenchmarkWidget'
+import { KdaWidget, LhDnWidget, GpmXpmWidget } from './CompositeStatWidgets'
 
 /**
  * WidgetRegistry (F5, TASK-016): маппит widgetId (см. @shared/widgets/widgetId)
@@ -33,6 +34,12 @@ function renderPreset(presetId: WidgetPresetId): JSX.Element {
       return <BenchmarkWidget key={presetId} metric="networth" />
     case 'benchmark-xp':
       return <BenchmarkWidget key={presetId} metric="xp" />
+    case 'kda':
+      return <KdaWidget key={presetId} />
+    case 'lh-dn':
+      return <LhDnWidget key={presetId} />
+    case 'gpm-xpm':
+      return <GpmXpmWidget key={presetId} />
   }
 }
 

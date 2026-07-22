@@ -1,7 +1,11 @@
 import { useEffect, useMemo, useState, type CSSProperties, type JSX } from 'react'
 import type { GameState } from '@shared/schemas/gameState'
 import type { CompactPanelTimersPayload } from '@shared/types/ipc'
-import { DEFAULT_COMPACT_PANEL_WIDGET_IDS, type CompactPanelWidgetId } from '@shared/overlay/compactPanel'
+import {
+  DEFAULT_COMPACT_PANEL_WIDGET_IDS,
+  STANDARD_PANEL_WIDGET_IDS,
+  type CompactPanelWidgetId
+} from '@shared/overlay/compactPanel'
 import { rawFieldWidgetId } from '@shared/widgets/widgetId'
 import { mergeWidgetsConfig, knownWidgetIds } from '@shared/widgets/widgetsConfigOps'
 import { useSettingsStore } from '../store/settingsStore'
@@ -15,13 +19,18 @@ import { renderWidget } from '../widgets/WidgetRegistry'
  * (nextEvent/nextRune) уже сделан в main (engine/timings.selectCompactPanelTimers,
  * push-канал compactPanel:timers), здесь только форматирование под display.
  *
- * Дефолтные 3 виджета фиксированы (не входят в конструктор, TASK-016/017);
- * ПОСЛЕ них панель дополнительно рендерит виджеты, включённые пользователем в
- * конструкторе (TASK-017, AppSettings.widgetsConfig) — через WidgetRegistry,
- * тот же реестр, что показывает превью-галерея (WidgetGallery) и меню
- * конструктора (WidgetConstructor) в окне настроек. mergeWidgetsConfig
- * отбрасывает id, которых больше нет в каталоге (см. widgetsConfigOps) —
- * панель никогда не пытается отрендерить виджет несуществующего поля.
+ * Дефолтные 3 виджета зависят от пресета (AppSettings.compactPanelPreset,
+ * TASK-040): 'default' — таймер/фаза/руна (хардкод ниже, завязан на push-канал
+ * compactPanel:timers, не входит в конструктор TASK-016/017); 'standardPanel' —
+ * KDA/LH-DN/GPM-XPM (обычные именованные пресеты конструктора,
+ * STANDARD_PANEL_WIDGET_IDS, рендерятся через тот же renderWidget, что и
+ * extraWidgetIds). ПОСЛЕ дефолтного блока панель дополнительно рендерит
+ * виджеты, включённые пользователем в конструкторе (TASK-017,
+ * AppSettings.widgetsConfig) — через WidgetRegistry, тот же реестр, что
+ * показывает превью-галерея (WidgetGallery) и меню конструктора
+ * (WidgetConstructor) в окне настроек. mergeWidgetsConfig отбрасывает id,
+ * которых больше нет в каталоге (см. widgetsConfigOps) — панель никогда не
+ * пытается отрендерить виджет несуществующего поля.
  *
  * Перетаскивание — нативное, через -webkit-app-region:drag на всём контейнере
  * (внутри нет кликабельных элементов, конфликтовать не с чем); работает только
@@ -114,12 +123,18 @@ function CompactPanel(): JSX.Element {
     )
   }
 
+  const preset = settings?.compactPanelPreset ?? 'default'
+  const defaultBlock =
+    preset === 'standardPanel'
+      ? STANDARD_PANEL_WIDGET_IDS.map((id) => renderWidget(id, catalog.fields))
+      : DEFAULT_COMPACT_PANEL_WIDGET_IDS.map((id) => widgetContent[id])
+
   return (
     <div
       style={dragRegionStyle}
       className="h-screen w-screen overflow-hidden divide-y divide-white/5 rounded-lg border border-white/10 bg-[rgba(10,12,16,0.85)] text-slate-100"
     >
-      {DEFAULT_COMPACT_PANEL_WIDGET_IDS.map((id) => widgetContent[id])}
+      {defaultBlock}
       {extraWidgetIds.map((entry) => renderWidget(entry.id, catalog.fields))}
     </div>
   )

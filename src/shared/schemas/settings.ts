@@ -21,6 +21,16 @@ export type Verbosity = z.infer<typeof VerbositySchema>
 export const DraftRankingModeSchema = z.enum(['meta', 'personal'])
 export type DraftRankingMode = z.infer<typeof DraftRankingModeSchema>
 
+/**
+ * Пресет позиции/набора виджетов компактной панели (F5, TASK-040):
+ * 'default' — верхний левый угол ниже топ-бара (раздел F5 PRD, режим 1);
+ * 'standardPanel' — панель накрывает родную панель статистики Dota
+ * (KDA/LH-DN/GPM-XPM в углу экрана, координаты калиброваны в
+ * content/overlay-anchors.json).
+ */
+export const CompactPanelPresetSchema = z.enum(['default', 'standardPanel'])
+export type CompactPanelPreset = z.infer<typeof CompactPanelPresetSchema>
+
 /** Позиция окна оверлея на экране (TASK-014), в пикселях экранных координат. */
 export const OverlayPositionSchema = z.object({
   x: z.number(),
@@ -49,7 +59,9 @@ export const AppSettingsSchema = z.object({
   /** запомненные позиции оверлей-окон (TASK-014), пусто пока ни одно не перетаскивали */
   overlayPositions: OverlayPositionsSchema,
   /** набор/порядок виджетов конструктора F5 (TASK-017), пусто пока не настроен */
-  widgetsConfig: WidgetsConfigSchema
+  widgetsConfig: WidgetsConfigSchema,
+  /** пресет позиции/дефолтных виджетов компактной панели (TASK-040), по умолчанию 'default' */
+  compactPanelPreset: CompactPanelPresetSchema
 })
 export type AppSettings = z.infer<typeof AppSettingsSchema>
 
@@ -64,5 +76,6 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
   silentMode: false,
   autoLaunch: false,
   overlayPositions: {},
-  widgetsConfig: DEFAULT_WIDGETS_CONFIG
+  widgetsConfig: DEFAULT_WIDGETS_CONFIG,
+  compactPanelPreset: 'default'
 }

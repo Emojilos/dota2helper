@@ -1,6 +1,6 @@
 import { join } from 'node:path'
 import { existsSync } from 'node:fs'
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, screen } from 'electron'
 import { APP_NAME } from '@shared/index'
 import { GsiServer } from './gsi'
 import { ConfigLoader, mirrorContentDir, type ConfigHandle } from './config'
@@ -9,11 +9,13 @@ import { TimingsConfigSchema, type TimingsConfig } from '@shared/schemas/timings
 import { upcomingTimingEvents, selectCompactPanelTimers } from '@engine/timings'
 import {
   COMPACT_PANEL_WINDOW_ID,
-  DEFAULT_COMPACT_PANEL_WIDGET_IDS,
+  COMPACT_PANEL_PRESET_DEFAULT_WIDGET_IDS,
   COMPACT_PANEL_DEFAULT_POSITION,
   COMPACT_PANEL_WIDTH,
   compactPanelHeight
 } from '@shared/overlay/compactPanel'
+import { OverlayAnchorsConfigSchema, type OverlayAnchorsConfig } from '@shared/schemas/overlayAnchors'
+import { resolveOverlayAnchor } from '@shared/overlay/overlayAnchors'
 import {
   NOTIFICATIONS_WIDTH,
   NOTIFICATIONS_HEIGHT,
@@ -86,6 +88,7 @@ let matchupKnowledgeConfigHandle: ConfigHandle<MatchupKnowledgeConfig> | null = 
 let metaMidHeroesConfigHandle: ConfigHandle<MetaMidHeroesConfig> | null = null
 let gsiFieldCatalogConfigHandle: ConfigHandle<GsiFieldCatalogConfig> | null = null
 let benchmarksConfigHandle: ConfigHandle<BenchmarksConfig> | null = null
+let overlayAnchorsConfigHandle: ConfigHandle<OverlayAnchorsConfig> | null = null
 let unsubscribeAdviceGateFacts: (() => void) | null = null
 let stratzClient: StratzClient | null = null
 let database: DatabaseInstance | null = null
@@ -143,6 +146,23 @@ function startConfigLoader(): void {
       broadcast('config:reloaded', payload)
     }
   })
+}
+
+/**
+ * Регистрирует content/overlay-anchors.json через ConfigLoader (F5, TASK-040):
+ * калиброванные по разрешению экрана координаты для пресета позиции
+ * компактной панели 'standardPanel' (панель поверх родной панели статистики
+ * Dota). Читается ДО startCompactPanelWindow (см. порядок в app.whenReady) —
+ * register() грузит файл синхронно, так что compactPanelBasePosition уже
+ * видит актуальные анкеры при создании окна. Правка/докалибровка координат
+ * после живого прогона на Windows-машине владельца (см. CLAUDE.md §1)
+ * подхватывается hot-reload'ом без пересборки (INV4).
+ */
+function startOverlayAnchorsConfig(): void {
+  if (!configLoader) {
+    return
+  }
+  overlayAnchorsConfigHandle = configLoader.register('overlay-anchors', OverlayAnchorsConfigSchema)
 }
 
 /**
@@ -726,6 +746,7 @@ function startSettings(): void {
   }
   const initialProfile = userProfileRepository.getOrCreate()
   let previousSteamId = initialProfile.steamId
+  let previousCompactPanelPreset = initialProfile.compactPanelPreset
   autoLaunchManager = new AutoLaunchManager({ logger: (message) => console.log(`[autolaunch] ${message}`) })
   autoLaunchManager.reconcile(initialProfile.autoLaunch)
   settingsController = createSettingsController(userProfileRepository, (settings) => {
@@ -733,6 +754,10 @@ function startSettings(): void {
     hotkeyManager?.reconcile(settings)
     autoLaunchManager?.reconcile(settings.autoLaunch)
     resizeCompactPanelWindow(settings)
+    if (settings.compactPanelPreset !== previousCompactPanelPreset) {
+      previousCompactPanelPreset = settings.compactPanelPreset
+      repositionCompactPanelToPresetBase(settings)
+    }
     applySilentMode(settings.silentMode)
     if (settings.steamId && settings.steamId !== previousSteamId) {
       syncHeroPool(settings.steamId)
@@ -1000,20 +1025,66 @@ function loadCompactPanelContent(win: OverlayWindow): void {
  * Требует уже поднятого settingsController (startSettings).
  */
 /**
- * Число виджетов панели (TASK-017): фиксированные 3 дефолтных + все ВКЛЮЧЁННЫЕ
- * записи widgets_config (конструктор). Не сверяется с текущим каталогом
- * (gsi-field-catalog) — устаревший id просто рендерится пустым местом в
- * CompactPanel.tsx (renderWidget возвращает null), это не ломает подсчёт,
- * только может завысить высоту на редком переходном кадре после удаления
- * поля из каталога.
+ * Число виджетов панели (TASK-017/040): фиксированные 3 дефолтных для
+ * ТЕКУЩЕГО пресета (COMPACT_PANEL_PRESET_DEFAULT_WIDGET_IDS — оба пресета
+ * длиной 3, см. compactPanel.ts) + все ВКЛЮЧЁННЫЕ записи widgets_config
+ * (конструктор). Не сверяется с текущим каталогом (gsi-field-catalog) —
+ * устаревший id просто рендерится пустым местом в CompactPanel.tsx
+ * (renderWidget возвращает null), это не ломает подсчёт, только может
+ * завысить высоту на редком переходном кадре после удаления поля из каталога.
  */
 function compactPanelWidgetCount(settings: AppSettings): number {
-  return DEFAULT_COMPACT_PANEL_WIDGET_IDS.length + settings.widgetsConfig.filter((entry) => entry.enabled).length
+  return (
+    COMPACT_PANEL_PRESET_DEFAULT_WIDGET_IDS[settings.compactPanelPreset].length +
+    settings.widgetsConfig.filter((entry) => entry.enabled).length
+  )
 }
 
 /** Живой ресайз компактной панели (TASK-017) на изменение widgets_config — без пересоздания окна/потери позиции. */
 function resizeCompactPanelWindow(settings: AppSettings): void {
   compactPanelWindow?.setSize(COMPACT_PANEL_WIDTH, compactPanelHeight(compactPanelWidgetCount(settings)))
+}
+
+/**
+ * Базовая позиция панели по текущему пресету (TASK-040): 'default' —
+ * COMPACT_PANEL_DEFAULT_POSITION (как раньше); 'standardPanel' — анкер из
+ * content/overlay-anchors.json, откалиброванный под текущее разрешение
+ * основного дисплея (resolveOverlayAnchor, фолбэк на 'default'-анкер, если
+ * точного разрешения нет в конфиге). Если overlayAnchorsConfigHandle ещё не
+ * зарегистрирован/не прочитался валидно — фолбэк на COMPACT_PANEL_DEFAULT_POSITION,
+ * чтобы отсутствие/невалидность content/overlay-anchors.json не роняла панель.
+ */
+function compactPanelBasePosition(settings: AppSettings): { x: number; y: number } {
+  if (settings.compactPanelPreset === 'standardPanel') {
+    const anchors = overlayAnchorsConfigHandle?.get()
+    if (anchors) {
+      const { width, height } = screen.getPrimaryDisplay().size
+      return resolveOverlayAnchor(anchors.standardPanel, width, height)
+    }
+  }
+  return COMPACT_PANEL_DEFAULT_POSITION
+}
+
+/**
+ * Снапает панель на базовую позицию текущего пресета и персистит её как
+ * overlayPositions-override (TASK-040): вызывается из onApplied на КАЖДУЮ
+ * смену compactPanelPreset (см. startSettings) — иначе переключение пресета
+ * в настройках не двигало бы уже созданное окно (оно перечитывает базовую
+ * позицию только при создании, startCompactPanelWindow). Персист через
+ * settingsController.apply() — вложенный (реентрантный) вызов внутри
+ * onApplied безопасен: на следующем витке compactPanelPreset уже совпадает с
+ * previousCompactPanelPreset, поэтому повторного вызова этой функции не
+ * происходит (см. startSettings).
+ */
+function repositionCompactPanelToPresetBase(settings: AppSettings): void {
+  if (!compactPanelWindow) {
+    return
+  }
+  const base = compactPanelBasePosition(settings)
+  compactPanelWindow.setPosition(base.x, base.y)
+  settingsController?.apply({
+    overlayPositions: { ...settings.overlayPositions, [COMPACT_PANEL_WINDOW_ID]: base }
+  })
 }
 
 function startCompactPanelWindow(): void {
@@ -1022,7 +1093,7 @@ function startCompactPanelWindow(): void {
   }
   const initialSettings = settingsController.get()
   const savedPosition = initialSettings.overlayPositions[COMPACT_PANEL_WINDOW_ID]
-  const position = savedPosition ?? COMPACT_PANEL_DEFAULT_POSITION
+  const position = savedPosition ?? compactPanelBasePosition(initialSettings)
   const height = compactPanelHeight(compactPanelWidgetCount(initialSettings))
 
   const win = new OverlayWindow({ width: COMPACT_PANEL_WIDTH, height, x: position.x, y: position.y })
@@ -1207,6 +1278,10 @@ app.whenReady().then(() => {
   startOverlayWindow()
   startDatabase()
   startSettings()
+  // Должны быть подняты ДО startCompactPanelWindow (TASK-040): compactPanelBasePosition
+  // читает overlayAnchorsConfigHandle при создании окна, register() грузит файл синхронно.
+  startConfigLoader()
+  startOverlayAnchorsConfig()
   startCompactPanelWindow()
   startNotificationsWindow()
   startDraftPanelWindow()
@@ -1216,7 +1291,6 @@ app.whenReady().then(() => {
   // окнам явно, один раз при старте (TASK-019).
   applySilentMode(settingsController?.get().silentMode ?? false)
   startHotkeys()
-  startConfigLoader()
   void startGsiServer()
   startSteamIdDetection()
   startDraftContext()

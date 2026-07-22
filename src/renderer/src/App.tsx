@@ -208,6 +208,18 @@ function App(): JSX.Element {
         >
           Toggle auto-launch
         </button>
+        <p className="mt-1">compact_panel_preset={settings?.compactPanelPreset ?? 'default'}</p>
+        <button
+          type="button"
+          className="mt-1 rounded border border-white/20 px-2 py-1 hover:bg-white/10"
+          onClick={() =>
+            void setSettings({
+              compactPanelPreset: settings?.compactPanelPreset === 'standardPanel' ? 'default' : 'standardPanel'
+            })
+          }
+        >
+          Toggle "вместо стандартной панели"
+        </button>
         <SteamIdSection />
         <PatchBanner />
         <ConfigHealthBanner />

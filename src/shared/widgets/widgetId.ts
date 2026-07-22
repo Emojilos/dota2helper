@@ -18,6 +18,14 @@
  * live-сравнения LH/networth/XP с эталонными кривыми content/benchmarks.json
  * (TASK-038); та же природа, что rune-timer/stack-counter — собственная логика
  * сравнения, а не просто чтение одного поля по format.
+ *
+ * kda/lh-dn/gpm-xpm (TASK-040) — композитные виджеты пресета позиции
+ * 'вместо стандартной панели' (@shared/overlay/compactPanel,
+ * STANDARD_PANEL_WIDGET_IDS): объединяют 2-3 сырых поля GSI (player.kills/
+ * deaths/assists, last_hits/denies, gpm/xpm) в одну строку вида "5/2/8",
+ * повторяя компактный вид родной панели статистики Dota — то же обоснование,
+ * что у rune-timer/benchmark-*: собственная логика форматирования, INV4 не
+ * применим.
  */
 
 const RAW_FIELD_WIDGET_PREFIX = 'field:'
@@ -37,7 +45,10 @@ export const WIDGET_PRESET_IDS = [
   'stack-counter',
   'benchmark-lh',
   'benchmark-networth',
-  'benchmark-xp'
+  'benchmark-xp',
+  'kda',
+  'lh-dn',
+  'gpm-xpm'
 ] as const
 export type WidgetPresetId = (typeof WIDGET_PRESET_IDS)[number]
 

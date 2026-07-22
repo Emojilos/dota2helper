@@ -16,6 +16,7 @@ function makeProfile(overrides: Partial<UserProfile> = {}): UserProfile {
     overlayPositions: {},
     notificationsConfig: {},
     widgetsConfig: [],
+    compactPanelPreset: 'default',
     createdAt: '2026-01-01T00:00:00.000Z',
     updatedAt: '2026-01-01T00:00:00.000Z',
     ...overrides
@@ -43,7 +44,8 @@ describe('SettingsController', () => {
       silentMode: false,
       autoLaunch: false,
       overlayPositions: {},
-      widgetsConfig: []
+      widgetsConfig: [],
+      compactPanelPreset: 'default'
     })
     expect(onApplied).not.toHaveBeenCalled()
   })

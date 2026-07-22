@@ -36,7 +36,8 @@ function toAppSettings(profile: UserProfile): AppSettings {
     silentMode: profile.silentMode,
     autoLaunch: profile.autoLaunch,
     overlayPositions: profile.overlayPositions,
-    widgetsConfig: profile.widgetsConfig
+    widgetsConfig: profile.widgetsConfig,
+    compactPanelPreset: profile.compactPanelPreset
   })
 }
 

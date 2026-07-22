@@ -13,7 +13,10 @@ export const WIDGET_PRESET_LABELS_RU: Record<WidgetPresetId, string> = {
   'stack-counter': 'Стак кемпа',
   'benchmark-lh': 'Бенчмарк: добито',
   'benchmark-networth': 'Бенчмарк: net worth',
-  'benchmark-xp': 'Бенчмарк: опыт'
+  'benchmark-xp': 'Бенчмарк: опыт',
+  kda: 'KDA',
+  'lh-dn': 'Ластхиты/Денаи',
+  'gpm-xpm': 'GPM/XPM'
 }
 
 /**

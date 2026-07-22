@@ -20,6 +20,23 @@ export const DEFAULT_COMPACT_PANEL_WIDGET_IDS = ['nextEvent', 'phase', 'nextRune
 export type CompactPanelWidgetId = (typeof DEFAULT_COMPACT_PANEL_WIDGET_IDS)[number]
 
 /**
+ * Дефолтный набор виджетов пресета 'standardPanel' (TASK-040): повторяет
+ * родную панель статистики Dota (KDA / LH-DN / GPM-XPM), которую панель
+ * визуально накрывает в этом пресете. Это обычные именованные пресеты
+ * конструктора (@shared/widgets/widgetId, WIDGET_PRESET_IDS) — рендерятся
+ * тем же renderWidget, что и extraWidgetIds, а не отдельным хардкодом, в
+ * отличие от DEFAULT_COMPACT_PANEL_WIDGET_IDS (те завязаны на push-канал
+ * compactPanel:timers, а не на generic GSI-снапшот).
+ */
+export const STANDARD_PANEL_WIDGET_IDS = ['kda', 'lh-dn', 'gpm-xpm'] as const
+
+/** Дефолтный блок виджетов панели по пресету (TASK-040) — оба блока фиксированной длины 3, см. compactPanelWidgetCount. */
+export const COMPACT_PANEL_PRESET_DEFAULT_WIDGET_IDS: Record<'default' | 'standardPanel', readonly string[]> = {
+  default: DEFAULT_COMPACT_PANEL_WIDGET_IDS,
+  standardPanel: STANDARD_PANEL_WIDGET_IDS
+}
+
+/**
  * Дефолтная позиция — верхний левый угол ниже топ-бара счёта (раздел 6 PRD:
  * зоны, свободные от HUD Dota). Используется, пока пользователь ни разу не
  * перетаскивал панель (AppSettings.overlayPositions[COMPACT_PANEL_WINDOW_ID]

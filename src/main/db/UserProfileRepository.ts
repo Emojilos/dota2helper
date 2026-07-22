@@ -20,6 +20,7 @@ interface UserProfileRow {
   overlay_positions: string
   notifications_config: string
   widgets_config: string
+  compact_panel_preset: string
   created_at: string
   updated_at: string
 }
@@ -37,6 +38,7 @@ function rowToProfile(row: UserProfileRow): UserProfile {
     overlayPositions: JSON.parse(row.overlay_positions),
     notificationsConfig: JSON.parse(row.notifications_config),
     widgetsConfig: JSON.parse(row.widgets_config),
+    compactPanelPreset: row.compact_panel_preset,
     createdAt: row.created_at,
     updatedAt: row.updated_at
   })
@@ -84,6 +86,7 @@ export class UserProfileRepository {
           overlay_positions = ?,
           notifications_config = ?,
           widgets_config = ?,
+          compact_panel_preset = ?,
           updated_at = ?
         WHERE id = 1`
       )
@@ -99,6 +102,7 @@ export class UserProfileRepository {
         JSON.stringify(next.overlayPositions),
         JSON.stringify(next.notificationsConfig),
         JSON.stringify(next.widgetsConfig),
+        next.compactPanelPreset,
         next.updatedAt
       )
     return next
@@ -114,8 +118,8 @@ export class UserProfileRepository {
         `INSERT INTO user_profile (
           id, steam_id, verbosity, hotkey_expanded_panel, hotkey_silent_mode, hotkey_click_through_toggle,
           draft_ranking_mode, silent_mode, auto_launch, overlay_positions, notifications_config,
-          widgets_config, created_at, updated_at
-        ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+          widgets_config, compact_panel_preset, created_at, updated_at
+        ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .run(
         profile.steamId,
@@ -129,6 +133,7 @@ export class UserProfileRepository {
         JSON.stringify(profile.overlayPositions),
         JSON.stringify(profile.notificationsConfig),
         JSON.stringify(profile.widgetsConfig),
+        profile.compactPanelPreset,
         profile.createdAt,
         profile.updatedAt
       )

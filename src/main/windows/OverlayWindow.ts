@@ -100,6 +100,11 @@ export class OverlayWindow {
     return this.window.getPosition() as [number, number]
   }
 
+  /** Программное перемещение (TASK-040: snap на базовую позицию пресета при смене AppSettings.compactPanelPreset). */
+  setPosition(x: number, y: number): void {
+    this.window.setPosition(x, y)
+  }
+
   /** Программный ресайз (TASK-017: высота компактной панели меняется вместе с набором виджетов) — работает и при resizable:false, тот флаг блокирует только ручной ресайз пользователем. */
   setSize(width: number, height: number): void {
     this.window.setSize(width, height)
