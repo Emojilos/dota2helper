@@ -20,6 +20,7 @@
  * INV1: живёт в main (зависит от electron.BrowserWindow).
  */
 import { BrowserWindow } from 'electron'
+import { join } from 'node:path'
 
 export interface OverlayWindowOptions {
   width: number
@@ -46,6 +47,12 @@ export class OverlayWindow {
       skipTaskbar: true,
       resizable: false,
       webPreferences: {
+        // Тот же preload, что у главного окна (createWindow, main/index.ts):
+        // все overlay-окна с React-контентом (компактная панель/драфт/
+        // уведомления/расширенная панель) зовут window.midmind при монтировании
+        // — без preload'а renderer падает и прозрачное окно остаётся пустым
+        // (невидимым). Placeholder-окну (data-URL) preload не мешает.
+        preload: join(__dirname, '../preload/index.js'),
         contextIsolation: true,
         nodeIntegration: false,
         sandbox: true
